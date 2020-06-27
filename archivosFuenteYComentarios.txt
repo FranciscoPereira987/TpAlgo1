@@ -1,0 +1,24 @@
+Hay que ordenar, primero todos los archivos que se pasan en programas.txt
+
+Dos archivos por parametro ordenado segun funcion en forma alfabetica:
+            
+            ~Uno para fuente_unico.csv ---> Con: 
+                                                Nombre_funcion, parametros,modulo, *lineas
+            ~Otro para comentarios.csv ---> Con:
+                                                Nombre_funcion, Autor, Ayuda, *comentarios
+
+Una vez que esta hecho esto:
+            
+            ~Generar fuente_unico.csv y comentarios.csv haciendo merge a todos los archivos de forma paralela
+
+
+Necesitamos:
+
+            ~Ordenar de forma alfabetica los nombres de las funciones de un archivo
+
+            ~Poder diferenciar comentarios en un archivo de python (En las funciones de python)
+           
+            ~Procesar los comentarios y el codigo de la funcion convirtiendolos al formato que se pide
+            ~Escribir estos datos, de la forma que se pide en los archivos ordenados de cada modulo
+
+            ~Hacer el merge de estos archivos en fuente_unico.csv y comentarios.csv
