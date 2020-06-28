@@ -41,5 +41,10 @@ Procesar ruta -----> ir comparando nombre de funcion a nombre de funcion con MAX
 
                         ------> Max cambia cuando se encuentra un string menor a el pero mayor a MIN
                         ------> Min cambia siempre despues de una vuelta al archivo
+---------------------------------------------------------------------------------------------
 
-
+- Ordenando alfabeticamente
+- Escribir en los dos archivos
+- separar comentarios de codigo
+- la funcion que haga el merge de todos
+- 
