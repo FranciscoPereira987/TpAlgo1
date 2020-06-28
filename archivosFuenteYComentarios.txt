@@ -43,8 +43,8 @@ Procesar ruta -----> ir comparando nombre de funcion a nombre de funcion con MAX
                         ------> Min cambia siempre despues de una vuelta al archivo
 ---------------------------------------------------------------------------------------------
 
-- Ordenando alfabeticamente
-- Escribir en los dos archivos
-- separar comentarios de codigo
-- la funcion que haga el merge de todos
-- 
+1- Ordenando alfabeticamente, llama a 2 y a 3, devuelve dos archivos
+2- Escribir en los dos archivos
+3- separar comentarios de codigo
+4- la funcion que haga el merge de todos
+5- Un solapamiento de todo, llama a 1 y a 4 
