@@ -22,3 +22,24 @@ Necesitamos:
             ~Escribir estos datos, de la forma que se pide en los archivos ordenados de cada modulo
 
             ~Hacer el merge de estos archivos en fuente_unico.csv y comentarios.csv
+
+
+------------------------------------------------------------------------------------------
+
+abris porgramas.txt ----> Procesas ruta  ---------> Ordenando alfabeticamente cada archivo
+                                                    
+                                                     ---------> Un archivo ordenado por cada uno        
+                                                                                                    
+                                                                                                                    ---------> Hacer el merge a todos los archivos
+
+                                                                                                                               1-Hay que encontrar la menor entre todos
+                                                                                                                               2-Procesar la funcion, separando comentarios de codigo
+                                                                                                                               3- Imprimirlos en los dos csv 
+
+
+Procesar ruta -----> ir comparando nombre de funcion a nombre de funcion con MAX = "zzzzzz" y MIN = "aaaaa"
+
+                        ------> Max cambia cuando se encuentra un string menor a el pero mayor a MIN
+                        ------> Min cambia siempre despues de una vuelta al archivo
+
+
