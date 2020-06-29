@@ -1,5 +1,6 @@
+MAX_NOMBRE = 'zzzzzzzz'
 
-def recorrer_archivo(archivo_entrada, nombre_maximo, nombre_minimo):
+def recorrer_archivo(archivo_entrada, nombre_minimo):
     """
     Autor: Francisco
     Ayuda: Pre ---> Ingresa el archivo de entrada
@@ -7,6 +8,7 @@ def recorrer_archivo(archivo_entrada, nombre_maximo, nombre_minimo):
                      El nombre maximo y el texto de esa funcion
     """
     linea = archivo_entrada.readline()
+    nombre_maximo = MAX_NOMBRE
     
     while linea:
 
@@ -18,8 +20,9 @@ def recorrer_archivo(archivo_entrada, nombre_maximo, nombre_minimo):
                 #Guardo la funcion como codigo en el formato pedido
                 nombre_maximo = nombre
                 
-
         linea = archivo_entrada.readline()
+
+    archivo_entrada.seek(0)
 
     return nombre_maximo #Y la funcion que tengo que escribir
 
@@ -29,16 +32,16 @@ def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com
     Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
            Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida
     """
-    nombre_max = 'zzzzzzzz'
-    nombre_min = 'aaaaaaaa'
     
+    nombre_anterior = 'aaaaaaaa'
+    nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior)
     
-    while nombre_min != nombre_max:
-        nombre_min = recorrer_archivo(archivo_entrada, nombre_max, nombre_min) #Falta la funcion
-        archivo_entrada.seek(0) #Vuelvo a empezar con el archivo de entrada
+    while nombre_anterior != MAX_NOMBRE:
+        archivo_salida_com.write(nombre_anterior + "\n")
+        nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
         #Escribo la funcion minima en los dos archivos
-        if nombre_min != nombre_max:
-            archivo_salida_com.write(nombre_min + "\n")
+        
+            
 
 def identificar_funciones(linea):
     """
