@@ -32,7 +32,7 @@ def devolver_clave_minima(lista, pos_clave):
         POST:   Devuelve una tupla con posicion en lista y menor clave
                 Si no hay minimo devuelve -1
     """
-    
+
     return min([(pos, linea[pos_clave]) for pos, linea in enumerate(lista) \
             if  linea[pos_clave] != ''], default = [-1, ''], key = lambda x:x[1])
            
@@ -58,6 +58,3 @@ def mezclar_archivos(l_ar_entrada, t_ar_salida, clave_pos):
     cerrar_archivos(l_manejadores + [ar_salida])
 
 
-# LINEAS PARA PRUEBA. SACAR!        
-mezclar_archivos(["entrada_mezcla_1_prueba.csv", "entrada_mezcla_2_prueba.csv"],\
-        "salida.csv", 0)
