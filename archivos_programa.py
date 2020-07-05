@@ -2,7 +2,7 @@ MAX_NOMBRE = 'zzzzzzzz'
 
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira 
     Ayuda: Pre ---> Ingresa el archivo de entrada
            Post ---> Devuelve el nombre maximo y el texto de esa funcion       
     """
@@ -26,11 +26,10 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
 
 def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira
     Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
            Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida
     """
-    
     nombre_anterior = 'aaaaaaaa'
     nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior)
     
@@ -43,7 +42,7 @@ def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com
 
 def identificar_funciones(linea):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira
     Ayuda: Pre --> Ingresa una linea de texto
            Post --> Devuelve True si en esa linea se define una funcion
            False en caso contrario
@@ -58,7 +57,7 @@ def identificar_funciones(linea):
 
 def nombre_funcion(linea):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira
     Ayuda: Pre --> Ingresa una linea donde se declara una funcion
            Post --> Devuelve el nombre de la funcion
     """
@@ -70,7 +69,7 @@ def nombre_funcion(linea):
 
 def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira
     Ayudo: Pre --> Ingresan los nombres de funciones (el actual, el maximo y el minimo)
            Post --> Devuelve True si hay cambios False en caso contrario
     """
@@ -83,7 +82,7 @@ def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
     
 def lector_rutas(archivo_rutas):
     """
-    Autor: Francisco
+    Autor: Francisco Pereira
     Ayuda: Pre --> Ingresa el archivo que contiene las rutas
             Post --> Devuelve un archivo abierto
     """
