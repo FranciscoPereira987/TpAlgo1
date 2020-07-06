@@ -1,4 +1,5 @@
 MAX_NOMBRE = 'zzzzzzzz'
+import mezcla
 
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
@@ -38,8 +39,6 @@ def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com
         nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
         #Escribo la funcion minima en los dos archivos
         
-            
-
 def identificar_funciones(linea):
     """
     Autor: Francisco Pereira
@@ -47,7 +46,7 @@ def identificar_funciones(linea):
            Post --> Devuelve True si en esa linea se define una funcion
            False en caso contrario
     """
-    if "def" in linea:
+    if "def " in linea:
         respuesta = True
 
     else:
@@ -96,6 +95,44 @@ def lector_rutas(archivo_rutas):
 
     return archivo
 
+def manejar_archivos(archivo_rutas):
+    """
+    AUTOR: Francisco
+    AYUDA:
+    Pre --> Ingresa el archivo con las rutas
+    durante --> lee la cantidad de lineas en las rutas
+    Post --> Devuelve dos archivos txt con las rutas de los archivos a ordenar
+    """
+    numero = 0
+    ruta = archivo_rutas.readline()
+    rutas_comentarios = open("rutas_comentarios.txt", 'w')
+    rutas_codigo = open("rutas_codigo.txt", 'w')
+
+    while ruta:
+        rutas_comentarios.write(f"comentarios_{numero}.csv\n")
+        rutas_codigo.write(f"codigo_{numero}.csv\n")
+        numero += 1
+        ruta = archivo_rutas.readline()
+    
+    mezcla.cerrar_archivos([rutas_comentarios, rutas_codigo])
+
+    return open("rutas_comentarios.txt", 'r'), open("rutas_codigo.txt", 'r')
+
+def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com):
+    """
+    Autor: Francisco
+    Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
+           Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
+           Post --> Devuelve el proximo archivo de python, cierra los otros dos
+    """
+    archivo_comentarios = lector_rutas(rutas_com)
+    archivo_codigo = lector_rutas(rutas_codigo)
+    
+    ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios)
+    
+    mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
+
+
 def main_prueba():
     
     archivo_rutas = open("programas.txt", 'r')
@@ -107,7 +144,25 @@ def main_prueba():
         archivo_prueba.close();archivo_salida.close()
         archivo_prueba = lector_rutas(archivo_rutas)
         numero += 1
-        
 
+def main_ordenamiento():
+    """
+    Autor: Francisco
+    Ayuda: Ordena los archivos de python en archivos csv, uno para codigo, otro para comentarios
+    devuelve las rutas a los archivos que tienen las rutas a todos los archivos ordenados 
+    """
+    rutas  = open("programas.txt", 'r')
+    rutas_comentarios, rutas_codigo = manejar_archivos(rutas)
+    rutas.seek(0)
+    archivo_rutas = lector_rutas(rutas)
+    while archivo_rutas:
+        procesar_entrada(archivo_rutas, rutas_codigo, rutas_comentarios)
+        archivo_rutas = lector_rutas(rutas)
+
+    mezcla.cerrar_archivos([rutas, rutas_codigo, rutas_comentarios])
+
+    return ["rutas_comentarios.csv", "rutas_codigo.csv"]
+        
+        
 if __name__ == "__main__":
     main_prueba() 
