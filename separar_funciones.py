@@ -15,7 +15,7 @@ def listar_archivo():
     '''abro archivo y paso el contenido a la variable, luego leo la primera
     linea pasando como parametro la variable ar_programa como parametro de
     la funcion y guardo la primera linea en ar_codigo''' 
-    ar_programa=open("modular.py",'r')
+    ar_programa=open("mezcla.py",'r')
     ar_codigo=leer_archivo(ar_programa)
     '''mientras la linea no tenga un vacio y contador<=1, pregunto si
     en linea hay un def o return y en ese caso sumo 1 al contador, si
