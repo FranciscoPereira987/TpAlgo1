@@ -62,7 +62,8 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     Ayuda:
     Pre --> Ingresa el diccionario con el nombre de las funciones, el nombre de funcion actual
     y una linea de codigo de esta funcion
-    Post --> Actualiza el valor de llamadas a la funcion en el diccionario
+    Post --> Actualiza el valor de llamadas que hace la funcion en la linea
+    de codigo que se pasa como parametro
     """
     claves = list(diccionario_funciones.keys())
     funcion = claves.pop(0)
@@ -72,7 +73,20 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     
     if funcion in linea:
         diccionario_funciones[nombre_funcion_actual][funcion] += 1
-        
+
+def funciones_que_llaman(dicc_funciones):
+    """
+    Autor: Francisco Pereira
+    Ayuda:
+    Pre --> Ingresa el dicc con las funciones y los puntajes
+    Post --> Devuelve el dicc con x en donde una funcion es llamada por otra
+    """
+    for funcion in dicc_funciones.keys():
+        for funcion_que_llama in dicc_funciones.keys():
+            valor = dicc_funciones[funcion_que_llama][funcion]
+            if valor != 0 and valor != 'X':
+                dicc_funciones[funcion][funcion_que_llama] = 'X'
+    
 
 def analizar_codigo(codigo, diccionario, nombre_funcion):
     """
@@ -95,20 +109,21 @@ def generar_puntajes(archivo_codigo, diccionario):
     tabla del enunciado del tp
     """
     linea = leer_linea_archivo(archivo_codigo)
+
     while linea != ['']:
         analizar_codigo(linea[3:], diccionario, linea[0])
         linea = leer_linea_archivo(archivo_codigo)
     
 def main():
-    archivo_codigo = open('archivos_prueba\\archivos_prueba_merge\\salidaPrueba0.csv', 'r')
+    archivo_codigo = open('salidaPrueba1.csv', 'r')
     lista_funciones = armar_lista(archivo_codigo)
     dicc_funciones = armar_diccionario(lista_funciones)
     archivo_codigo.seek(0)
     generar_puntajes(archivo_codigo, dicc_funciones)
+    funciones_que_llaman(dicc_funciones)
+    for funcion in dicc_funciones:
+        print(funcion,'-->',dicc_funciones[funcion])
     archivo_codigo.close()
     
-
-
-
 if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 MAX_NOMBRE = 'zzzzzzzz'
 import mezcla
+import scrappear
 #-------------------------------Funciones de ordenamiento de archivo---------------------------#
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
@@ -9,49 +10,52 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
     linea = archivo_entrada.readline()
     nombre_maximo = MAX_NOMBRE
-    parametros = ''
+    parametros = codigo = ''
     while linea:
 
         if identificar_funciones(linea):
             nombre = nombre_funcion(linea)
          
             if identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
-                #Guardo la funcion como codigo en el formato pedido
+                codigo, linea = scrappear.guardar_funcion(archivo_entrada) 
                 parametros = devolver_parametros(linea)
                 nombre_maximo = nombre
-                
-        linea = archivo_entrada.readline()
+            
+            else:
+                linea = archivo_entrada.readline()
+        else:
+            linea = archivo_entrada.readline()
 
     archivo_entrada.seek(0)
 
-    return nombre_maximo, parametros #Y la funcion que tengo que escribir
+    return nombre_maximo, parametros, codigo #Y la funcion que tengo que escribir
 
-def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com):
+def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com, nombre_modulo):
     """
     Autor: Francisco Pereira
     Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
            Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida
     """
     nombre_anterior = 'aaaaaaaa'
-    nombre_anterior, parametros = recorrer_archivo(archivo_entrada, nombre_anterior)
+    nombre_anterior, parametros, codigo = recorrer_archivo(archivo_entrada, nombre_anterior)
     
     while nombre_anterior != MAX_NOMBRE:
-        linea_a_escribir = f"{nombre_anterior},{parametros},\n"
+        linea_a_escribir = f"{nombre_anterior},{parametros},{nombre_modulo},{codigo}\n"
         archivo_salida_com.write(linea_a_escribir)
-        nombre_anterior, parametros = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
+        nombre_anterior, parametros, codigo = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
         #Escribo la funcion minima en los dos archivos
 
-def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com):
+def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     """
     Autor: Francisco
     Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
            Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
            Post --> Devuelve el proximo archivo de python, cierra los otros dos
     """
-    archivo_comentarios = lector_rutas(rutas_com)
-    archivo_codigo = lector_rutas(rutas_codigo)
+    archivo_comentarios, mod_false = lector_rutas(rutas_com)
+    archivo_codigo, mod_false = lector_rutas(rutas_codigo) #Mod_false esta para guardar un string vacio que no sirve
     
-    ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios)
+    ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios, nombre_modulo)
     
     mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
 #-------------------------Funciones de linea----------------------------#    
@@ -113,21 +117,38 @@ def devolver_parametros(linea):
     
     return parametros
 #---------------------Funciones de ruta de archivo----------------------#
-def lector_rutas(archivo_rutas):
+def lector_rutas(archivo_rutas, ruta_py = False):
     """
     Autor: Francisco Pereira
-    Ayuda: Pre --> Ingresa el archivo que contiene las rutas
+    Ayuda: Pre --> Ingresa el archivo que contiene las rutas y una opcional
+                    ruta_py que si es True genera tambien el nombre del modulo
             Post --> Devuelve un archivo abierto
     """
     ruta = archivo_rutas.readline()
     if ruta:
-    
+        if ruta_py:
+            modulo = nombre_modulo(ruta)
+        else:
+            modulo = ""
         ruta = ruta.rstrip('\n')
         archivo = open(ruta, 'r')
-    else:
-        archivo = ""
 
-    return archivo
+    else:
+        archivo = modulo = ""
+        
+    return archivo, modulo
+
+def nombre_modulo(linea):
+    """
+    Autor: Francisco
+    Ayuda:
+    Pre --> Ingresa una linea donde se encuentra la ruta a un archivo de python
+    Post --> Devuelve el nombre del archivo de python
+    """
+    ultimo_indice = linea.find(".py")
+    primer_indice = len(linea) - linea[::-1].find("\\")
+
+    return linea[primer_indice:ultimo_indice]
 
 def manejar_archivos(archivo_rutas):
     """
@@ -156,13 +177,13 @@ def manejar_archivos(archivo_rutas):
 def main_prueba():
     
     archivo_rutas = open("programas.txt", 'r')
-    archivo_prueba = lector_rutas(archivo_rutas)
+    archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
     numero = 0
     while archivo_prueba:
         archivo_salida = open(f"salidaPrueba{numero}.csv", 'w')
-        ordenar_funciones(archivo_prueba, 0, archivo_salida)
+        ordenar_funciones(archivo_prueba, 0, archivo_salida, modulo)
         archivo_prueba.close();archivo_salida.close()
-        archivo_prueba = lector_rutas(archivo_rutas)
+        archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
         numero += 1
 
 def main_ordenamiento():
@@ -174,10 +195,10 @@ def main_ordenamiento():
     rutas  = open("programas.txt", 'r')
     rutas_comentarios, rutas_codigo = manejar_archivos(rutas)
     rutas.seek(0)
-    archivo_rutas = lector_rutas(rutas)
+    archivo_rutas, nombre_modulo = lector_rutas(rutas, True)
     while archivo_rutas:
-        procesar_entrada(archivo_rutas, rutas_codigo, rutas_comentarios)
-        archivo_rutas = lector_rutas(rutas)
+        procesar_entrada(archivo_rutas, rutas_codigo, rutas_comentarios, nombre_modulo)
+        archivo_rutas, nombre_modulo = lector_rutas(rutas, True)
 
     mezcla.cerrar_archivos([rutas, rutas_codigo, rutas_comentarios])
 
