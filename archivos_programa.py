@@ -17,8 +17,8 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
             nombre = nombre_funcion(linea)
          
             if identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
-                codigo, linea = scrappear.guardar_funcion(archivo_entrada) 
                 parametros = devolver_parametros(linea)
+                codigo, linea = scrappear.guardar_funcion(archivo_entrada) 
                 nombre_maximo = nombre
             
             else:
