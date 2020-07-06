@@ -1,6 +1,6 @@
 MAX_NOMBRE = 'zzzzzzzz'
 import mezcla
-
+#-------------------------------Funciones de ordenamiento de archivo---------------------------#
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
     Autor: Francisco Pereira 
@@ -9,7 +9,7 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
     linea = archivo_entrada.readline()
     nombre_maximo = MAX_NOMBRE
-    
+    parametros = ''
     while linea:
 
         if identificar_funciones(linea):
@@ -17,13 +17,14 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
          
             if identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
                 #Guardo la funcion como codigo en el formato pedido
+                parametros = devolver_parametros(linea)
                 nombre_maximo = nombre
                 
         linea = archivo_entrada.readline()
 
     archivo_entrada.seek(0)
 
-    return nombre_maximo #Y la funcion que tengo que escribir
+    return nombre_maximo, parametros #Y la funcion que tengo que escribir
 
 def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com):
     """
@@ -32,13 +33,28 @@ def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com
            Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida
     """
     nombre_anterior = 'aaaaaaaa'
-    nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior)
+    nombre_anterior, parametros = recorrer_archivo(archivo_entrada, nombre_anterior)
     
     while nombre_anterior != MAX_NOMBRE:
-        archivo_salida_com.write(nombre_anterior + ",,\n")
-        nombre_anterior = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
+        linea_a_escribir = f"{nombre_anterior},{parametros},\n"
+        archivo_salida_com.write(linea_a_escribir)
+        nombre_anterior, parametros = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
         #Escribo la funcion minima en los dos archivos
-        
+
+def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com):
+    """
+    Autor: Francisco
+    Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
+           Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
+           Post --> Devuelve el proximo archivo de python, cierra los otros dos
+    """
+    archivo_comentarios = lector_rutas(rutas_com)
+    archivo_codigo = lector_rutas(rutas_codigo)
+    
+    ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios)
+    
+    mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
+#-------------------------Funciones de linea----------------------------#    
 def identificar_funciones(linea):
     """
     Autor: Francisco Pereira
@@ -78,7 +94,25 @@ def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
         cambio = True
     
     return cambio
+
+def devolver_parametros(linea):
+    """
+    Autor: Francisco Pereira
+    Ayuda:
+    Pre --> Ingresa una linea de codigo donde se define una funcion
+    Post --> Devuelve los parametros formales separados por /
+    """
+    indice_inicio = linea.find('(')
+    ultimo_indice = linea.find(')') + 1
+    parametros = ''
+    for caracter in linea[indice_inicio:ultimo_indice]:
+        if caracter == ',':
+            parametros += '/'
+        else:
+            parametros += caracter
     
+    return parametros
+#---------------------Funciones de ruta de archivo----------------------#
 def lector_rutas(archivo_rutas):
     """
     Autor: Francisco Pereira
@@ -118,21 +152,7 @@ def manejar_archivos(archivo_rutas):
 
     return open("rutas_comentarios.txt", 'r'), open("rutas_codigo.txt", 'r')
 
-def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com):
-    """
-    Autor: Francisco
-    Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
-           Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
-           Post --> Devuelve el proximo archivo de python, cierra los otros dos
-    """
-    archivo_comentarios = lector_rutas(rutas_com)
-    archivo_codigo = lector_rutas(rutas_codigo)
-    
-    ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios)
-    
-    mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
-
-
+#----------------------------Funciones principales (Prueba/ ordenamiento)----------------#
 def main_prueba():
     
     archivo_rutas = open("programas.txt", 'r')
