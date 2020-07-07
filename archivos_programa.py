@@ -1,16 +1,20 @@
-MAX_NOMBRE = 'zzzzzzzz'
+
 import mezcla
 import scrappear
+
+MAX_NOMBRE = 'zzzzzzzz'
+
 #-------------------------------Funciones de ordenamiento de archivo---------------------------#
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
-    Autor: Francisco Pereira 
-    Ayuda: Pre ---> Ingresa el archivo de entrada
-           Post ---> Devuelve el nombre maximo y el texto de esa funcion       
+    [Autor: Francisco Pereira] 
+    [Ayuda: Pre ---> Ingresa el archivo de entrada
+           Post ---> Devuelve el nombre maximo y el texto de esa funcion]       
     """
     linea = archivo_entrada.readline()
     nombre_maximo = MAX_NOMBRE
     parametros = codigo = ''
+    
     while linea:
 
         if identificar_funciones(linea):
@@ -32,9 +36,9 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
 
 def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com, nombre_modulo):
     """
-    Autor: Francisco Pereira
-    Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
-           Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida
+    [Autor: Francisco Pereira]
+    [Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
+           Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida]
     """
     nombre_anterior = 'aaaaaaaa'
     nombre_anterior, parametros, codigo = recorrer_archivo(archivo_entrada, nombre_anterior)
@@ -47,10 +51,10 @@ def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com
 
 def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     """
-    Autor: Francisco
-    Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
+    [Autor: Francisco]
+    [Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
            Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
-           Post --> Devuelve el proximo archivo de python, cierra los otros dos
+           Post --> Devuelve el proximo archivo de python, cierra los otros dos]
     """
     archivo_comentarios, mod_false = lector_rutas(rutas_com)
     archivo_codigo, mod_false = lector_rutas(rutas_codigo) #Mod_false esta para guardar un string vacio que no sirve
@@ -58,13 +62,13 @@ def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios, nombre_modulo)
     
     mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
-#-------------------------Funciones de linea----------------------------#    
+#-------------------------Funciones de procesamiento de linea----------------------------#    
 def identificar_funciones(linea):
     """
-    Autor: Francisco Pereira
-    Ayuda: Pre --> Ingresa una linea de texto
+    [Autor: Francisco Pereira]
+    [Ayuda: Pre --> Ingresa una linea de texto
            Post --> Devuelve True si en esa linea se define una funcion
-           False en caso contrario
+           False en caso contrario]
     """
     if "def " in linea:
         respuesta = True
@@ -76,9 +80,9 @@ def identificar_funciones(linea):
 
 def nombre_funcion(linea):
     """
-    Autor: Francisco Pereira
-    Ayuda: Pre --> Ingresa una linea donde se declara una funcion
-           Post --> Devuelve el nombre de la funcion
+    [Autor: Francisco Pereira]
+    [Ayuda: Pre --> Ingresa una linea donde se declara una funcion
+           Post --> Devuelve el nombre de la funcion]
     """
     indice_max = linea.find("(")
     indice_min = linea.find(" ") + 1
@@ -88,9 +92,9 @@ def nombre_funcion(linea):
 
 def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
     """
-    Autor: Francisco Pereira
-    Ayudo: Pre --> Ingresan los nombres de funciones (el actual, el maximo y el minimo)
-           Post --> Devuelve True si hay cambios False en caso contrario
+    [Autor: Francisco Pereira]
+    [Ayudo: Pre --> Ingresan los nombres de funciones (el actual, el maximo y el minimo)
+           Post --> Devuelve True si hay cambios False en caso contrario]
     """
     cambio = False
 
@@ -101,28 +105,38 @@ def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
 
 def devolver_parametros(linea):
     """
-    Autor: Francisco Pereira
-    Ayuda:
+    [Autor: Francisco Pereira]
+   [Ayuda:
     Pre --> Ingresa una linea de codigo donde se define una funcion
-    Post --> Devuelve los parametros formales separados por /
+    Post --> Devuelve los parametros formales separados por /]
     """
     indice_inicio = linea.find('(')
     ultimo_indice = linea.find(')') + 1
-    parametros = ''
-    for caracter in linea[indice_inicio:ultimo_indice]:
-        if caracter == ',':
-            parametros += '/'
-        else:
-            parametros += caracter
+
+    parametros = linea[indice_inicio:ultimo_indice].replace(',', '/')
+    
     
     return parametros
+
+def nombre_modulo(linea):
+    """
+    [Autor: Francisco]
+    [Ayuda:
+    Pre --> Ingresa una linea donde se encuentra la ruta a un archivo de python
+    Post --> Devuelve el nombre del archivo de python]
+    """
+    ultimo_indice = linea.find(".py")
+    primer_indice = len(linea) - linea[::-1].find("\\")
+
+    return linea[primer_indice:ultimo_indice]
+
 #---------------------Funciones de ruta de archivo----------------------#
 def lector_rutas(archivo_rutas, ruta_py = False):
     """
-    Autor: Francisco Pereira
-    Ayuda: Pre --> Ingresa el archivo que contiene las rutas y una opcional
+    [Autor: Francisco Pereira]
+    [Ayuda: Pre --> Ingresa el archivo que contiene las rutas y una opcional
                     ruta_py que si es True genera tambien el nombre del modulo
-            Post --> Devuelve un archivo abierto
+            Post --> Devuelve un archivo abierto]
     """
     ruta = archivo_rutas.readline()
     if ruta:
@@ -138,25 +152,13 @@ def lector_rutas(archivo_rutas, ruta_py = False):
         
     return archivo, modulo
 
-def nombre_modulo(linea):
-    """
-    Autor: Francisco
-    Ayuda:
-    Pre --> Ingresa una linea donde se encuentra la ruta a un archivo de python
-    Post --> Devuelve el nombre del archivo de python
-    """
-    ultimo_indice = linea.find(".py")
-    primer_indice = len(linea) - linea[::-1].find("\\")
-
-    return linea[primer_indice:ultimo_indice]
-
 def manejar_archivos(archivo_rutas):
     """
-    AUTOR: Francisco
-    AYUDA:
+    [AUTOR: Francisco Pereira]
+    [AYUDA:
     Pre --> Ingresa el archivo con las rutas
     durante --> lee la cantidad de lineas en las rutas
-    Post --> Devuelve dos archivos txt con las rutas de los archivos a ordenar
+    Post --> Devuelve dos archivos txt con las rutas de los archivos a ordenar]
     """
     numero = 0
     ruta = archivo_rutas.readline()
@@ -188,9 +190,9 @@ def main_prueba():
 
 def main_ordenamiento():
     """
-    Autor: Francisco
-    Ayuda: Ordena los archivos de python en archivos csv, uno para codigo, otro para comentarios
-    devuelve las rutas a los archivos que tienen las rutas a todos los archivos ordenados 
+    [Autor: Francisco Pereira]
+    [Ayuda: Ordena los archivos de python en archivos csv, uno para codigo, otro para comentarios
+    devuelve las rutas a los archivos que tienen las rutas a todos los archivos ordenados] 
     """
     rutas  = open("programas.txt", 'r')
     rutas_comentarios, rutas_codigo = manejar_archivos(rutas)
