@@ -54,7 +54,7 @@ def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     [Autor: Francisco]
     [Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
            Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
-           Post --> Devuelve el proximo archivo de python, cierra los otros dos]
+           Post --> Cierra los archivos de codigo y comentarios]
     """
     archivo_comentarios, mod_false = lector_rutas(rutas_com)
     archivo_codigo, mod_false = lector_rutas(rutas_codigo) #Mod_false esta para guardar un string vacio que no sirve
@@ -70,13 +70,8 @@ def identificar_funciones(linea):
            Post --> Devuelve True si en esa linea se define una funcion
            False en caso contrario]
     """
-    if "def " in linea:
-        respuesta = True
 
-    else:
-        respuesta = False
-
-    return respuesta
+    return "def " in linea
 
 def nombre_funcion(linea):
     """
@@ -96,12 +91,8 @@ def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
     [Ayudo: Pre --> Ingresan los nombres de funciones (el actual, el maximo y el minimo)
            Post --> Devuelve True si hay cambios False en caso contrario]
     """
-    cambio = False
-
-    if nombre_actual < nombre_maximo and nombre_actual > nombre_minimo:
-        cambio = True
     
-    return cambio
+    return nombre_actual < nombre_maximo and nombre_actual > nombre_minimo
 
 def devolver_parametros(linea):
     """
@@ -136,7 +127,8 @@ def lector_rutas(archivo_rutas, ruta_py = False):
     [Autor: Francisco Pereira]
     [Ayuda: Pre --> Ingresa el archivo que contiene las rutas y una opcional
                     ruta_py que si es True genera tambien el nombre del modulo
-            Post --> Devuelve un archivo abierto]
+            Post --> Devuelve un archivo abierto y un nombre de modulo 
+            el nombre de modulo esta vacio si ruta_py se pasa como False]
     """
     ruta = archivo_rutas.readline()
     if ruta:
