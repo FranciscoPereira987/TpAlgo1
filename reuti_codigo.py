@@ -40,15 +40,6 @@ def generar_puntajes(archivo_codigo, diccionario):
         linea = leer_linea_archivo(archivo_codigo)
 
 #------------------------------------------------Manejo de llamadas a funciones------------------------#
-def determinar_nombre(funcion, linea):
-
-    indice_inicio = linea.find(funcion) - 1
-    caracter = linea[indice_inicio]
-    nombre_completo = f'.{funcion}'
-    while caracter != ' ':
-        nombre_completo = caracter + nombre_completo
-    
-    return nombre_completo
 
 def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     """
@@ -60,16 +51,19 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     de codigo que se pasa como parametro]
     """
     claves = list(diccionario_funciones.keys())
-    funcion = claves.pop(0)
-    indice = 0
+    indice = 1
+    indice_punto = claves[0].find('.') + 1
+    funcion = claves[0][indice_punto:]
 
-    while (claves[indice] not in linea) and indice < (len(claves) - 1):
+    while (funcion not in linea) and indice < (len(claves)):
+        indice_punto = claves[indice].find('.') + 1
+        funcion = claves[indice][indice_punto:]
         indice += 1
+        
     
-    funcion = claves[indice]
+    
     if funcion in linea:
-        if funcion not in claves:
-            funcion = determinar_nombre(funcion, linea)
+        funcion = (claves[indice-1])
         diccionario_funciones[nombre_funcion_actual][funcion] += 1
 
 def funciones_que_llaman(dicc_funciones):
