@@ -35,10 +35,20 @@ def generar_puntajes(archivo_codigo, diccionario):
     linea = leer_linea_archivo(archivo_codigo)
 
     while linea != ['']:
-        analizar_codigo(linea[3:], diccionario, linea[0])
+        funcion = f'{linea[2]}.{linea[0]}'
+        analizar_codigo(linea[3:], diccionario, funcion)
         linea = leer_linea_archivo(archivo_codigo)
 
 #------------------------------------------------Manejo de llamadas a funciones------------------------#
+def determinar_nombre(funcion, linea):
+
+    indice_inicio = linea.find(funcion) - 1
+    caracter = linea[indice_inicio]
+    nombre_completo = f'.{funcion}'
+    while caracter != ' ':
+        nombre_completo = caracter + nombre_completo
+    
+    return nombre_completo
 
 def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     """
@@ -51,12 +61,15 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     """
     claves = list(diccionario_funciones.keys())
     funcion = claves.pop(0)
+    indice = 0
 
-    while (funcion not in linea) and claves:
-        funcion = claves.pop(0)
+    while (claves[indice] not in linea) and indice < (len(claves) - 1):
+        indice += 1
     
+    funcion = claves[indice]
     if funcion in linea:
-        hola = diccionario_funciones[nombre_funcion_actual]
+        if funcion not in claves:
+            funcion = determinar_nombre(funcion, linea)
         diccionario_funciones[nombre_funcion_actual][funcion] += 1
 
 def funciones_que_llaman(dicc_funciones):
@@ -84,8 +97,10 @@ def armar_lista(archivo_codigo):
     lista_funciones = []
     linea = leer_linea_archivo(archivo_codigo) 
                                                       
-    while linea != ['']:                                
-        lista_funciones += [linea[0]]
+    while linea != ['']:
+        funcion = f'{linea[2]}.{linea[0]}'
+        if funcion not in lista_funciones:                                
+            lista_funciones += [funcion]
         linea = leer_linea_archivo(archivo_codigo)
 
     archivo_codigo.seek(0)
@@ -123,16 +138,6 @@ def armar_diccionario(lista_funciones):
 
     return diccionario
 #----------------------------------------Formateo de resultados-------------------------------#
-"""
-Voy a armar rectangulos de 3 lineas por 5 caracteres para todas las columnas despues de la
-primera
-Para la primera, va a ser un rectangulo de 3 lineas por 20 caracteres, para colocar los nombres 
-de las funciones
-Consideraciones:
-                ~La impresion en el archivo debe ser secuencial, por lo que tengo que escribir
-                linea a linea
-                ~ len(dic)---> Cantidad de funciones ---> Cantidad de columnas
-"""
 def agregar_separador(texto):
     """
     [Autor: Francisco Pereira]
@@ -256,16 +261,17 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
         fila_n = escribir_funcion(clave, i, dicc_funciones[clave], espacios_columna, cant_filas)
         i += 1
 
+    archivo.write(fila_n)
     archivo.close()
 
 def generar_analizador():
 
-    archivo_codigo = open('salidaPrueba0.csv', 'r')
+    archivo_codigo = open('salida_prueba_1.csv', 'r')
     funciones = armar_lista(archivo_codigo)
     funciones = armar_diccionario(funciones)
     generar_puntajes(archivo_codigo, funciones)
     funciones_que_llaman(funciones)
-    escribir_archivo(funciones, 20, 3)
+    escribir_archivo(funciones, 20, 5)
     os.startfile('analizador.txt')
 
 def main():
