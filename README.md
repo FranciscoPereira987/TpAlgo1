@@ -16,6 +16,9 @@
                     de veces que una funcion es invocada por otra funcion
                     en particular
 
+                    2- Al generar la tabla, en vez de imprimirla en la consola
+                    abre el archivo analizador.txt ya que la tabla puede tomar
+                    dimensiones que no entren en la consola
                     
 
 #Puntos menu:
