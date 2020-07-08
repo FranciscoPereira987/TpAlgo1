@@ -6,7 +6,7 @@ def leer_linea(archivo, comentado_multi):
     linea = archivo.readline()
     linea, comentado_multi = identificar_comentarios(linea, comentado_multi)
     if comentado_multi:
-        linea = " "
+        linea = "\n"
 
     return linea, comentado_multi
 
