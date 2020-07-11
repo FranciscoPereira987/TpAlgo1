@@ -1,6 +1,6 @@
 
 import mezcla
-import scrappear
+import sep_cod_com
 
 MAX_NOMBRE = 'zzzzzzzz'
 
@@ -13,7 +13,7 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
     linea = archivo_entrada.readline()
     nombre_maximo = MAX_NOMBRE
-    parametros = codigo = ''
+    parametros = l_cod = l_com = ''
     
     while linea:
 
@@ -22,7 +22,7 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
          
             if identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
                 parametros = devolver_parametros(linea)
-                codigo, linea = scrappear.guardar_funcion(archivo_entrada) 
+                linea, l_cod, l_com = sep_cod_com.leer_funcion(archivo_entrada) 
                 nombre_maximo = nombre
             
             else:
@@ -32,21 +32,28 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
 
     archivo_entrada.seek(0)
 
-    return nombre_maximo, parametros, codigo #Y la funcion que tengo que escribir
+    return nombre_maximo, parametros, l_cod, l_com 
 
-def ordenar_funciones(archivo_entrada, archivo_salida_codigo, archivo_salida_com, nombre_modulo):
+def ordenar_funciones(archivo_entrada, archivo_salida_cod, archivo_salida_com, nombre_modulo):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Pre --> Ingresa el archivo a ordenar y los archivos en los que se van a ordenar
            Post --> Salen ordenadas las funciones por orden alfabetico en el archivo de salida]
     """
     nombre_anterior = 'aaaaaaaa'
-    nombre_anterior, parametros, codigo = recorrer_archivo(archivo_entrada, nombre_anterior)
-    
+    nombre_anterior, parametros, l_cod, l_com =\
+    recorrer_archivo(archivo_entrada, nombre_anterior)
+
+    l_cod, l_com = lista_a_string(l_cod, l_com)
+
     while nombre_anterior != MAX_NOMBRE:
-        linea_a_escribir = f"{nombre_anterior},{parametros},{nombre_modulo},{codigo}\n"
-        archivo_salida_com.write(linea_a_escribir)
-        nombre_anterior, parametros, codigo = recorrer_archivo(archivo_entrada, nombre_anterior) #Falta la funcion
+        linea_cod = f"{nombre_anterior},{parametros},{nombre_modulo}," + l_cod + '\n'
+        linea_com = f"{nombre_anterior}," + l_com + '\n'
+        archivo_salida_cod.write(linea_cod)
+        archivo_salida_com.write(linea_com)
+        nombre_anterior, parametros, l_cod, l_com = \
+        recorrer_archivo(archivo_entrada, nombre_anterior)
+        l_cod, l_com = lista_a_string(l_cod, l_com) 
         #Escribo la funcion minima en los dos archivos
 
 def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
@@ -121,6 +128,12 @@ def nombre_modulo(linea):
 
     return linea[primer_indice:ultimo_indice]
 
+def lista_a_string(l_codigo, l_comentarios):
+
+    str_codigo = ','.join(l_codigo)
+    str_comentarios = ','.join(l_comentarios)
+
+    return str_codigo, str_comentarios
 #---------------------Funciones de ruta de archivo----------------------#
 def lector_rutas(archivo_rutas, ruta_py = False):
     """
@@ -174,11 +187,14 @@ def main_prueba():
     archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
     numero = 0
     while archivo_prueba:
-        archivo_salida = open(f"salidaPrueba{numero}.csv", 'w')
-        ordenar_funciones(archivo_prueba, 0, archivo_salida, modulo)
-        archivo_prueba.close();archivo_salida.close()
+        archivo_salida_com = open(f"comentarios{numero}.csv", 'w')
+        archivo_salida_cod = open(f"codigo{numero}.csv", 'w')
+        ordenar_funciones(archivo_prueba, archivo_salida_cod, archivo_salida_com, modulo)
+        mezcla.cerrar_archivos([archivo_prueba,archivo_salida_cod, archivo_salida_com])
         archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
         numero += 1
+
+    
 
 def main_ordenamiento():
     """
