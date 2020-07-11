@@ -1,0 +1,5 @@
+abrir_archivos,(l_ar_entrada),mezcla,    l_manejadores = [],    for ruta in l_ar_entrada:,        l_manejadores.append(open(ruta, "r"))
+cerrar_archivos,(archivos),mezcla,    for archivo in archivos:,        archivo.close()
+devolver_clave_minima,(lista/ pos_clave),mezcla,
+leer_archivos,(l_manejadores),mezcla,    l_lineas = [],    for manejador in l_manejadores:,        l_lineas.append(manejador.readline().rstrip('\n').split(','))
+mezclar_archivos,(l_ar_entrada/ t_ar_salida/ clave_pos),mezcla,    l_manejadores = abrir_archivos(l_ar_entrada),    l_lineas = leer_archivos(l_manejadores),    pos_min, l_min = devolver_clave_minima(l_lineas, 0),    ar_salida = open(t_ar_salida, "w"),    while pos_min != -1:,        ar_salida.write(",".join(l_lineas[pos_min]) + "\n"),        l_lineas[pos_min] = l_manejadores[pos_min].readline().rstrip('\n').split(","),        pos_min, l_min = devolver_clave_minima(l_lineas, 0),    cerrar_archivos(l_manejadores + [ar_salida])
