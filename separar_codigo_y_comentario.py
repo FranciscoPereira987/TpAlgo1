@@ -59,7 +59,7 @@ def leer_archivo(ruta_archivo):
     l_lineas = []
     l_comentarios = []
     archivo = open(ruta_archivo, 'r')
-    comentado_multi = False
+    comentado_multi = False #luego lo uso para validar si es una multilinea
     linea, comentado_multi, comentarios, forma_de_comentar = leer_linea(archivo, comentado_multi)
     while linea or comentarios:
         if comentado_multi:
