@@ -53,10 +53,11 @@ def identificar_comentarios(linea, comentado_multi):
 def fin_funcion(linea):
     """
     [Autor: Francisco Pereira]
-    [Ayuda: Devuelve verdadero si se llego al final de una funcion]
+    [Ayuda: Devuelve verdadero si se llego al final de una funcion
+    o al final de la declaracion de funciones]
     """
-    
-    return (("def " in linea) or (" return " in linea))
+    comienzo_programa = 'if __name__ == ' in linea 
+    return (("def " in linea) or (" return " in linea)) or comienzo_programa
 
 def leer_funcion(archivo):
     """[Autor: Claudio Gimenez]
