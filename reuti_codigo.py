@@ -79,7 +79,23 @@ def funciones_que_llaman(dicc_funciones):
             if valor != 0 and valor != 'X':
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
+def contar_llamadas(dicc_funciones):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: cuenta la cantidad de veces que cada funcion fue llamada por otras
+    y lo guarda en una lista, con la cantidad por funcion]
+    """
+    indice = 0
+    lista_llamadas = [0] * len(dicc_funciones)
+    for funcion in dicc_funciones.keys():
+        for funcion_que_llama in dicc_funciones.keys():
+            if dicc_funciones[funcion][funcion_que_llama] == 'X':
+                lista_llamadas[indice] += int(dicc_funciones[funcion_que_llama][funcion])
+        
+        lista_llamadas[indice] = str(lista_llamadas[indice])
+        indice += 1
 
+    return lista_llamadas
 
 def armar_lista(archivo_codigo):
     """
@@ -225,21 +241,37 @@ def escribir_funcion(nombre_funcion, numero_funcion, dicc_funcion, espacios_colu
 
     return total
         
-def escribir_primera_fila(cant_funciones, espacios_columna):
+def generar_primera_fila(cant_funciones, espacios_columna):
 
     numeros = list(range(1, cant_funciones + 1))
     vacia = [' '] * cant_funciones
     texto = ""
-    fila, texto_vacio = generar_fila_total("", 20, vacia)
+    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
     texto += fila
-    fila, texto_vacio = generar_fila_total("FUNCIONES", 20, numeros)
+    fila, texto_vacio = generar_fila_total("FUNCIONES", espacios_columna, numeros)
     texto += fila
-    fila, texto_vacio = generar_fila_total("", 20, vacia)
+    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
     texto += fila
 
     texto = agregar_separador(texto)
 
     return texto
+
+def generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: genera el string de la ultima fila
+    del archivo analizador.txt]
+    """
+    fila, texto  = generar_texto_encolumnado(espacios_columna, "Total invocaciones")
+    while texto:
+        a_agregar, texto = generar_texto_encolumnado(espacios_columna, texto)
+        fila += a_agregar
+
+    lista_llamadas = contar_llamadas(dicc_funciones)
+    fila += generar_fila_numerica(espacios_columna // 4, lista_llamadas)
+
+    return fila
 
 def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     """
@@ -249,13 +281,17 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     """
     archivo = open("analizador.txt", 'w')
     i = 1
-    fila_n = escribir_primera_fila(len(dicc_funciones), espacios_columna)
+    fila_n = generar_primera_fila(len(dicc_funciones), espacios_columna)
+    ultima = generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas)
+
     for clave in dicc_funciones:
         archivo.write(fila_n)
         fila_n = escribir_funcion(clave, i, dicc_funciones[clave], espacios_columna, cant_filas)
         i += 1
 
+
     archivo.write(fila_n)
+    archivo.write(ultima)
     archivo.close()
 
 def generar_analizador():
