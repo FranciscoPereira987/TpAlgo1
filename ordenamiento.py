@@ -4,7 +4,7 @@ import sep_cod_com
 
 MAX_NOMBRE = 'zzzzzzzz'
 
-#-------------------------------Funciones de ordenamiento de archivo---------------------------#
+
 def recorrer_archivo(archivo_entrada, nombre_anterior):
     """
     [Autor: Francisco Pereira] 
@@ -44,16 +44,17 @@ def ordenar_funciones(archivo_entrada, archivo_salida_cod, archivo_salida_com, n
     nombre_anterior, parametros, l_cod, l_com =\
     recorrer_archivo(archivo_entrada, nombre_anterior)
 
-    l_cod, l_com = lista_a_string(l_cod, l_com)
+    
 
     while nombre_anterior != MAX_NOMBRE:
+        l_cod, l_com = lista_a_string(l_cod, l_com)
         linea_cod = f"{nombre_anterior},{parametros},{nombre_modulo}," + l_cod + '\n'
         linea_com = f"{nombre_anterior}," + l_com + '\n'
         archivo_salida_cod.write(linea_cod)
         archivo_salida_com.write(linea_com)
         nombre_anterior, parametros, l_cod, l_com = \
         recorrer_archivo(archivo_entrada, nombre_anterior)
-        l_cod, l_com = lista_a_string(l_cod, l_com) 
+        
         #Escribo la funcion minima en los dos archivos
 
 def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
@@ -69,7 +70,8 @@ def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios, nombre_modulo)
     
     mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
-#-------------------------Funciones de procesamiento de linea----------------------------#    
+
+
 def identificar_funciones(linea):
     """
     [Autor: Francisco Pereira]
@@ -134,7 +136,8 @@ def lista_a_string(l_codigo, l_comentarios):
     str_comentarios = ','.join(l_comentarios)
 
     return str_codigo, str_comentarios
-#---------------------Funciones de ruta de archivo----------------------#
+
+
 def lector_rutas(archivo_rutas, ruta_py = False):
     """
     [Autor: Francisco Pereira]
@@ -180,7 +183,7 @@ def manejar_archivos(archivo_rutas):
 
     return open("rutas_comentarios.txt", 'r'), open("rutas_codigo.txt", 'r')
 
-#----------------------------Funciones principales (Prueba/ ordenamiento)----------------#
+
 def main_prueba():
     
     archivo_rutas = open("programas.txt", 'r')

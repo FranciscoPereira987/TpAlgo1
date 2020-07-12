@@ -2,7 +2,7 @@ import mezcla
 import os
 #----------------------Punto 3, analizador de reutilizacion de codigo-----------------------#
 
-#----------------------------------Manejo de archivo-----------------------------------------#
+
 def leer_linea_archivo(archivo):
     """
     [Autor: Francisco Pereira]
@@ -39,7 +39,7 @@ def generar_puntajes(archivo_codigo, diccionario):
         analizar_codigo(linea[3:], diccionario, funcion)
         linea = leer_linea_archivo(archivo_codigo)
 
-#------------------------------------------------Manejo de llamadas a funciones------------------------#
+
 
 def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     """
@@ -80,7 +80,7 @@ def funciones_que_llaman(dicc_funciones):
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
 
-#---------------------------------------Inicializacion lista-diccionario-------------------#
+
 def armar_lista(archivo_codigo):
     """
     [Autor: Francisco Pereira]
@@ -131,7 +131,7 @@ def armar_diccionario(lista_funciones):
         
 
     return diccionario
-#----------------------------------------Formateo de resultados-------------------------------#
+
 def agregar_separador(texto):
     """
     [Autor: Francisco Pereira]
@@ -259,16 +259,22 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     archivo.close()
 
 def generar_analizador():
-
-    archivo_codigo = open('salida_prueba_1.csv', 'r')
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda:
+    En base a fuente_unico.csv genera el archivo
+    analizador.txt y lo muestra en pantalla]
+    """
+    archivo_codigo = open('salida_codigo.csv', 'r')
     funciones = armar_lista(archivo_codigo)
     funciones = armar_diccionario(funciones)
     generar_puntajes(archivo_codigo, funciones)
     funciones_que_llaman(funciones)
+    
     escribir_archivo(funciones, 20, 5)
     os.startfile('analizador.txt')
 
-def main():
+def main_reuti():
     archivo_codigo = open('salidaPrueba0.csv', 'r')
     lista_funciones = armar_lista(archivo_codigo)
     dicc_funciones = armar_diccionario(lista_funciones)

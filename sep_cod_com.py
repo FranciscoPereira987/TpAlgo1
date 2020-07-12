@@ -77,9 +77,10 @@ def leer_funcion(archivo):
             while forma_de_comentar  not in linea:
                 comentarios = comentarios + linea # agrego linea a comentario
                 linea = archivo.readline()
+                linea = linea.rstrip('\n')
             comentarios = comentarios + linea # agrego la ultima '''  """
             comentado_multi = False # comentado multi pasa a False
-            linea = '' 
+            #linea = '' 
         
         if linea.rstrip() != "": # agrego a lista la linea de codigo
             l_lineas.append(linea.strip('\n'))
@@ -93,6 +94,9 @@ def leer_funcion(archivo):
         linea, comentado_multi, comentarios, forma_de_comentar = leer_linea(archivo, comentado_multi)
         fin = fin_funcion(linea)
     
+    if "return " in linea:
+        l_lineas.append(linea.strip('\n'))
+        
     return linea, l_lineas, l_comentarios # devuelvo las listas
 
 def main_sep():
