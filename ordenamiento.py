@@ -1,4 +1,4 @@
-
+import os
 import mezcla
 import sep_cod_com
 
@@ -126,8 +126,11 @@ def nombre_modulo(linea):
     Post --> Devuelve el nombre del archivo de python]
     """
     ultimo_indice = linea.find(".py")
-    primer_indice = len(linea) - linea[::-1].find("\\")
-
+    if os.name == "nt":
+        primer_indice = len(linea) - linea[::-1].find("\\")
+    else:
+        primer_indice = len(linea) - linea[::-1].find("/")
+        
     return linea[primer_indice:ultimo_indice]
 
 def lista_a_string(l_codigo, l_comentarios):
