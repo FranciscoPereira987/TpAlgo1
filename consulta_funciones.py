@@ -28,9 +28,9 @@ def validar_opcion(opcion):
     nombre_funcion = ''
     if opcion[-1] == '?' or opcion[-1] == '#':
         valido = True
-        nombre_funcion = opcion[-1]
+        nombre_funcion = opcion[:-1]
         
-    elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo'
+    elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
         valido = True
         nombre_funcion = opcion[:-5]
         
@@ -44,21 +44,28 @@ def validar_nombre_funcion(nombre_funcion,l_funciones):
     posicion = 0
     encontrado = False
     nombre_encontrado=''
-    while posicion < len(l_funciones) or not encontrado:
-        if l_funciones[0] in nombre_funcion:
+    while posicion < len(l_funciones) and not encontrado:
+        if l_funciones[posicion] == nombre_funcion:
             encontrado = True
-            nombre_encontrado=l_funciones[0]
+            nombre_encontrado=l_funciones[posicion]
         posicion+=1
-    return encontrado,l_funciones[0]    
+    return encontrado,nombre_encontrado    
         
 def ingresar_opcion(funciones):
     opcion = input("Función: ")
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
     #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
     while opcion!='':
-        if not validar_opcion(opcion):
+        opcion_elegida,nombre_funcion=validar_opcion(opcion)
+        if not opcion_elegida: #validar_opcion(opcion):
             print('Caracter invalido')
-        elif not     
+        
+        encontrado,nombre_encontrado = validar_nombre_funcion(nombre_funcion,funciones)
+        
+        elif not encontrado:
+            print('La función elegida no existe')
+        else:
+            print("aca va para mostrar segun la opcion elegida")    
         opcion = input("Funcion: ")
     return opcion
     #print(opcion)
