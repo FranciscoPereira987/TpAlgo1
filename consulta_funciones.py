@@ -25,20 +25,24 @@ def listar_funciones():
 
 def validar_opcion(opcion):
     valido = False
+    miopcion = ""
     nombre_funcion = ''
     if opcion[-1] == '?' or opcion[-1] == '#':
         valido = True
+        miopcion = opcion[-1]
         nombre_funcion = opcion[:-1]
         
     elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
         valido = True
+        miopcion = opcion[-5:]
         nombre_funcion = opcion[:-5]
         
     elif opcion[-14:] ==  'imprimir ?todo':
         valido = True
+        miopcion = opcion[-14:]
         nombre_funcion = opcion[:-14]
         
-    return valido,nombre_funcion
+    return valido,nombre_funcion,miopcion
 
 def validar_nombre_funcion(nombre_funcion,l_funciones):
     posicion = 0
@@ -56,7 +60,7 @@ def ingresar_opcion(funciones):
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
     #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
     while opcion!='':
-        opcion_elegida,nombre_funcion=validar_opcion(opcion)
+        opcion_elegida,nombre_funcion,miopcion=validar_opcion(opcion)
         encontrado,nombre_encontrado = validar_nombre_funcion(nombre_funcion,funciones)
         """
         if opcion_elegida:
