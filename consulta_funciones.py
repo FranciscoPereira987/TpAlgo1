@@ -56,14 +56,14 @@ def ingresar_opcion(funciones):
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
     #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
     while opcion!='':
-        opcion_elegida,nombre_funcion=validar_opcion(opcion)
-        
+        opcion_elegida,nombre_funcion = validar_opcion(opcion)
+
         if opcion_elegida:
             encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
             if encontrado:
                 print("Aca muestro las cosas")
             else:
-                print("La funcion no existe")
+                print("La funcion es incorrecta")
         else:
             print("opcion invalida")
         
