@@ -35,7 +35,7 @@ def generar_puntajes(archivo_codigo, diccionario):
     linea = leer_linea_archivo(archivo_codigo)
 
     while linea != ['']:
-        funcion = f'{linea[2]}.{linea[0]}'
+        funcion = f'{linea[0]}.{linea[2]}'
         analizar_codigo(linea[3:], diccionario, funcion)
         linea = leer_linea_archivo(archivo_codigo)
 
@@ -52,12 +52,13 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     """
     claves = list(diccionario_funciones.keys())
     indice = 1
-    indice_punto = claves[0].find('.') + 1
-    funcion = claves[0][indice_punto:]
+    indice_punto = claves[0].find('.')
+    funcion = claves[0][:indice_punto] #Evito que solamente identifique
+    #a las funciones de un modulo que se llaman fuera de el
 
     while (funcion not in linea) and indice < (len(claves)):
-        indice_punto = claves[indice].find('.') + 1
-        funcion = claves[indice][indice_punto:]
+        indice_punto = claves[indice].find('.') 
+        funcion = claves[indice][:indice_punto]
         indice += 1
         
     
@@ -108,7 +109,7 @@ def armar_lista(archivo_codigo):
     linea = leer_linea_archivo(archivo_codigo) 
                                                       
     while linea != ['']:
-        funcion = f'{linea[2]}.{linea[0]}'
+        funcion = f'{linea[0]}.{linea[2]}'
         if funcion not in lista_funciones:                                
             lista_funciones += [funcion]
         linea = leer_linea_archivo(archivo_codigo)
