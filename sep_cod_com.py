@@ -25,7 +25,7 @@ def identificar_comentarios(linea, comentado_multi):
     forma_de_comentar = ''
     
     if chr(35) in linea: #pregunto si hay comentario con #
-        comentarios = comentarios + linea[linea.find(chr(35)):]
+        comentarios = comentarios + linea[linea.find(chr(35)) + 1:]
         linea = linea[:linea.find(chr(35))]
     
     # pregunto si empieza un comentario multilinea con triple comillas dobles

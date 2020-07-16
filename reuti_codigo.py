@@ -243,7 +243,11 @@ def escribir_funcion(nombre_funcion, numero_funcion, dicc_funcion, espacios_colu
     return total
         
 def generar_primera_fila(cant_funciones, espacios_columna):
-
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Tomando la cantidad de funciones
+    genera la primera fila del archivo analizador.txt]
+    """
     numeros = list(range(1, cant_funciones + 1))
     vacia = [' '] * cant_funciones
     texto = ""
@@ -302,7 +306,7 @@ def generar_analizador():
     En base a fuente_unico.csv genera el archivo
     analizador.txt y lo muestra en pantalla]
     """
-    archivo_codigo = open('salida_codigo.csv', 'r')
+    archivo_codigo = open('fuente_unico.csv', 'r')
     funciones = armar_lista(archivo_codigo)
     funciones = armar_diccionario(funciones)
     generar_puntajes(archivo_codigo, funciones)
@@ -310,18 +314,6 @@ def generar_analizador():
     
     escribir_archivo(funciones, 20, 5)
     os.startfile('analizador.txt')
-
-def main_reuti():
-    archivo_codigo = open('salidaPrueba0.csv', 'r')
-    lista_funciones = armar_lista(archivo_codigo)
-    dicc_funciones = armar_diccionario(lista_funciones)
-    archivo_codigo.seek(0)
-    generar_puntajes(archivo_codigo, dicc_funciones)
-    funciones_que_llaman(dicc_funciones)
-    for funcion in dicc_funciones:
-        print(funcion,'-->',dicc_funciones[funcion])
-    archivo_codigo.close()
-    escribir_archivo(dicc_funciones, 20, 3)
     
     
 if __name__ == "__main__":

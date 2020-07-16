@@ -4,10 +4,24 @@
 #Consideraciones generales:
                     
                     1- Los import vienen siempre sin alias y
-                    solamente de la forma import modulo
+                    solamente de la forma import modulo.
 
                     2- Consideramos que las funciones no tienen
-                    nombres repetidos
+                    nombres repetidos.
+
+                    3- Los comentarios con triple comillas
+                    siempre ocupan mas de una linea.
+
+                    4- Toda coma que sea encontrada en codigo
+                    y en comentarios, se reemplaza por /.
+
+                    5- Si existen campos de autor y ayuda,
+                    siempre estan entre corchetes. Como se
+                    da de ejemplo en app_matematica y 
+                    lib_matematica.
+
+                    6-El orden en el que se ingresan los campos
+                    Autor y Ayuda es indistinto.
 
 
 #Funcionalidades de analizador de reutilizacion de codigo:
