@@ -28,16 +28,6 @@ def identificar_comentarios(linea, comentado_multi):
         comentarios = comentarios + linea[linea.find(chr(35)):]
         linea = linea[:linea.find(chr(35))]
     
-    # pregunto si es un comentario con triple dobles comillas en una linea
-    elif linea.count("\"\"\"") == 2:
-        comentarios = linea[linea.find("\"\"\""):]
-        linea = linea[:linea.find("\"\"\"")]
-        
-    # pregunto si es un comentario con triple comillas simples en una linea
-    elif linea.count("\'\'\'") == 2:
-        comentarios = linea[linea.find("\'\'\'"):]
-        linea = linea[:linea.find("\'\'\'")] +'\n'
-    
     # pregunto si empieza un comentario multilinea con triple comillas dobles
     elif linea.count("\"\"\"") == 1:  
         comentado_multi = not comentado_multi  #Cambio el valor de comentado multi
@@ -71,7 +61,12 @@ def leer_funcion(archivo):
     fin = False
     linea, comentado_multi, comentarios, forma_de_comentar = leer_linea(archivo, comentado_multi)
     while not fin and linea:
-        if comentado_multi:
+
+        if linea.rstrip() != "" and not comentado_multi: # agrego a lista la linea de codigo
+            l_lineas.append(linea.strip('\n'))
+            #print(linea, end = "")
+
+        elif comentado_multi:
             comentarios = linea #si es una multinea la linea pasa a ser comentario
             linea = archivo.readline() 
             
@@ -82,10 +77,6 @@ def leer_funcion(archivo):
             comentarios = comentarios + linea # agrego la ultima '''  """
             comentado_multi = False # comentado multi pasa a False
             #linea = '' 
-        
-        if linea.rstrip() != "": # agrego a lista la linea de codigo
-            l_lineas.append(linea.strip('\n'))
-            #print(linea, end = "")
         
         if comentarios != "": # agrego a la lista el comentario
             l_comentarios.append(comentarios.strip('\n'))
