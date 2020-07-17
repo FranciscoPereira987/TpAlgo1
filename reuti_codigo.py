@@ -174,6 +174,8 @@ def generar_fila_numerica(espacios_columna, a_escribir):
     """
     fila = ""
     for elemento in a_escribir:
+        if elemento == 0:
+            elemento = ' '
         elemento = (espacios_columna//2) * ' ' + str(elemento)
         columna, texto_vacio = generar_texto_encolumnado(espacios_columna, elemento)
         fila += columna

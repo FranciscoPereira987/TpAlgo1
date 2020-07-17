@@ -1,6 +1,6 @@
-ARCHIVO_1 = "apareo_entra_01.txt"
-ARCHIVO_2 = "apareo_entra_02.txt"
-SALIDA = "apareo_salida.txt"
+ARCHIVO_1 = "fuente_unico.csv"#"apareo_entra_01.txt"
+ARCHIVO_2 = "comentarios.csv"#"apareo_entra_02.txt"
+SALIDA = "apareo_salida.csv"
 
 def grabar_csv(linea, archivo):
     archivo.write(",".join(linea) + '\n')
@@ -31,4 +31,4 @@ def aparear_csv(archivo_1, archivo_2, clave_1, clave_2):
     return SALIDA
 
 
-#aparear_csv(ARCHIVO_1, ARCHIVO_2, 1, 1)
+#aparear_csv(ARCHIVO_1, ARCHIVO_2, 0, 0)

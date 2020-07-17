@@ -44,7 +44,12 @@ def generar_fuente_y_com():
     limpiar_archivos(lista_cod, lista_com)
 
 def ejecutar(opcion):
-
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: direcciona la opcion elegida para que
+    el usuario obtenga la salida esperada
+    ]
+    """
     if opcion == '1':
         pass
     elif opcion == '2':
@@ -61,7 +66,10 @@ def ejecutar(opcion):
         print("No se eligio una opcion correcta")
 
 def menu(display):
-
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: menu del programa]
+    """
     opcion = 'todavia no se ingreso nada como opcion'
     while opcion != '6':
         ejecutar(opcion)
@@ -70,7 +78,10 @@ def menu(display):
     
 
 def principal():
-
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Funcion principal del programa]
+    """
     generar_fuente_y_com()
     display = "1-Panel general de funciones.\n"
     display += "2-Consulta de funciones.\n"
