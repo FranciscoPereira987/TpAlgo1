@@ -54,15 +54,13 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     indice = 0
     funcion = "zzzzzzzzzzzzzzz"
 
-    while (funcion not in linea) and indice < (len(claves)):
-        indice_punto = claves[indice].find('.') 
-        funcion = claves[indice][:indice_punto] + '('
-        indice += 1
+    for clave in claves:
+        indice_punto = clave.find('.') 
+        funcion = clave[:indice_punto] + '('
+        if funcion in linea:
+            funcion = clave
+            diccionario_funciones[nombre_funcion_actual][funcion] += 1
         
-    if funcion in linea:
-        funcion = (claves[indice-1])
-        diccionario_funciones[nombre_funcion_actual][funcion] += 1
-
 def funciones_que_llaman(dicc_funciones):
     """
     [Autor: Francisco Pereira]
@@ -76,6 +74,23 @@ def funciones_que_llaman(dicc_funciones):
             if valor != 0 and valor != 'X':
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
+def contar_recursiva(nombre_funcion):
+
+    archivo = open("fuente_unico.csv", 'r')
+    funcion_modulo = "Esto no es un nombre de funcion"
+    cantidad = 0
+
+    while funcion_modulo != nombre_funcion:
+        linea = leer_linea_archivo(archivo)
+        funcion_modulo = f"{linea[0]}.{linea[2]}"
+    
+    if funcion_modulo == nombre_funcion:
+        funcion = linea[0]
+        codigo = linea[3:]
+        cantidad = (','.join(codigo)).count(funcion)
+
+    return cantidad
+
 def contar_llamadas(dicc_funciones):
     """
     [Autor: Francisco Pereira]
@@ -86,9 +101,17 @@ def contar_llamadas(dicc_funciones):
     lista_llamadas = [0] * len(dicc_funciones)
     for funcion in dicc_funciones.keys():
         for funcion_que_llama in dicc_funciones.keys():
-            if dicc_funciones[funcion][funcion_que_llama] == 'X':
+            valor = dicc_funciones[funcion][funcion_que_llama]
+            espejo = dicc_funciones[funcion_que_llama][funcion]
+            if valor == 'X' \
+                and espejo != 'X': #Para evitar errores si hay 
+                #recursividad
                 lista_llamadas[indice] += int(dicc_funciones[funcion_que_llama][funcion])
-        
+                
+            elif valor == 'X': #Aca van a entrar funciones recursivas
+                #Solo se soportan funciones con recursividad directa 
+                lista_llamadas[indice] += contar_recursiva(funcion)
+
         lista_llamadas[indice] = str(lista_llamadas[indice])
         indice += 1
 
@@ -298,6 +321,23 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     
     archivo.close()
 
+def generar_tabla():
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Genera el diccionario con los datos a imprimir
+    en el archivo analizador
+    ]
+    """
+    with open('fuente_unico.csv', 'r') as archivo_codigo:
+    
+        funciones = armar_lista(archivo_codigo)
+        funciones = armar_diccionario(funciones)
+        generar_puntajes(archivo_codigo, funciones)
+        linea_ultima = contar_llamadas(funciones)
+        funciones_que_llaman(funciones)
+
+    return funciones, linea_ultima
+
 def generar_analizador():
     """
     [Autor: Francisco Pereira]
@@ -305,11 +345,7 @@ def generar_analizador():
     En base a fuente_unico.csv genera el archivo
     analizador.txt y lo muestra en pantalla]
     """
-    archivo_codigo = open('fuente_unico.csv', 'r')
-    funciones = armar_lista(archivo_codigo)
-    funciones = armar_diccionario(funciones)
-    generar_puntajes(archivo_codigo, funciones)
-    funciones_que_llaman(funciones)
+    funciones, linea_ultima = generar_tabla()
     
     escribir_archivo(funciones, 20, 5)
     os.startfile('analizador.txt')
