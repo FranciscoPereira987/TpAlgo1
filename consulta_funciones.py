@@ -70,6 +70,7 @@ def leer(archivo):
 
 
 def mostrar_informacion(miopcion,nombre_encontrado):
+    #abro archivos y los paso a listas
     archivo_codigo = open('salida_codigo.csv','r')
     archivo_comentarios = open('salida_comentarios.csv','r')
     l_funcion = []
