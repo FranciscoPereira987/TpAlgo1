@@ -99,6 +99,7 @@ def ingresar_opcion(funciones):
         
         if opcion_elegida:
             if miopcion == '?todo' or miopcion == '#todo' or miopcion == 'imprimir ?todo':
+                #aca muestro todo de todas las funciones segun la opcion # o ? o imprimirtodo
                 print('aca muestro o todo o genero ayuda_funciones.txt')
                 #mostrar_todo(miopcion)
             else:    
