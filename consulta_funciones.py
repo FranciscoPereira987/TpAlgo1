@@ -35,12 +35,12 @@ def validar_opcion(opcion):
     elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
         valido = True
         miopcion = opcion[-5:]
-        nombre_funcion = opcion[:-5]
+        #nombre_funcion = opcion[:-5]
         
     elif opcion[-14:] ==  'imprimir ?todo':
         valido = True
         miopcion = opcion[-14:]
-        nombre_funcion = opcion[:-14]
+        #nombre_funcion = opcion[:-14]
         
     return valido,nombre_funcion,miopcion
 
@@ -53,22 +53,60 @@ def validar_nombre_funcion(nombre_funcion,l_funciones):
             encontrado = True
             nombre_encontrado=l_funciones[posicion]
         posicion+=1
-    return encontrado,nombre_encontrado    
-        
+    return encontrado,nombre_encontrado
+
+def leer(archivo):
+    '''
+    Funcion que lee una linea del archivo y devuelve los valores leidos
+    cod_sucursal, cod_articulo, cant_vendida, imp_total.    En caso de llegar
+    a fin de archivo devolverá 4 valores vacios    separados por comas.
+    '''
+    linea = archivo.readline()
+    if linea:
+        devolver = linea.rstrip("\n").split(",")
+    else:
+        devolver = "","","0","0"
+    return devolver
+
+
+def mostrar_informacion(miopcion,nombre_encontrado):
+    archivo_codigo = open('salida_codigo.csv','r')
+    archivo_comentarios = open('salida_comentarios.csv','r')
+    l_funcion = []
+    l_comentarios = []
+    
+    for linea in archivo_codigo:
+        funcion = linea.rstrip("\n").split(",")
+        l_funcion.append(funcion)
+    for linea in archivo_comentarios:
+        comentarios = linea.rstrip("\n").split(",")
+        l_comentarios.append(comentarios)
+    print(l_funcion)
+    print(l_comentarios)
+    archivo_codigo.close()
+    return l_funcion, l_comentarios    
+    
+    
+
 def ingresar_opcion(funciones):
     opcion = input("Función: ")
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
     #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
     while opcion!='':
         opcion_elegida,nombre_funcion,miopcion=validar_opcion(opcion)
-        encontrado,nombre_encontrado = validar_nombre_funcion(nombre_funcion,funciones)
+        #encontrado,nombre_encontrado = validar_nombre_funcion(nombre_funcion,funciones)
         
         if opcion_elegida:
-            encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
-            if encontrado:
-                print("Aca muestro las cosas")
-            else:
-                print("La funcion es incorrecta")
+            if miopcion == '?todo' or miopcion == '#todo' or miopcion == 'imprimir ?todo':
+                print('aca muestro o todo o genero ayuda_funciones.txt')
+                #mostrar_todo(miopcion)
+            else:    
+                encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
+                if encontrado:
+                    print("Aca muestro las cosas de una funcion")
+                    mostrar_informacion(miopcion,nombre_encontrado)
+                else:
+                    print("La funcion es incorrecta")
         else:
             print("opcion invalida")
         
