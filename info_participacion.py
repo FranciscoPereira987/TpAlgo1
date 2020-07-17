@@ -1,9 +1,3 @@
-# En mi imaginacion habiamos hablado que la estructura del archivo
-# son campos separados por coma y el campo de instrucciones
-# y comentarios separados por punto y coma.
-# Pero relei el tp y eso no paso nunca.
-# A corregir y fumar menos.
-
 import apareo_csv
 
 AR_FUENTE_UNICO = "fuente_unico.csv"
@@ -20,7 +14,7 @@ D_ENTRADA = {
         }
 INDICE_A = ["funcion_a", "instrucciones"]
 POS_CLAVE = D_ENTRADA["autor"]
-LONG_FUNCION = 30
+LONG_CAMPOS = 30
 AR_SALIDA = "participacion.txt"
 T_CLAVE = "autor"
 CLAVE_F_UNICO = 0
@@ -34,17 +28,16 @@ def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
         anterior, si no hay anterior se debe recibir ''. 
         Devuelve el valor maximo siguiente.
     """
-    maximo = max_anterior
+    maximo = ''
     linea_max = []
     linea = archivo.readline()
-    clave = linea.rstrip('\n').split(',')[posicion_clave]
-    print(max_anterior)
-    while linea != [''] and (max_anterior == '' or max_anterior >= clave):
-        if clave > maximo:
-            maximo = clave
-            linea_max = linea.rstrip('\n').split(',')
-        linea = archivo.readline()
+    while linea != '':
         clave = linea.rstrip('\n').split(',')[posicion_clave]
+        if (clave < max_anterior and clave > maximo) \
+                or (max_anterior == '' and  clave > maximo):
+                    maximo = clave
+                    linea_max = linea.rstrip('\n').split(',')
+        linea = archivo.readline()
     return maximo, linea_max 
     
 
@@ -62,7 +55,7 @@ def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea):
             info = seleccionar_campos_lista(linea, D_ENTRADA, INDICE_A)    
             print(info)
             ar_salida.write(
-                    info[0].ljust(LONG_FUNCION, ' ') 
+                    info[0].ljust(LONG_CAMPOS, ' ') 
                     + str(len(info[1].split(';')))
                     + '\n'
                     )
@@ -90,8 +83,8 @@ def informar_participacion():
     apareo = open(apareo_csv.aparea_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, 0, 0), 'r')
     while max_ant != maximo and maximo != '':
         salida.write("Autor: " + maximo +"\n\n")
-        salida.write("Funcion".ljust(LONG_FUNC, ' ') 
-                + "Lineas".ljust(LONG_FUNC, ' ') 
+        salida.write("Funcion".ljust(LONG_CAMPOS, ' ') 
+                + "Lineas".ljust(LONG_CAMPOS, ' ') 
                 + '\n')
 
         grabar_participacion_csv(apareo, AR_SALIDA, T_CLAVE, linea_max)
@@ -127,7 +120,7 @@ with open(RUTA_PRUEBAS + "pruebaE01.csv", 'r') as ar_e01, \
 RUTA_PRUEBAS = "archivos_prueba/prueba_info/"
 ar_e01 = open(RUTA_PRUEBAS + "pruebaE01.csv", 'r')
 
-linea_max, maximo = devolver_maximo_siguiente(ar_e01, POS_CLAVE, '') 
+maximo, linea_max = devolver_maximo_siguiente(ar_e01, POS_CLAVE, '') 
 print("LINEA MAX : " + str(linea_max))
 print("MAXIMO    : " + str(maximo))
 ar_e01.close()
