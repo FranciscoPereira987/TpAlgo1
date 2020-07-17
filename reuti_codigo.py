@@ -51,18 +51,14 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     de codigo que se pasa como parametro]
     """
     claves = list(diccionario_funciones.keys())
-    indice = 1
-    indice_punto = claves[0].find('.')
-    funcion = claves[0][:indice_punto] #Evito que solamente identifique
-    #a las funciones de un modulo que se llaman fuera de el
+    indice = 0
+    funcion = "zzzzzzzzzzzzzzz"
 
     while (funcion not in linea) and indice < (len(claves)):
         indice_punto = claves[indice].find('.') 
-        funcion = claves[indice][:indice_punto]
+        funcion = claves[indice][:indice_punto] + '('
         indice += 1
         
-    
-    
     if funcion in linea:
         funcion = (claves[indice-1])
         diccionario_funciones[nombre_funcion_actual][funcion] += 1
@@ -278,6 +274,8 @@ def generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas):
     lista_llamadas = contar_llamadas(dicc_funciones)
     fila += generar_fila_numerica(espacios_columna // 4, lista_llamadas)
 
+    fila = agregar_separador(fila)
+
     return fila
 
 def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
@@ -288,17 +286,16 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     """
     archivo = open("analizador.txt", 'w')
     i = 1
-    fila_n = generar_primera_fila(len(dicc_funciones), espacios_columna)
+    fila_1 = generar_primera_fila(len(dicc_funciones), espacios_columna)
     ultima = generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas)
+    archivo.write(fila_1 + ultima)
 
     for clave in dicc_funciones:
-        archivo.write(fila_n)
+        
         fila_n = escribir_funcion(clave, i, dicc_funciones[clave], espacios_columna, cant_filas)
+        archivo.write(fila_n)
         i += 1
-
-
-    archivo.write(fila_n)
-    archivo.write(ultima)
+    
     archivo.close()
 
 def generar_analizador():
