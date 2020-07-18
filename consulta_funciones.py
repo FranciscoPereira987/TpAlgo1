@@ -82,6 +82,17 @@ def mostrar_informacion(miopcion,nombre_encontrado):
     for linea in archivo_comentarios:
         comentarios = linea.rstrip("\n").split(",")
         l_comentarios.append(comentarios)
+    
+    if miopcion == '?':
+        parametros = ''
+        modulo = ''
+        contador = 0
+        while contador < len(l_funcion) and nombre_encontrado \
+        != l_funcion[contador][0] + "." + l_funcion[contador][2]:
+            contador+=1
+        parametros = l_funcion[contador][1]
+        modulo = l_funcion[contador][2]
+        
     print(l_funcion)
     print(l_comentarios)
     archivo_codigo.close()
