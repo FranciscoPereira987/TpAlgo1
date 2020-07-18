@@ -104,6 +104,8 @@ def mostrar_informacion(miopcion,nombre_encontrado):
         
     print(l_funcion)
     print(l_comentarios)
+    print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
+    
     archivo_codigo.close()
     return l_funcion, l_comentarios    
     
