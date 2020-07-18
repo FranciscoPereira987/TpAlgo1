@@ -8,31 +8,31 @@ contar_llamadas,Autor: Francisco Pereira,Ayuda: cuenta la cantidad de veces que 
 devolver_clave_minima,,
 devolver_parametros,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresa una linea de codigo donde se define una funcion    Post --> Devuelve los parametros formales separados por /
 escribir_archivo,Autor: Francisco Pereira,Ayuda:    Genera el archivo analizador.txt e imprime la tabla en el mismo
-escribir_funcion,Autor: Francisco Pereira,Ayuda:    Ingresa la funcion y datos sobre el formato y llamadas de la misma    Devuelve un string que representa a la "fila" de la funcion en     la impresion final,Para las filas donde no haya que escribir numeros,a forma 1-main,Por si quedo texto de la funcion por escribir,Texto_vacio es una variable para evitar la tupla/ no es de ninguna utilidad
+"escribir_funcion,Autor: Francisco Pereira,Ayuda:    Ingresa la funcion y datos sobre el formato y llamadas de la misma    Devuelve un string que representa a la ""fila"" de la funcion en     la impresion final,Para las filas donde no haya que escribir numeros,a forma 1-main,Por si quedo texto de la funcion por escribir,Texto_vacio es una variable para evitar la tupla/ no es de ninguna utilidad"
 fin_funcion,Autor: Francisco Pereira,Ayuda: Devuelve verdadero si se llego al final de una funcion    o al final de la declaracion de funciones
 funciones_que_llaman,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresa el dicc con las funciones y los puntajes    Post --> Devuelve el dicc con x en donde una funcion es llamada por otra
 generar_analizador,Autor: Francisco Pereira,Ayuda:    En base a fuente_unico.csv genera el archivo    analizador.txt y lo muestra en pantalla
 generar_dicc_ceros,Autor: Francisco Pereira,Ayuda:    pre ---> Ingresa una cantidad numerica entera    Post ---> Devuelve una lista que tiene la cantidad de ceros que    se paso como parametro
 generar_fila_numerica,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresan la cantidad de espacios entre columna y columna    y una lista que contiene los valores(numericos) a escribir en cada columna    Post --> genera la fila/ con separador | entre columnas    
 generar_fila_total,Autor: Francisco Pereira,Ayuda:    pre --> Ingresa el texto que va en la primera columna/ los numeros de la fila    y la cantidad de espacios por columna    Post --> Devuelve texto/ si es que resta algo y la fila en string    
-generar_primera_fila,
+generar_primera_fila,,
 generar_puntajes,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresan el archivo/ la lista con los nombres de las funciones    y el diccionario ya armado    Post --> Devuelve los puntajes de cada una de las funciones segun la     tabla del enunciado del tp
 generar_texto_encolumnado,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresa el ancho de la columna y el texto    Post --> Devuelve una fila de texto y el resto del texto    si es que no entra completamente en la columna    
 generar_ultima_fila,Autor: Francisco Pereira,Ayuda: genera el string de la ultima fila    del archivo analizador.txt
 identificar_alfabeticamente,Autor: Francisco Pereira,
-identificar_comentarios,Autor: Claudio Gimenez,Ayuda: Identifica si hay comentarios en la linea que recibe/          como parametro/ tambien recibe comentado_multi en False que         si es multilinea lo devuelvo en True/ devuelve comentarios/        lineay forma de comentar en multilinea si es "" o '',pregunto si hay comentario con #, pregunto si empieza un comentario multilinea con triple comillas dobles,Cambio el valor de comentado multi, pregunto si empieza un comentario multilinea con triple comillas simple,Cambio el valor de comentado multi
+"identificar_comentarios,Autor: Claudio Gimenez,Ayuda: Identifica si hay comentarios en la linea que recibe/          como parametro/ tambien recibe comentado_multi en False que         si es multilinea lo devuelvo en True/ devuelve comentarios/        lineay forma de comentar en multilinea si es """" o '',pregunto si hay comentario con #, pregunto si empieza un comentario multilinea con triple comillas dobles,Cambio el valor de comentado multi, pregunto si empieza un comentario multilinea con triple comillas simple,Cambio el valor de comentado multi"
 identificar_funciones,Autor: Francisco Pereira,Ayuda: Pre --> Ingresa una linea de texto           Post --> Devuelve True si en esa linea se define una funcion           False en caso contrario
 ingresar_opcion,,,encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones),opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
 lector_rutas,Autor: Francisco Pereira,Ayuda: Pre --> Ingresa el archivo que contiene las rutas y una opcional                    ruta_py que si es True genera tambien el nombre del modulo            Post --> Devuelve un archivo abierto y un nombre de modulo             el nombre de modulo esta vacio si ruta_py se pasa como False
 leer_archivos,,
-leer_funcion,Autor: Claudio Gimenez,Ayuda: Recibe un archivo y devuelve una lista de lineas de codigo        y una lista de comentarios,luego lo uso para validar si es una multilinea, agrego a lista la linea de codigo,print(linea/ end = ""),si es una multinea la linea pasa a ser comentario, agrego linea a comentario, agrego la ultima '''  """, comentado multi pasa a False,linea = '' , agrego a la lista el comentario,print(comentarios) , leo otra linea
+"leer_funcion,Autor: Claudio Gimenez,Ayuda: Recibe un archivo y devuelve una lista de lineas de codigo        y una lista de comentarios,luego lo uso para validar si es una multilinea, agrego a lista la linea de codigo,print(linea/ end = """"),si es una multinea la linea pasa a ser comentario, agrego linea a comentario, agrego la ultima '''  """""", comentado multi pasa a False,linea = '' , agrego a la lista el comentario,print(comentarios) , leo otra linea"
 leer_linea,Autor: Claudio Gimenez,Ayuda: Lee una linea del archivo que recibe como parametro/          devuele linea/ comentarios o si es un comentario multlinea        y forma de coementar si es multilinea
 leer_linea_archivo,Autor: Francisco Pereira,Ayuda: como mezcla.leer_archivos se usa mucho de una forma especial aca    decidi armar una funcion que lo haga/ para que solamente aparezca una vez    la forma rara de llamar a esa funcion en todo el codigo
 lista_a_string,Autor: Francisco Pereira,Ayuda: Le ingresan dos listas/ separa los campos por comas
-listar_funciones,,,for i in range(0,2):,print(funciones[numero] /sep="\t"/ end="|"),columnas=reuti_codigo.generar_texto_encolumnado(40/funciones[numero]),texto=columnas[0],funciones = reuti_codigo.armar_diccionario(funciones),return lista_funciones
+"listar_funciones,,,for i in range(0,2):,print(funciones[numero] /sep=""\t""/ end=""|""),columnas=reuti_codigo.generar_texto_encolumnado(40/funciones[numero]),texto=columnas[0],funciones = reuti_codigo.armar_diccionario(funciones),return lista_funciones"
 main_ordenamiento,Autor: Francisco Pereira,Ayuda: Ordena los archivos de python en archivos csv/ uno para codigo/ otro para comentarios    devuelve las rutas a los archivos que tienen las rutas a todos los archivos ordenados
-main_prueba,
-main_reuti,
+main_prueba,,
+main_reuti,,
 main_sep,,,print(leer_archivo(ruta))
 manejar_archivos,AUTOR: Francisco Pereira,AYUDA:    Pre --> Ingresa el archivo con las rutas    durante --> lee la cantidad de lineas en las rutas    Post --> Devuelve dos archivos txt con las rutas de los archivos a ordenar
 mezclar_archivos,,
@@ -48,5 +48,5 @@ procesar_multilinea,Autor: Francisco Pereira,Ayuda:     pre --> Ingresa el comen
 recorrer_archivo,Autor: Francisco Pereira,Ayuda: Pre ---> Ingresa el archivo de entrada           Post ---> Devuelve el nombre maximo y el texto de esa funcion
 revisar_llamadas,Autor: Francisco Pereira,Ayuda:    Pre --> Ingresa el diccionario con el nombre de las funciones/ el nombre de funcion actual    y una linea de codigo de esta funcion    Post --> Actualiza el valor de llamadas que hace la funcion en la linea    de codigo que se pasa como parametro,Evito que solamente identifique,a las funciones de un modulo que se llaman fuera de el
 separar_campo,Autor: Francisco Pereira,Ayuda:     Pre --> Ingresa el comentario multilinea    Post --> Devuelve el string que le sigue al campo hasta 
-validar_nombre_funcion,
+validar_nombre_funcion,,
 validar_opcion,,,':,todo':
