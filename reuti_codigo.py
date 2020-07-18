@@ -74,21 +74,40 @@ def funciones_que_llaman(dicc_funciones):
             if valor != 0 and valor != 'X':
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
-def contar_recursiva(nombre_funcion):
-
+def encontrar_linea(nombre_funcion):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Encuentra la linea de un archivo donde aparece una funcion
+    pasada como parametro]
+    """
     archivo = open("fuente_unico.csv", 'r')
-    funcion_modulo = "Esto no es un nombre de funcion"
-    cantidad = 0
-
-    while funcion_modulo != nombre_funcion:
+    funcion_modulo = linea = "Esto no es una linea ni una funcion"
+    
+    while funcion_modulo != nombre_funcion and linea:
         linea = leer_linea_archivo(archivo)
         funcion_modulo = f"{linea[0]}.{linea[2]}"
+    
+    archivo.close()
+    return linea
+
+def contar_recursiva(nombre_funcion):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Cuenta la cantidad de veces
+    que una funcion con recursividad directa se llama
+    a si misma.]
+    """
+    
+    cantidad = 0
+    linea = encontrar_linea(nombre_funcion)
+    funcion_modulo = f"{linea[0]}.{linea[2]}"
     
     if funcion_modulo == nombre_funcion:
         funcion = linea[0]
         codigo = linea[3:]
         cantidad = (','.join(codigo)).count(funcion)
 
+    
     return cantidad
 
 def contar_llamadas(dicc_funciones):
@@ -272,13 +291,17 @@ def generar_primera_fila(cant_funciones, espacios_columna):
     numeros = list(range(1, cant_funciones + 1))
     vacia = [' '] * cant_funciones
     texto = ""
-    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
-    texto += fila
-    fila, texto_vacio = generar_fila_total("FUNCIONES", espacios_columna, numeros)
-    texto += fila
-    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
-    texto += fila
+    lista = [
+    ("", espacios_columna, vacia),
+    ("FUNCIONES", espacios_columna, numeros), 
+    ("", espacios_columna, vacia)
+    ]
 
+    for parametros in lista:
+
+        fila, texto_vacio = generar_fila_total(*parametros)
+        texto += fila
+    
     texto = agregar_separador(texto)
 
     return texto
@@ -348,8 +371,27 @@ def generar_analizador():
     funciones, linea_ultima = generar_tabla()
     
     escribir_archivo(funciones, 20, 5)
-    os.startfile('analizador.txt')
-    
+    imprimir_resultados()
+
+def imprimir_resultados():
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Trata de imprimir los resultados
+    Si no se esta en windows, trata de usar geany
+    en caso contrario lo imprime, por pantalla]
+    """
+    if os.name == 'nt':
+        os.startfile('analizador.txt')
+    else:
+        try:
+            os.system('geany analizador.txt')
+        except:
+            archivo = open('analizador.txt', 'r')
+            linea = "   "
+            while linea:
+                linea = archivo.readline()
+                print(linea, end = "")
+            archivo.close()
     
 if __name__ == "__main__":
     generar_analizador()

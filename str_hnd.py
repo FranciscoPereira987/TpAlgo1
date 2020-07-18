@@ -135,14 +135,14 @@ def procesar_multilinea(comentario):
     devuelve dos campos vacios y el comentario
     si no, devuelve dos campos vacios]
     """
-
-    if '\n' not in comentario:
-        campos = ',,' + comentario
+    comentario = comentario.replace('\n', "")
+    autor = procesar_comas(separar_campo(comentario, 'autor'))
+    ayuda = procesar_comas(separar_campo(comentario, 'ayuda'))
+    if autor or ayuda:
+        campos = f'{autor},{ayuda},'
     else:
-        comentario = comentario.replace('\n', "")
-        autor = procesar_comas(separar_campo(comentario, 'autor'))
-        ayuda = procesar_comas(separar_campo(comentario, 'ayuda'))
-        campos = f'{autor},{ayuda}'
+        
+        campos = ",,"
 
     return campos
 
@@ -158,6 +158,8 @@ def procesar_funcion(l_codigo, l_comentarios):
         procesar_codigo(l_codigo)
     if l_comentarios:
         procesar_comentarios(l_comentarios)
+    elif not l_comentarios:
+        l_comentarios = ['', '', '']
     codigo, comentarios = lista_a_string(l_codigo, l_comentarios)
 
     return codigo, comentarios
