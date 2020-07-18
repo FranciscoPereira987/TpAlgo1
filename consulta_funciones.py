@@ -113,9 +113,9 @@ def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
         for i in range(3,len(l_comentarios[contador_comentarios])):
             l_comentario_linea.append(l_comentarios[contador_comentarios][i])
             
-    print(l_funcion)
-    print(l_comentarios)
-    print(l_comentario_linea)
+    #print(l_funcion)
+    #print(l_comentarios)
+    #print(l_comentario_linea)
     return parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea
     #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
     
@@ -160,7 +160,7 @@ def ingresar_opcion(funciones):
             
             if miopcion == '?todo' or miopcion == '#todo' or miopcion == 'imprimir ?todo':
                 #aca muestro todo de todas las funciones segun la opcion # o ? o imprimirtodo
-                print('aca muestro o todo o genero ayuda_funciones.txt')
+                #print('aca muestro o todo o genero ayuda_funciones.txt')
                 #mostrar_todo(miopcion)
                 for funcion in l_funcion:
                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
@@ -178,7 +178,7 @@ def ingresar_opcion(funciones):
             else:    
                 encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
                 if encontrado:
-                    print("Aca muestro las cosas de una funcion")
+                    #print("Aca muestro las cosas de una funcion")
                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion)
                     if miopcion == '?':
                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
