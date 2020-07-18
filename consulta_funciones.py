@@ -69,7 +69,7 @@ def leer(archivo):
     return devolver
 
 
-def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado):
+def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
     #abro archivos y los paso a listas
     '''
     archivo_codigo = open('salida_codigo.csv','r')
@@ -93,6 +93,11 @@ def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado):
         contador_funciones+=1
     parametros = l_funcion[contador_funciones][1]
     modulo = l_funcion[contador_funciones][2]
+    l_codigo = []
+    if miopcion == '#' or miopcion == '#todo':
+        
+        for i in range(3,len(l_funcion[contador_funciones])):
+            l_codigo.append(l_funcion[contador_funciones][i])
     
     autor = ''
     ayuda = ''
@@ -102,16 +107,33 @@ def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado):
         contador_comentarios+=1
     autor = l_comentarios[contador_comentarios][1]
     ayuda = l_comentarios[contador_comentarios][2]
+    l_comentario_linea = []
+    if miopcion == '#' or miopcion == '#todo':
+        
+        for i in range(3,len(l_comentarios[contador_comentarios])):
+            l_comentario_linea.append(l_comentarios[contador_comentarios][i])
             
     print(l_funcion)
     print(l_comentarios)
-    return parametros,modulo,autor,ayuda
+    print(l_comentario_linea)
+    return parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea
     #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
     
     #archivo_codigo.close()
     #return l_funcion, l_comentarios    
     
-    
+def imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda):
+    #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
+    if ayuda:
+        print(ayuda)
+    else:
+        print('No hay ayuda para esta funcion')
+    if autor:
+        print(autor)
+    else:
+        print('No hay autor para esta funcion')
+    print('Parametros:',parametros)
+    print('Modulo:',modulo)
 
 def ingresar_opcion(funciones):
     opcion = input("Función: ")
@@ -140,24 +162,34 @@ def ingresar_opcion(funciones):
                 #aca muestro todo de todas las funciones segun la opcion # o ? o imprimirtodo
                 print('aca muestro o todo o genero ayuda_funciones.txt')
                 #mostrar_todo(miopcion)
+                for funcion in l_funcion:
+                    parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
+                    if miopcion == '?todo':
+                        imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                    if miopcion == '#todo':
+                        imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                        print("Este es el codigo de la funcion:")
+                        for i in l_codigo:
+                            print(i)
+                        print("Estos son los comentarios generales de la funcion:")
+                        for i in l_comentario_linea:
+                            print(i)
+                                
             else:    
                 encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
                 if encontrado:
                     print("Aca muestro las cosas de una funcion")
+                    parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion)
                     if miopcion == '?':
-                        parametros,modulo,autor,ayuda = mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado)
-                        #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
-                        if ayuda:
-                            print(ayuda)
-                        else:
-                            print('No hay ayuda para esta funcion')
-                        if autor:
-                            print(autor)
-                        else:
-                            print('No hay autor para esta funcion')
-                        print('Parametros:',parametros)
-                        print('Modulo:',modulo)
-                        
+                        imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                    if miopcion == '#':
+                        imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                        print("Este es el codigo de la funcion:")
+                        for i in l_codigo:
+                            print(i)
+                        print("Estos son los comentarios generales de la funcion:")
+                        for i in l_comentario_linea:
+                            print(i)
                 else:
                     print("La funcion es incorrecta")
             archivo_codigo.close()
