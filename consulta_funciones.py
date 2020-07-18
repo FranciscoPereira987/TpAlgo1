@@ -86,12 +86,21 @@ def mostrar_informacion(miopcion,nombre_encontrado):
     if miopcion == '?':
         parametros = ''
         modulo = ''
-        contador = 0
-        while contador < len(l_funcion) and nombre_encontrado \
-        != l_funcion[contador][0] + "." + l_funcion[contador][2]:
-            contador+=1
-        parametros = l_funcion[contador][1]
-        modulo = l_funcion[contador][2]
+        contador_funciones = 0
+        while contador_funciones < len(l_funcion) and nombre_encontrado \
+        != l_funcion[contador_funciones][0] + "." + l_funcion[contador_funciones][2]:
+            contador_funciones+=1
+        parametros = l_funcion[contador_funciones][1]
+        modulo = l_funcion[contador_funciones][2]
+        
+        autor = ''
+        ayuda = ''
+        contador_comentarios = 0
+        while contador_comentarios < len(l_comentarios) and nombre_encontrado[:nombre_encontrado.find(".")] \
+        != l_comentarios[contador_comentarios][0]:
+            contador_comentarios+=1
+        autor = l_comentarios[contador_comentarios][1]
+        ayuda = l_comentarios[contador_comentarios][2]
         
     print(l_funcion)
     print(l_comentarios)
