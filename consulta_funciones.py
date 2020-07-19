@@ -165,16 +165,21 @@ def ingresar_opcion(funciones):
                 for funcion in l_funcion:
                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
                     if miopcion == '?todo':
+                        print('Datos de la funcion:',funcion[0],'\n')
                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                        print('\n')
                     if miopcion == '#todo':
+                        print('Datos de la funcion:',funcion[0],'\n')
                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
-                        print("Este es el codigo de la funcion:")
+                        print('\n')
+                        print("Este es el codigo de la funcion:",'\n')
                         for i in l_codigo:
                             print(i)
-                        print("Estos son los comentarios generales de la funcion:")
+                        print('\n')    
+                        print("Estos son los comentarios generales de la funcion:",'\n')
                         for i in l_comentario_linea:
                             print(i)
-                                
+                        print('\n')        
             else:    
                 encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
                 if encontrado:
