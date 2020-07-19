@@ -1,0 +1,39 @@
+Informe de desarrollo por autor
+
+
+	Autor:                       nicolas                       
+                             
+	Funcion                      Lineas                        
+	------------------------------------------------------------
+	ubicar                       5                             
+	vender                       3                             
+
+                             
+	Autor:                       ivan                          
+                             
+	Funcion                      Lineas                        
+	------------------------------------------------------------
+	inocular                     3                             
+
+                             
+	Autor:                       francisco                     
+                             
+	Funcion                      Lineas                        
+	------------------------------------------------------------
+	comprar                      4                             
+
+                             
+	Autor:                       claudio                       
+                             
+	Funcion                      Lineas                        
+	------------------------------------------------------------
+	salir                        3                             
+
+                             
+	Autor:                       augusto                       
+                             
+	Funcion                      Lineas                        
+	------------------------------------------------------------
+	representar                  3                             
+
+                             

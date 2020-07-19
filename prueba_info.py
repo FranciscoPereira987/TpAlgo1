@@ -3,6 +3,11 @@ from info_participacion import *
 #PRUEBA GRABAR PARTICIPACION.      - OK
 #PRUEBA DEVOLVER MAXIMO SIGUIENTE. - OK
 
+#Prueba_combinar_campos_lista - ok
+
+#PRUEBA FORMATEAR CSVA - OK
+
+
 def prueba_grabar_participacion():
 
     RUTA_PRUEBAS = "archivos_prueba/prueba_info/"
@@ -35,5 +40,24 @@ def prueba_devolver_maximo_sig():
         maximo, linea_max = devolver_maximo_siguiente(ar_e01, POS_CLAVE, maximo) 
         ar_e01.close()
 
+def prueba_combinar_campos_lista():
+    linea1, linea2 = "22,funcion_1,liNEas,asdf,sdfasd;22,funcion_1,liNEas,autor".rstrip('\n').split(';')
+    l1 = linea1.split(',')
+    l2 = linea2.split(',')
+    print(combinar_campos_lista(l1, 2, len(linea1), ';'))
+    print(combinar_campos_lista(l2, 3, len(linea2), ';'))
 
-prueba_devolver_maximo_sig()
+
+def prueba_formatear_csva():
+
+    linea1 = "22,funcion_1,liNEas,asdf,sdfasd;22,funcion_1,liNEas,autor"
+    print(formateo_csva(linea1))
+
+#prueba_devolver_maximo_sig()
+#prueba_combinar_campos_lista()
+
+#prueba_formatear_csva()
+
+
+
+informar_participacion()
