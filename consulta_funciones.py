@@ -181,8 +181,11 @@ def ingresar_opcion(funciones):
                     #print("Aca muestro las cosas de una funcion")
                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion)
                     if miopcion == '?':
+                        print("Datos de funcion:",nombre_encontrado,"\n")
                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
+                        
                     if miopcion == '#':
+                        print("Datos de la Funcion:",nombre_encontrado,"\n")
                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
                         print("Este es el codigo de la funcion:")
                         for i in l_codigo:
