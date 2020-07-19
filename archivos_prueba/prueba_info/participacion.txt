@@ -7,6 +7,7 @@ Informe de desarrollo por autor
 	------------------------------------------------------------
 	ubicar                       5                             
 	vender                       3                             
+	2 Funciones - Lineas         8                             
 
                              
 	Autor:                       ivan                          
@@ -14,6 +15,7 @@ Informe de desarrollo por autor
 	Funcion                      Lineas                        
 	------------------------------------------------------------
 	inocular                     3                             
+	1 Funciones - Lineas         3                             
 
                              
 	Autor:                       francisco                     
@@ -21,6 +23,7 @@ Informe de desarrollo por autor
 	Funcion                      Lineas                        
 	------------------------------------------------------------
 	comprar                      4                             
+	1 Funciones - Lineas         4                             
 
                              
 	Autor:                       claudio                       
@@ -28,6 +31,7 @@ Informe de desarrollo por autor
 	Funcion                      Lineas                        
 	------------------------------------------------------------
 	salir                        3                             
+	1 Funciones - Lineas         3                             
 
                              
 	Autor:                       augusto                       
@@ -35,5 +39,7 @@ Informe de desarrollo por autor
 	Funcion                      Lineas                        
 	------------------------------------------------------------
 	representar                  3                             
+	1 Funciones - Lineas         3                             
 
                              
+Total: 6 Funciones - Lineas   21                            
