@@ -74,7 +74,7 @@ def funciones_que_llaman(dicc_funciones):
             if valor != 0 and valor != 'X':
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
-def encontrar_linea(nombre_funcion):
+def encontrar_funcion(nombre_funcion):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Encuentra la linea de un archivo donde aparece una funcion
@@ -99,7 +99,7 @@ def contar_recursiva(nombre_funcion):
     """
     
     cantidad = 0
-    linea = encontrar_linea(nombre_funcion)
+    linea = encontrar_funcion(nombre_funcion)
     funcion_modulo = f"{linea[0]}.{linea[2]}"
     
     if funcion_modulo == nombre_funcion:
@@ -371,9 +371,9 @@ def generar_analizador():
     funciones, linea_ultima = generar_tabla()
     
     escribir_archivo(funciones, 20, 5)
-    imprimir_resultados()
+    imprimir_resultados("analizador.txt")
 
-def imprimir_resultados():
+def imprimir_resultados(nombre_archivo):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Trata de imprimir los resultados
@@ -381,12 +381,12 @@ def imprimir_resultados():
     en caso contrario lo imprime, por pantalla]
     """
     if os.name == 'nt':
-        os.startfile('analizador.txt')
+        os.startfile(nombre_archivo)
     else:
         try:
-            os.system('geany analizador.txt')
+            os.system(f'geany {nombre_archivo}')
         except:
-            archivo = open('analizador.txt', 'r')
+            archivo = open(nombre_archivo, 'r')
             linea = "   "
             while linea:
                 linea = archivo.readline()
