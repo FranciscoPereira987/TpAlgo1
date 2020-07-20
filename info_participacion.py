@@ -57,7 +57,7 @@ def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
     return maximo, linea_max 
     
 
-def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea):
+def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea, func_cantidad):
     """
         [AUTOR: Ivan Coronel]
         [AYUDA: Busca en el archivo de entrada los registros
@@ -83,7 +83,8 @@ def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea):
             total_funciones += 1
             grabar_tabla(("\t" + funcion, str(cant_instrucciones)), AR_SALIDA)
         linea = ar_entrada.readline()
-    grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  , str(total_instrucciones)), AR_SALIDA)
+    porcentaje = (total_funciones * 100) / func_cantidad
+    grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  , str(total_instrucciones) + "\t" + str(porcentaje)), AR_SALIDA)
     grabar_tabla(("\n"), AR_SALIDA)
     return total_funciones, total_instrucciones
     
@@ -134,15 +135,13 @@ def informar_participacion():
     totales_funciones = 0 
     totales_lineas = 0
     grabar_tabla(["Informe de desarrollo por autor\n\n"], AR_SALIDA)
-    t_apareo = apareo_csv.aparear_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
+    t_apareo, grabados_apareo = apareo_csv.aparear_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
     apareo = open(t_apareo, 'r')
     max_ant = ''
     maximo, linea_max = devolver_maximo_siguiente(apareo, POS_CLAVE, '') 
-    apareo.close()
-    apareo = open(t_apareo, 'r')
     while max_ant != maximo and maximo != '':
         grabar_tabla(("\tAutor: ".rjust(4, " "), maximo, '\n'), AR_SALIDA)
-        cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(apareo, AR_SALIDA, T_CLAVE, linea_max)
+        cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(apareo, AR_SALIDA, T_CLAVE, linea_max, grabados_apareo)
         totales_funciones += cant_funciones_autor
         totales_lineas += cant_instrucciones_autor
         apareo.close()
