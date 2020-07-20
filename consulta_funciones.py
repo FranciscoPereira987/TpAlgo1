@@ -1,16 +1,18 @@
 import reuti_codigo
 
 def listar_funciones():
-    
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Abro el archivo fuente_unico.csv
+    Post -->Armo cuadro de funciones encolumnado y devuelvo
+    una lista de funciones]
+    """
     archivo_codigo = open('salida_codigo.csv','r')
     funciones = reuti_codigo.armar_lista(archivo_codigo)
     numero=0
     
     while len(funciones)>numero:
-        #for i in range(0,2):
-            #print(funciones[numero] ,sep="\t", end="|")
-        #columnas=reuti_codigo.generar_texto_encolumnado(40,funciones[numero])
-        #texto=columnas[0]
         texto=''
         for i in range(0,2):
             columnas=reuti_codigo.generar_texto_encolumnado(40,funciones[numero])
@@ -18,10 +20,9 @@ def listar_funciones():
             numero+=1
         print (texto)
         
-        #funciones = reuti_codigo.armar_diccionario(funciones)
+        
     archivo_codigo.close()
     return(funciones)
-    #return lista_funciones
 
 def validar_opcion(opcion):
     valido = False
@@ -32,9 +33,10 @@ def validar_opcion(opcion):
         miopcion = opcion[-1]
         nombre_funcion = opcion[:-1]
         
-    elif opcion[-14:] ==  'imprimir ?todo':
+    elif opcion[0:8] ==  'imprimir':
         valido = True
-        miopcion = opcion[-14:]
+        miopcion = 'imprimir ?todo'
+        #miopcion = opcion[-14:]
         #nombre_funcion = opcion[:-14]
     
     elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
@@ -262,7 +264,7 @@ def ingresar_opcion(funciones):
                     imp_desc_todas_func(l_funcion,l_comentarios,miopcion)
                 
                 if miopcion == 'imprimir ?todo':
-                    print ('aca envio todo a txt')
+                    print ('Se genero el archivo ayuda_funciones.txt')
                     generar_txt(l_funcion,l_comentarios)
 #                 for funcion in l_funcion:
 #                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
@@ -301,11 +303,11 @@ def ingresar_opcion(funciones):
                         for i in l_comentario_linea:
                             print(i)
                 else:
-                    print("La funcion es incorrecta")
+                    print("La funcion es incorrecta escriba nombre de funcion.modulo como esta en el cuadro seguido la opcion ? #")
             archivo_codigo.close()
             archivo_comentarios.close()
         else:
-            print("opcion invalida")
+            print("Opcion invalida las opciones son ? # para consultar una funcion o ?todo #todo imprimir ?todo para todas las funciones")
         
         opcion = input("Funcion: ")
     return opcion
