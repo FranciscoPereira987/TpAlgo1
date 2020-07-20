@@ -32,15 +32,16 @@ def validar_opcion(opcion):
         miopcion = opcion[-1]
         nombre_funcion = opcion[:-1]
         
+    elif opcion[-14:] ==  'imprimir ?todo':
+        valido = True
+        miopcion = opcion[-14:]
+        #nombre_funcion = opcion[:-14]
+    
     elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
         valido = True
         miopcion = opcion[-5:]
         #nombre_funcion = opcion[:-5]
         
-    elif opcion[-14:] ==  'imprimir ?todo':
-        valido = True
-        miopcion = opcion[-14:]
-        #nombre_funcion = opcion[:-14]
         
     return valido,nombre_funcion,miopcion
 
@@ -198,7 +199,37 @@ def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
                     print(i)
                 print('\n')   
     
+def generar_txt(l_funcion,l_comentarios):
+    archivo = open(" ayuda_funciones.txt", 'w')
+
+    archivo.seek(0, 1)
+    texto=''
+    for i in range(0,len(l_funcion)):
+        parametros,modulo = l_funcion[i][1],l_funcion[i][2]
+        ayuda,autor = l_comentarios[i][1],l_comentarios[i][2]
+        texto = 'Ayuda de la funcion: ' + l_funcion[i][0] + '.' + l_funcion[i][2]
+        if ayuda:
+            texto = texto+' '+ayuda
+        else:
+            texto = texto + ' ' + 'No hay ayuda para esta funcion'
+        if autor:
+            texto = texto+' '+autor
+        else:
+            texto = texto + ' ' + 'No hay autor para esta funcion'
+        texto = texto + ' ' + 'modulo: '+ modulo
+        texto = texto + ' ' + 'parametros: '+ parametros #+ '\n'
+        contador = 0
+        for i in range(0,len(texto)):
+            archivo.write(texto[i])
+            contador+=1
+            if contador == 80:
+                archivo.write('\n')
+                contador = 0
+        archivo.write('\n')
+        archivo.write('\n')
         
+    archivo.close
+
 def ingresar_opcion(funciones):
     opcion = input("Función: ")
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
@@ -230,6 +261,9 @@ def ingresar_opcion(funciones):
                 if miopcion == '?todo' or miopcion == '#todo':
                     imp_desc_todas_func(l_funcion,l_comentarios,miopcion)
                 
+                if miopcion == 'imprimir ?todo':
+                    print ('aca envio todo a txt')
+                    generar_txt(l_funcion,l_comentarios)
 #                 for funcion in l_funcion:
 #                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
 #                     if miopcion == '?todo':
