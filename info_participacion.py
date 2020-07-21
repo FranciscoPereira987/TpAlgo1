@@ -120,10 +120,12 @@ def grabar_tabla(l_campos, salida):
         [Autor: Ivan Coronel]
         [Ayuda:]
     """
-
+    linea = ""
     for campo in l_campos:
-        salida.write(campo.ljust(LONG_CAMPOS, ' '))
-    salida.write('\n')
+        linea = linea + campo.ljust(LONG_CAMPOS, ' ') 
+    linea += "\n"
+    salida.write(linea)
+    print(linea)
 
 def seleccionar_campos_lista(lista, diccionario, campos):
     """ 
