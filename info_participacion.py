@@ -6,8 +6,8 @@ import apareo_csv
 #AR_FUENTE_UNICO = "fuente_unico.csv"
 #AR_COMENTARIOS  = "comentarios.csv"
 #SALIDA = "/archivos_prueba/prueba_info/info_salida.txt"
-AR_FUENTE_UNICO = "archivos_prueba/prueba_apareo/pruebaE01.csv"
-AR_COMENTARIOS = "archivos_prueba/prueba_apareo/pruebaE02.csv"
+AR_FUENTE_UNICO = "fuente_unico.csv"
+AR_COMENTARIOS = "comentarios.csv"
 
 
 
@@ -16,7 +16,7 @@ AR_COMENTARIOS = "archivos_prueba/prueba_apareo/pruebaE02.csv"
 ENCABEZADO_1 = "Informe de desarrollo por autor\n\n" 
 
 # --ESTRUCTURAS DE ARCHIVOS---- #.
-AR_SALIDA = "archivos_prueba/prueba_info/participacion.txt"
+AR_SALIDA = "participacion.txt"
 D_ENTRADA = {
         "funcion_a": 0, 
         "p_formales": 1, 
@@ -167,7 +167,7 @@ def informar_participacion():
         t_apareo, total_funciones = apareo_csv.aparear_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
         while autores:
             autor = autores.pop()
-            grabar_tabla(("\tAutor: ".rjust(4, " "), autor, '\n'), ar_salida)
+            grabar_tabla(("\tAutor: ".rjust(4, " "), autor[6:], '\n'), ar_salida)
             grabar_tabla(("\tFuncion", "Lineas"), ar_salida)
             grabar_tabla((["\t" + "-".ljust(LONG_CAMPOS * 2, '-')]), ar_salida)
             cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(t_apareo, ar_salida, autor, total_funciones)
