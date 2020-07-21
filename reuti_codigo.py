@@ -83,7 +83,7 @@ def encontrar_funcion(nombre_funcion):
     archivo = open("fuente_unico.csv", 'r')
     funcion_modulo = linea = "Esto no es una linea ni una funcion"
     
-    while funcion_modulo != nombre_funcion and linea:
+    while funcion_modulo != nombre_funcion:
         linea = leer_linea_archivo(archivo)
         funcion_modulo = f"{linea[0]}.{linea[2]}"
     
@@ -380,18 +380,21 @@ def imprimir_resultados(nombre_archivo):
     Si no se esta en windows, trata de usar geany
     en caso contrario lo imprime, por pantalla]
     """
-    if os.name == 'nt':
-        os.startfile(nombre_archivo)
-    else:
-        try:
+    archivo = open(nombre_archivo, 'r')
+    linea = "   "
+    while linea:
+        linea = archivo.readline()
+        print(linea, end = "")
+    archivo.close()
+    decision = input("Si prefiere ver los resultados en un archivo, ingrese y\n>>>")
+    if decision.lower() == 'y':
+        if os.name == 'nt':
+            os.startfile(nombre_archivo)
+        else:
             os.system(f'geany {nombre_archivo}')
-        except:
-            archivo = open(nombre_archivo, 'r')
-            linea = "   "
-            while linea:
-                linea = archivo.readline()
-                print(linea, end = "")
-            archivo.close()
+       
+            
+    
     
 if __name__ == "__main__":
     generar_analizador()

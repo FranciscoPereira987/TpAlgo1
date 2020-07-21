@@ -1,7 +1,5 @@
-import ordenamiento
-import mezcla
-import os
-import reuti_codigo
+import ordenamiento, mezcla, os, reuti_codigo
+import consulta_funciones, punto4, info_participacion
 
 def limpiar_archivos(lista_codigos, lista_comentarios):
     """
@@ -21,11 +19,12 @@ def listar_archivos(archivo_con_rutas):
     lista_rutas = []
     archivo = open(archivo_con_rutas, 'r')
     linea = archivo.readline()
+
     while linea:
         lista_rutas.append(linea.rstrip('\n'))
         linea = archivo.readline()
 
-    archivo.close()
+    archivo.close() 
 
     return lista_rutas
 
@@ -40,8 +39,18 @@ def generar_fuente_y_com():
     lista_com = listar_archivos(comentarios)
     mezcla.mezclar_archivos(lista_cod, 'fuente_unico.csv', 0)
     mezcla.mezclar_archivos(lista_com, 'comentarios.csv', 0)
-    lista_cod.append(codigo); lista_com.append(comentarios)
+    lista_cod.append(codigo)
+    lista_com.append(comentarios)
     limpiar_archivos(lista_cod, lista_com)
+
+
+def esperar():
+    """
+    [Autor: Francisco Pereira]3
+    [Ayuda: espera a que el usuario ingrese
+    algo para que se continue con la ejecutcion del programa]
+    """
+    input(">>>")
 
 def ejecutar(opcion):
     """
@@ -52,16 +61,27 @@ def ejecutar(opcion):
     """
     if opcion == '1':
         pass
+
     elif opcion == '2':
-        pass
+        funciones = consulta_funciones.listar_funciones()
+        consulta_funciones.ingresar_opcion(funciones)
+
     elif opcion == '3':
         reuti_codigo.generar_analizador()
+        esperar()
+        
     elif opcion == '4':
-        pass
+        punto4.arbol_invocacion()
+        esperar()
+        
+
     elif opcion == '5':
-        pass
+        info_participacion.informar_participacion()
+        esperar()
+    
     elif opcion == 'todavia no se ingreso nada como opcion':
         print("Bienvenido al programa!!!!!")
+
     else:
         print("No se eligio una opcion correcta")
 
@@ -77,7 +97,7 @@ def menu(display):
         opcion = input(">>> ")
     
 
-def principal():
+def analizador_estructurada():
     """
     [Autor: Francisco Pereira]
     [Ayuda: Funcion principal del programa]
@@ -92,5 +112,5 @@ def principal():
     menu(display)
 
 if __name__ == '__main__':
-    principal()
+    analizador_estructurada()
 
