@@ -4,6 +4,7 @@ import apareo_csv
 #AR_COMENTARIOS  = "comentarios.csv"
 AR_FUENTE_UNICO = "archivos_prueba/prueba_apareo/pruebaE01.csv"
 AR_COMENTARIOS = "archivos_prueba/prueba_apareo/pruebaE02.csv"
+ENCABEZADO_1 = "Informe de desarrollo por autor\n\n" 
 AR_SALIDA = "archivos_prueba/prueba_info/participacion.txt"
 #SALIDA = "/archivos_prueba/prueba_info/info_salida.txt"
 D_ENTRADA = {
@@ -36,6 +37,23 @@ T_CLAVE = "autor"
 CLAVE_F_UNICO = 0
 CLAVE_COMENTARIOS = 0
 
+def listar_campos_csv(n_archivo, posicion):
+    """
+    [AYUDA: Recibe el nombre de un archivo csv y una posicion.
+            Lo lee completo y devuelve los distintos valores que
+            contiene ese campo ordenado.]
+    [AUTOR: Ivan Coronel]
+"""
+    l_valores = []
+    with open(n_archivo, "r") as archivo:
+        linea = archivo.readline()
+        while linea != "":
+            l_campos = linea.rstrip('\n').split(',')
+            if l_campos[posicion] not in l_valores:
+                l_valores.append(l_campos[posicion])
+            linea = archivo.readline()
+    return sorted(l_valores)
+
 
 def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
     """ 
@@ -48,7 +66,7 @@ def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
     linea_max = ""
     linea = archivo.readline()
     clave = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])[posicion_clave]
-    while linea != "":
+    while linea != "" and max_anterior == "":
         clave = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])[posicion_clave]
         if (clave < max_anterior and clave > maximo) or (max_anterior == '' and  clave > maximo):
             maximo = clave
@@ -57,7 +75,7 @@ def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
     return maximo, linea_max 
     
 
-def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea, func_cantidad):
+def grabar_participacion_csv(arc_entrada, ar_salida, autor, func_cantidad):
     """
         [AUTOR: Ivan Coronel]
         [AYUDA: Busca en el archivo de entrada los registros
@@ -66,26 +84,26 @@ def grabar_participacion_csv(ar_entrada, ar_salida, clave, linea, func_cantidad)
     """
     total_funciones = 0
     total_instrucciones = 0
-
-    grabar_tabla(("\tFuncion", "Lineas"), AR_SALIDA)
-    grabar_tabla((["\t" + "-".ljust(LONG_CAMPOS * 2, '-')]), AR_SALIDA)
-    l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
-    clave_valor = l_linea[D_ENTRADA[clave]]
-    funcion_ant = ''
-    while linea != '':
-        l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
-        if l_linea[D_ENTRADA[clave]] == clave_valor \
-                and l_linea[D_ENTRADA["funcion_a"]] > funcion_ant:
-            funcion, instrucciones = seleccionar_campos_lista(l_linea, D_ENTRADA, INDICE_A)    
-            funcion_ant = funcion
-            cant_instrucciones = len(instrucciones.split(";"))
-            total_instrucciones += cant_instrucciones
-            total_funciones += 1
-            grabar_tabla(("\t" + funcion, str(cant_instrucciones)), AR_SALIDA)
+    with open(arc_entrada, "r") as ar_entrada:
+        grabar_tabla(("\tFuncion", "Lineas"), AR_SALIDA)
+        grabar_tabla((["\t" + "-".ljust(LONG_CAMPOS * 2, '-')]), AR_SALIDA)
         linea = ar_entrada.readline()
-    porcentaje = (total_funciones * 100) / func_cantidad
-    grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  , str(total_instrucciones) + "\t" + str(porcentaje)), AR_SALIDA)
-    grabar_tabla(("\n"), AR_SALIDA)
+        l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
+        funcion_ant = ''
+        while linea != '':
+            l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
+            if l_linea[D_ENTRADA["autor"]] == autor \
+                    and l_linea[D_ENTRADA["funcion_a"]] > funcion_ant:
+                funcion, instrucciones = seleccionar_campos_lista(l_linea, D_ENTRADA, INDICE_A)    
+                funcion_ant = funcion
+                cant_instrucciones = len(instrucciones.split(";"))
+                total_instrucciones += cant_instrucciones
+                total_funciones += 1
+                grabar_tabla(("\t" + funcion, str(cant_instrucciones)), AR_SALIDA)
+            linea = ar_entrada.readline()
+        porcentaje = (total_funciones * 100) / func_cantidad
+        grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  , str(total_instrucciones) + "\t" + str(porcentaje)), AR_SALIDA)
+        grabar_tabla(("\n"), AR_SALIDA)
     return total_funciones, total_instrucciones
     
 
@@ -134,18 +152,13 @@ def informar_participacion():
     """
     totales_funciones = 0 
     totales_lineas = 0
-    grabar_tabla(["Informe de desarrollo por autor\n\n"], AR_SALIDA)
+    autores = listar_campos_csv(AR_COMENTARIOS, D_COMENTARIOS["autor"])
+    grabar_tabla([ENCABEZADO_1], AR_SALIDA)
     t_apareo, grabados_apareo = apareo_csv.aparear_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
-    apareo = open(t_apareo, 'r')
-    max_ant = ''
-    maximo, linea_max = devolver_maximo_siguiente(apareo, POS_CLAVE, '') 
-    while max_ant != maximo and maximo != '':
-        grabar_tabla(("\tAutor: ".rjust(4, " "), maximo, '\n'), AR_SALIDA)
-        cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(apareo, AR_SALIDA, T_CLAVE, linea_max, grabados_apareo)
+    while autores:
+        autor = autores.pop()
+        grabar_tabla(("\tAutor: ".rjust(4, " "), autor, '\n'), AR_SALIDA)
+        cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(t_apareo, AR_SALIDA, autor, grabados_apareo)
         totales_funciones += cant_funciones_autor
         totales_lineas += cant_instrucciones_autor
-        apareo.close()
-        max_ant = maximo
-        apareo = open(t_apareo, 'r')
-        maximo, linea_max = devolver_maximo_siguiente(apareo, POS_CLAVE, max_ant) 
     grabar_tabla(("Total: " + str(totales_funciones) + " Funciones - Lineas"  , str(totales_lineas)), AR_SALIDA)
