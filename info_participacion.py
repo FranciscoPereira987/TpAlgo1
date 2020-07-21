@@ -49,11 +49,11 @@ CLAVE_COMENTARIOS = 0
 
 def listar_campos_csv(n_archivo, posicion):
     """
-    [AYUDA: Recibe el nombre de un archivo csv y una posicion.
+    [Autor: Ivan Coronel]
+    [Ayuda: Recibe el nombre de un archivo csv y una posicion.
             Lo lee completo y devuelve los distintos valores que
             contiene ese campo ordenado.]
-    [AUTOR: Ivan Coronel]
-"""
+    """
     l_valores = []
     with open(n_archivo, "r") as archivo:
         linea = archivo.readline()
@@ -65,30 +65,10 @@ def listar_campos_csv(n_archivo, posicion):
     return sorted(l_valores)
 
 
-def devolver_maximo_siguiente(archivo, posicion_clave, max_anterior):
-    """ 
-        [AUTOR: Ivan Coronel]
-        [AYUDA: Recibe nombre de archivo, posicion de la clave y clave maxima
-        anterior, si no hay anterior se debe recibir ''. 
-        Devuelve el valor maximo siguiente.
-    """
-    maximo = "" 
-    linea_max = ""
-    linea = archivo.readline()
-    clave = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])[posicion_clave]
-    while linea != "" and max_anterior == "":
-        clave = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])[posicion_clave]
-        if (clave < max_anterior and clave > maximo) or (max_anterior == '' and  clave > maximo):
-            maximo = clave
-            linea_max = linea
-        linea = archivo.readline()
-    return maximo, linea_max 
-    
-
 def grabar_participacion_csv(arc_entrada, ar_salida, autor, func_cantidad):
     """
-        [AUTOR: Ivan Coronel]
-        [AYUDA: Busca en el archivo de entrada los registros
+        [Autor: Ivan Coronel]
+        [Ayuda: Busca en el archivo de entrada los registros
         que coincidan en la posicion clave con el valor dado y los
         graba en el archivo de salida]
     """
@@ -118,7 +98,9 @@ def grabar_participacion_csv(arc_entrada, ar_salida, autor, func_cantidad):
 def grabar_tabla(l_campos, salida):
     """
         [Autor: Ivan Coronel]
-        [Ayuda:]
+        [Ayuda: Recibe una lista de cadenas y un archivo de salida
+                Las formatea con una longitud constante.
+                Si la supera no la corta y se desfasa el campo.]
     """
     linea = ""
     for campo in l_campos:
@@ -130,21 +112,33 @@ def grabar_tabla(l_campos, salida):
 def seleccionar_campos_lista(lista, diccionario, campos):
     """ 
         [Autor: Ivan Coronel]
-        [Ayuda: Recibe dos listas, lista contiene la informacion
-        y campos contiene las posiciones a seleccionar.
-        Se devuelve una lista que solo contendra los campos seleccionados.
+        [Ayuda: Se recibe una lista con valores, una lista 
+                con nombres de los campos a seleccionar y 
+                un diccionario con la relacion entre nombre de 
+                campo y posicion.
+                Devuelve una lista con los campos de la lista
+                que se han seleccionado.
     """
     return [lista[diccionario[campo]] for campo in campos]
 
 
 def combinar_campos_lista(lista, pos_ini, pos_fin, separador):
+    """
+        [Autor: Ivan Coronel]
+        [Ayuda: Recibe una lista, posiciones de inicio, de fin,
+                y un separador.
+                Las posiciones que van entre pos_ini y pos_fin,
+                se combinan en un solo elemento de la lista
+                separados por el caracter dado en separador.
+                Es conjunto abierto en pos_fin.
+    """
     return lista[0:pos_ini] + [separador.join(lista[pos_ini:pos_fin])] + lista[pos_fin:]
 
 
 def leer_csva(linea_csva, clave_1, clave_2):
     """ 
-        [Ayuda: Separa las lineas en formato csva en csv ]
         [Autor: Ivan Coronel]
+        [Ayuda: Separa las lineas en formato csva en csv. ]
     """
     l_1, l_2 = linea_csva.rstrip('\n').split(';')
     l_1_csv = l_1.rstrip('\n').split(',') 
@@ -156,8 +150,12 @@ def leer_csva(linea_csva, clave_1, clave_2):
 
 def informar_participacion():
     """
-        [Ayuda:]
         [Autor: Ivan Coronel]
+        [Ayuda  Lee los archivos de las rutas de las constantes
+                AR_FUENTE_UNICO y AR_COMENTARIOS en formato 
+                dado por los diccionarios asociados.
+                Genera informe sobre la participacion de cada
+                desarrollador en un sistema. ]
     """
 
     totales_lineas = 0
