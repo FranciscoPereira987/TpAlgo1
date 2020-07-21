@@ -1,4 +1,4 @@
-import os
+import str_hnd
 import mezcla
 import sep_cod_com
 
@@ -17,11 +17,11 @@ def recorrer_archivo(archivo_entrada, nombre_anterior):
     
     while linea:
 
-        if identificar_funciones(linea):
-            nombre = nombre_funcion(linea)
+        if str_hnd.identificar_funciones(linea):
+            nombre = str_hnd.nombre_funcion(linea)
          
-            if identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
-                parametros = devolver_parametros(linea)
+            if str_hnd.identificar_alfabeticamente(nombre, nombre_maximo, nombre_anterior):
+                parametros = str_hnd.devolver_parametros(linea)
                 linea, l_cod, l_com = sep_cod_com.leer_funcion(archivo_entrada) 
                 nombre_maximo = nombre
             
@@ -47,9 +47,9 @@ def ordenar_funciones(archivo_entrada, archivo_salida_cod, archivo_salida_com, n
     
 
     while nombre_anterior != MAX_NOMBRE:
-        l_cod, l_com = lista_a_string(l_cod, l_com)
-        linea_cod = f"{nombre_anterior},{parametros},{nombre_modulo}," + l_cod + '\n'
-        linea_com = f"{nombre_anterior}," + l_com + '\n'
+        l_cod, l_com = str_hnd.procesar_funcion(l_cod, l_com)
+        linea_cod = f"{nombre_anterior},{parametros},{nombre_modulo},{l_cod}\n"
+        linea_com = f"{nombre_anterior},{l_com}\n"
         archivo_salida_cod.write(linea_cod)
         archivo_salida_com.write(linea_com)
         nombre_anterior, parametros, l_cod, l_com = \
@@ -64,81 +64,14 @@ def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
            Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
            Post --> Cierra los archivos de codigo y comentarios]
     """
-    archivo_comentarios, mod_false = lector_rutas(rutas_com)
-    archivo_codigo, mod_false = lector_rutas(rutas_codigo) #Mod_false esta para guardar un string vacio que no sirve
+    archivo_comentarios, archivo_codigo  = generar_archivos(rutas_codigo, rutas_com)
+    
     
     ordenar_funciones(archivo_entrada, archivo_codigo, archivo_comentarios, nombre_modulo)
     
     mezcla.cerrar_archivos([archivo_codigo, archivo_comentarios])
 
 
-def identificar_funciones(linea):
-    """
-    [Autor: Francisco Pereira]
-    [Ayuda: Pre --> Ingresa una linea de texto
-           Post --> Devuelve True si en esa linea se define una funcion
-           False en caso contrario]
-    """
-
-    return "def " in linea
-
-def nombre_funcion(linea):
-    """
-    [Autor: Francisco Pereira]
-    [Ayuda: Pre --> Ingresa una linea donde se declara una funcion
-           Post --> Devuelve el nombre de la funcion]
-    """
-    indice_max = linea.find("(")
-    indice_min = linea.find(" ") + 1
-    nombre = linea[indice_min:indice_max]
-
-    return nombre
-
-def identificar_alfabeticamente(nombre_actual, nombre_maximo, nombre_minimo):
-    """
-    [Autor: Francisco Pereira]
-    [Ayudo: Pre --> Ingresan los nombres de funciones (el actual, el maximo y el minimo)
-           Post --> Devuelve True si hay cambios False en caso contrario]
-    """
-    
-    return nombre_actual < nombre_maximo and nombre_actual > nombre_minimo
-
-def devolver_parametros(linea):
-    """
-    [Autor: Francisco Pereira]
-   [Ayuda:
-    Pre --> Ingresa una linea de codigo donde se define una funcion
-    Post --> Devuelve los parametros formales separados por /]
-    """
-    indice_inicio = linea.find('(')
-    ultimo_indice = linea.find(')') + 1
-
-    parametros = linea[indice_inicio:ultimo_indice].replace(',', '/')
-    
-    
-    return parametros
-
-def nombre_modulo(linea):
-    """
-    [Autor: Francisco]
-    [Ayuda:
-    Pre --> Ingresa una linea donde se encuentra la ruta a un archivo de python
-    Post --> Devuelve el nombre del archivo de python]
-    """
-    ultimo_indice = linea.find(".py")
-    if os.name == "nt": #Para windows
-        primer_indice = len(linea) - linea[::-1].find("\\")
-    else:
-        primer_indice = len(linea) - linea[::-1].find('/')
-
-    return linea[primer_indice:ultimo_indice]
-
-def lista_a_string(l_codigo, l_comentarios):
-
-    str_codigo = ','.join(l_codigo)
-    str_comentarios = ','.join(l_comentarios)
-
-    return str_codigo, str_comentarios
 
 
 def lector_rutas(archivo_rutas, ruta_py = False):
@@ -152,7 +85,7 @@ def lector_rutas(archivo_rutas, ruta_py = False):
     ruta = archivo_rutas.readline()
     if ruta:
         if ruta_py:
-            modulo = nombre_modulo(ruta)
+            modulo = str_hnd.nombre_modulo(ruta)
         else:
             modulo = ""
         ruta = ruta.rstrip('\n')
@@ -186,21 +119,20 @@ def manejar_archivos(archivo_rutas):
 
     return open("rutas_comentarios.txt", 'r'), open("rutas_codigo.txt", 'r')
 
-
-def main_prueba():
+def generar_archivos(rutas_cod, rutas_com):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Genera los archivos de codigo y comentario
+    en las rutas pasadas como paramentro]
+    """
+    ruta_cod, ruta_com = rutas_cod.readline(), rutas_com.readline()
+    ruta_cod = ruta_cod.rstrip('\n')
+    ruta_com = ruta_com.rstrip('\n')
+    archivo_1 = open(ruta_cod, 'w')
+    archivo_2 = open(ruta_com, 'w')
     
-    archivo_rutas = open("programas.txt", 'r')
-    archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
-    numero = 0
-    while archivo_prueba:
-        archivo_salida_com = open(f"comentarios{numero}.csv", 'w')
-        archivo_salida_cod = open(f"codigo{numero}.csv", 'w')
-        ordenar_funciones(archivo_prueba, archivo_salida_cod, archivo_salida_com, modulo)
-        mezcla.cerrar_archivos([archivo_prueba,archivo_salida_cod, archivo_salida_com])
-        archivo_prueba, modulo = lector_rutas(archivo_rutas, True)
-        numero += 1
+    return archivo_2, archivo_1
 
-    
 
 def main_ordenamiento():
     """
@@ -211,15 +143,16 @@ def main_ordenamiento():
     rutas  = open("programas.txt", 'r')
     rutas_comentarios, rutas_codigo = manejar_archivos(rutas)
     rutas.seek(0)
-    archivo_rutas, nombre_modulo = lector_rutas(rutas, True)
-    while archivo_rutas:
-        procesar_entrada(archivo_rutas, rutas_codigo, rutas_comentarios, nombre_modulo)
-        archivo_rutas, nombre_modulo = lector_rutas(rutas, True)
+    archivo_entrada, nombre_modulo = lector_rutas(rutas, True)
+    while archivo_entrada:
+        
+        procesar_entrada(archivo_entrada, rutas_codigo, rutas_comentarios, nombre_modulo)
+        archivo_entrada, nombre_modulo = lector_rutas(rutas, True)
 
     mezcla.cerrar_archivos([rutas, rutas_codigo, rutas_comentarios])
 
-    return ["rutas_comentarios.csv", "rutas_codigo.csv"]
+    return ["rutas_comentarios.txt", "rutas_codigo.txt"]
         
         
 if __name__ == "__main__":
-    main_prueba() 
+    main_ordenamiento() 

@@ -51,22 +51,16 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     de codigo que se pasa como parametro]
     """
     claves = list(diccionario_funciones.keys())
-    indice = 1
-    indice_punto = claves[0].find('.')
-    funcion = claves[0][:indice_punto] #Evito que solamente identifique
-    #a las funciones de un modulo que se llaman fuera de el
+    indice = 0
+    funcion = "zzzzzzzzzzzzzzz"
 
-    while (funcion not in linea) and indice < (len(claves)):
-        indice_punto = claves[indice].find('.') 
-        funcion = claves[indice][:indice_punto]
-        indice += 1
+    for clave in claves:
+        indice_punto = clave.find('.') 
+        funcion = clave[:indice_punto] + '('
+        if funcion in linea:
+            funcion = clave
+            diccionario_funciones[nombre_funcion_actual][funcion] += 1
         
-    
-    
-    if funcion in linea:
-        funcion = (claves[indice-1])
-        diccionario_funciones[nombre_funcion_actual][funcion] += 1
-
 def funciones_que_llaman(dicc_funciones):
     """
     [Autor: Francisco Pereira]
@@ -80,6 +74,42 @@ def funciones_que_llaman(dicc_funciones):
             if valor != 0 and valor != 'X':
                 dicc_funciones[funcion][funcion_que_llama] = 'X'
 
+def encontrar_funcion(nombre_funcion):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Encuentra la linea de un archivo donde aparece una funcion
+    pasada como parametro]
+    """
+    archivo = open("fuente_unico.csv", 'r')
+    funcion_modulo = linea = "Esto no es una linea ni una funcion"
+    
+    while funcion_modulo != nombre_funcion and linea:
+        linea = leer_linea_archivo(archivo)
+        funcion_modulo = f"{linea[0]}.{linea[2]}"
+    
+    archivo.close()
+    return linea
+
+def contar_recursiva(nombre_funcion):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Cuenta la cantidad de veces
+    que una funcion con recursividad directa se llama
+    a si misma.]
+    """
+    
+    cantidad = 0
+    linea = encontrar_funcion(nombre_funcion)
+    funcion_modulo = f"{linea[0]}.{linea[2]}"
+    
+    if funcion_modulo == nombre_funcion:
+        funcion = linea[0]
+        codigo = linea[3:]
+        cantidad = (','.join(codigo)).count(funcion)
+
+    
+    return cantidad
+
 def contar_llamadas(dicc_funciones):
     """
     [Autor: Francisco Pereira]
@@ -90,9 +120,17 @@ def contar_llamadas(dicc_funciones):
     lista_llamadas = [0] * len(dicc_funciones)
     for funcion in dicc_funciones.keys():
         for funcion_que_llama in dicc_funciones.keys():
-            if dicc_funciones[funcion][funcion_que_llama] == 'X':
+            valor = dicc_funciones[funcion][funcion_que_llama]
+            espejo = dicc_funciones[funcion_que_llama][funcion]
+            if valor == 'X' \
+                and espejo != 'X': #Para evitar errores si hay 
+                #recursividad
                 lista_llamadas[indice] += int(dicc_funciones[funcion_que_llama][funcion])
-        
+                
+            elif valor == 'X': #Aca van a entrar funciones recursivas
+                #Solo se soportan funciones con recursividad directa 
+                lista_llamadas[indice] += contar_recursiva(funcion)
+
         lista_llamadas[indice] = str(lista_llamadas[indice])
         indice += 1
 
@@ -174,6 +212,8 @@ def generar_fila_numerica(espacios_columna, a_escribir):
     """
     fila = ""
     for elemento in a_escribir:
+        if elemento == 0:
+            elemento = ' '
         elemento = (espacios_columna//2) * ' ' + str(elemento)
         columna, texto_vacio = generar_texto_encolumnado(espacios_columna, elemento)
         fila += columna
@@ -243,17 +283,25 @@ def escribir_funcion(nombre_funcion, numero_funcion, dicc_funcion, espacios_colu
     return total
         
 def generar_primera_fila(cant_funciones, espacios_columna):
-
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Tomando la cantidad de funciones
+    genera la primera fila del archivo analizador.txt]
+    """
     numeros = list(range(1, cant_funciones + 1))
     vacia = [' '] * cant_funciones
     texto = ""
-    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
-    texto += fila
-    fila, texto_vacio = generar_fila_total("FUNCIONES", espacios_columna, numeros)
-    texto += fila
-    fila, texto_vacio = generar_fila_total("", espacios_columna, vacia)
-    texto += fila
+    lista = [
+    ("", espacios_columna, vacia),
+    ("FUNCIONES", espacios_columna, numeros), 
+    ("", espacios_columna, vacia)
+    ]
 
+    for parametros in lista:
+
+        fila, texto_vacio = generar_fila_total(*parametros)
+        texto += fila
+    
     texto = agregar_separador(texto)
 
     return texto
@@ -272,6 +320,8 @@ def generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas):
     lista_llamadas = contar_llamadas(dicc_funciones)
     fila += generar_fila_numerica(espacios_columna // 4, lista_llamadas)
 
+    fila = agregar_separador(fila)
+
     return fila
 
 def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
@@ -282,18 +332,34 @@ def escribir_archivo(dicc_funciones, espacios_columna, cant_filas):
     """
     archivo = open("analizador.txt", 'w')
     i = 1
-    fila_n = generar_primera_fila(len(dicc_funciones), espacios_columna)
+    fila_1 = generar_primera_fila(len(dicc_funciones), espacios_columna)
     ultima = generar_ultima_fila(dicc_funciones, espacios_columna, cant_filas)
+    archivo.write(fila_1 + ultima)
 
     for clave in dicc_funciones:
-        archivo.write(fila_n)
+        
         fila_n = escribir_funcion(clave, i, dicc_funciones[clave], espacios_columna, cant_filas)
+        archivo.write(fila_n)
         i += 1
-
-
-    archivo.write(fila_n)
-    archivo.write(ultima)
+    
     archivo.close()
+
+def generar_tabla():
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Genera el diccionario con los datos a imprimir
+    en el archivo analizador
+    ]
+    """
+    with open('fuente_unico.csv', 'r') as archivo_codigo:
+    
+        funciones = armar_lista(archivo_codigo)
+        funciones = armar_diccionario(funciones)
+        generar_puntajes(archivo_codigo, funciones)
+        linea_ultima = contar_llamadas(funciones)
+        funciones_que_llaman(funciones)
+
+    return funciones, linea_ultima
 
 def generar_analizador():
     """
@@ -302,27 +368,30 @@ def generar_analizador():
     En base a fuente_unico.csv genera el archivo
     analizador.txt y lo muestra en pantalla]
     """
-    archivo_codigo = open('salida_codigo.csv', 'r')
-    funciones = armar_lista(archivo_codigo)
-    funciones = armar_diccionario(funciones)
-    generar_puntajes(archivo_codigo, funciones)
-    funciones_que_llaman(funciones)
+    funciones, linea_ultima = generar_tabla()
     
     escribir_archivo(funciones, 20, 5)
-    os.startfile('analizador.txt')
+    imprimir_resultados("analizador.txt")
 
-def main_reuti():
-    archivo_codigo = open('salidaPrueba0.csv', 'r')
-    lista_funciones = armar_lista(archivo_codigo)
-    dicc_funciones = armar_diccionario(lista_funciones)
-    archivo_codigo.seek(0)
-    generar_puntajes(archivo_codigo, dicc_funciones)
-    funciones_que_llaman(dicc_funciones)
-    for funcion in dicc_funciones:
-        print(funcion,'-->',dicc_funciones[funcion])
-    archivo_codigo.close()
-    escribir_archivo(dicc_funciones, 20, 3)
-    
+def imprimir_resultados(nombre_archivo):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Trata de imprimir los resultados
+    Si no se esta en windows, trata de usar geany
+    en caso contrario lo imprime, por pantalla]
+    """
+    if os.name == 'nt':
+        os.startfile(nombre_archivo)
+    else:
+        try:
+            os.system(f'geany {nombre_archivo}')
+        except:
+            archivo = open(nombre_archivo, 'r')
+            linea = "   "
+            while linea:
+                linea = archivo.readline()
+                print(linea, end = "")
+            archivo.close()
     
 if __name__ == "__main__":
     generar_analizador()

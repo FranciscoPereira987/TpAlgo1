@@ -396,5 +396,3 @@ def ingresar_opcion(funciones):
 #print(listar_funciones())
 funciones = listar_funciones()
 ingresar_opcion(funciones)
-    
-
