@@ -8,7 +8,11 @@ import csv
 #falta ver si tiene comentarios cada funcion
 #necesito ayuda con como ver si tiene ayuda y comentarios
 def armar_lista_parametros(archivo_codigo):
-    
+    """
+    [Autor: Nicolas Valenzuela]
+    [Ayuda: Recibe el archivo csv, arma una lista con la cantidad de parametros
+    devuelve la lista armada con la cantidad de parametros por funcion]
+    """
     lista_funciones = []
     linea = reuti_codigo.leer_linea_archivo(archivo_codigo) 
                                                       
@@ -29,6 +33,11 @@ def armar_lista_parametros(archivo_codigo):
 
     return lista_funciones
 def cantidad_de_lineas():
+    """
+    [Autor: Nicolas Valenzuela]
+    [Ayuda: Arma una lista con la cantidad de lineas
+    devuelve la lista armada con la cantidad de lineas por funcion]
+    """
     archivo_codigo = open('salida_codigo.csv','r')
     palabra = ','   
     ocurrencias = []
@@ -120,19 +129,15 @@ def cantidad_de_exit():
 def lista_ayuda():
     archivo_codigo = open('salida_comentarios.csv','r')
     lista_ayuda = []
-    linea = reuti_codigo.leer_linea_archivo(archivo_codigo) 
-                                                      
-    while linea != ['']:
-        funcion = f'{linea[2]}'
-        if funcion != '':
+    for i in archivo_codigo:
+        a=i.count('yuda')
+        b=i.count('AYUDA')
+        if a != 0 or b != 0:
             lista_ayuda.append('Si')
         else:
             lista_ayuda.append('No')
-
-        linea = leer_linea_archivo(archivo_codigo)
-
     archivo_codigo.seek(0)
-
+    archivo_codigo.close
     return lista_ayuda
 def funcion_autor():
     archivo_codigo = open('salida_comentarios.csv','r')
@@ -140,12 +145,12 @@ def funcion_autor():
     linea = leer_linea_archivo(archivo_codigo) 
                                                       
     while linea != ['']:
-        funcion = f'{linea[2]}'                                    
+        funcion = f'{linea[1]}'                                    
         lista_autores += [funcion]
         linea = leer_linea_archivo(archivo_codigo)
 
     archivo_codigo.seek(0)
-
+    
     return lista_autores
 
 
@@ -161,9 +166,9 @@ def listar_todo():
     cant_while=cantidad_de_while()
     cant_break=cantidad_de_break()
     cant_exit=cantidad_de_exit()
-    # autores=reuti_codigo.armar_lista(archivo_codigo2)
+    autores=funcion_autor()
    # ayuda=lista_ayuda()
-    
+    print (autores)
     while len(funciones)>numero :
         texto=''
         texto2=''
@@ -198,15 +203,16 @@ def listar_todo():
         
         
     archivo_codigo.close()
+    archivo_codigo2.close()
     
     
-    return (funciones,parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas)#,autores)#,ayuda)
+    return (funciones,parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas,autores)#,ayuda)
 
 
 
 
 
-def crear_csv(funciones,parametr,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas): #,autores):
+def crear_csv(funciones,parametr,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas,autores,ayuda):
     
    
     with open('panel_general.csv', 'w', newline='') as miarchivo:
@@ -215,7 +221,9 @@ def crear_csv(funciones,parametr,cant_if,cant_for,cant_while,cant_break,cant_exi
         escribir.writeheader()
         for i in range(len(funciones) ):
             
-            escribir.writerow({'FUNCION': funciones[i], 'Parámetros' : parametr[i], 'Líneas' : cant_lineas[i], 'if/elif' : cant_if[i], 'for' : cant_for[i], 'while' : cant_while[i], 'break' : cant_break[i], 'Exit' : cant_exit[i]})#, 'Autor' : autores[i]} )
+            escribir.writerow({'FUNCION': funciones[i], 'Parámetros' : parametr[i], 'Líneas' : cant_lineas[i], 'if/elif' : cant_if[i],
+                               'for' : cant_for[i], 'while' : cant_while[i], 'break' : cant_break[i], 'Exit' : cant_exit[i],
+                               'Ayuda' : ayuda[i], 'Autor' : autores[i]})
 
         return ()
         
@@ -224,6 +232,7 @@ def crear_csv(funciones,parametr,cant_if,cant_for,cant_while,cant_break,cant_exi
         
 
 
-funciones, parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas=listar_todo()
-crear_csv(funciones,parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas)
+funciones, parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas, autores=listar_todo()
+ayuda=lista_ayuda()
+crear_csv(funciones,parametros,cant_if,cant_for,cant_while,cant_break,cant_exit,cant_lineas,autores,ayuda)
 
