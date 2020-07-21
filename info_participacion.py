@@ -62,7 +62,7 @@ def listar_campos_csv(n_archivo, posicion):
             if l_campos[posicion] not in l_valores:
                 l_valores.append(l_campos[posicion])
             linea = archivo.readline()
-    return sorted(l_valores)
+    return l_valores
 
 
 def grabar_participacion_csv(arc_entrada, ar_salida, autor, func_cantidad):
@@ -76,21 +76,27 @@ def grabar_participacion_csv(arc_entrada, ar_salida, autor, func_cantidad):
     total_instrucciones = 0
     with open(arc_entrada, "r") as ar_entrada:
         linea = ar_entrada.readline()
-        l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
+        l_linea = leer_csva(linea, D_FUENTES["instrucciones"], \
+                D_COMENTARIOS["comentarios"])
         funcion_ant = ''
         while linea != '':
-            l_linea = leer_csva(linea, D_FUENTES["instrucciones"], D_COMENTARIOS["comentarios"])
+            l_linea = leer_csva(linea, D_FUENTES["instrucciones"], \
+                    D_COMENTARIOS["comentarios"])
             if l_linea[D_ENTRADA["autor"]] == autor \
                     and l_linea[D_ENTRADA["funcion_a"]] > funcion_ant:
-                funcion, instrucciones = seleccionar_campos_lista(l_linea, D_ENTRADA, INDICE_A)    
+                funcion, instrucciones = seleccionar_campos_lista(l_linea,\
+                        D_ENTRADA, INDICE_A)    
                 funcion_ant = funcion
                 cant_instrucciones = len(instrucciones.split(";"))
                 total_instrucciones += cant_instrucciones
                 total_funciones += 1
-                grabar_tabla(("\t" + funcion, str(cant_instrucciones)), ar_salida)
+                grabar_tabla(("\t" + funcion, str(cant_instrucciones)),\
+                        ar_salida)
             linea = ar_entrada.readline()
         porcentaje = (total_funciones * 100) / func_cantidad
-        grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  , str(total_instrucciones) + "\t" + str(round(porcentaje)) + '%'), ar_salida)
+        grabar_tabla(("\t" + str(total_funciones) + " Funciones - Lineas"  ,\
+                str(total_instrucciones) + "\t" \
+                + str(round(porcentaje)) + '%'), ar_salida)
         grabar_tabla(("\n"), ar_salida)
     return total_funciones, total_instrucciones
     
@@ -132,7 +138,8 @@ def combinar_campos_lista(lista, pos_ini, pos_fin, separador):
                 separados por el caracter dado en separador.
                 Es conjunto abierto en pos_fin.
     """
-    return lista[0:pos_ini] + [separador.join(lista[pos_ini:pos_fin])] + lista[pos_fin:]
+    return lista[0:pos_ini] + [separador.join(lista[pos_ini:pos_fin])]\
+            + lista[pos_fin:]
 
 
 def leer_csva(linea_csva, clave_1, clave_2):
@@ -142,9 +149,11 @@ def leer_csva(linea_csva, clave_1, clave_2):
     """
     l_1, l_2 = linea_csva.rstrip('\n').split(';')
     l_1_csv = l_1.rstrip('\n').split(',') 
-    l_1_csv_combinado = combinar_campos_lista(l_1_csv, clave_1, len(l_1_csv), ';')
+    l_1_csv_combinado = combinar_campos_lista(l_1_csv, clave_1,\
+            len(l_1_csv), ';')
     l_2_csv = l_2.split(',') 
-    l_2_csv_combinado = combinar_campos_lista(l_2_csv, clave_2, len(l_1_csv), ';')
+    l_2_csv_combinado = combinar_campos_lista(l_2_csv, clave_2,\
+            len(l_1_csv), ';')
 
     return l_1_csv_combinado + l_2_csv_combinado
 
@@ -159,15 +168,20 @@ def informar_participacion():
     """
 
     totales_lineas = 0
-    autores = listar_campos_csv(AR_COMENTARIOS, D_COMENTARIOS["autor"])
+    autores = sorted(listar_campos_csv(AR_COMENTARIOS, D_COMENTARIOS["autor"]))
     with open(AR_SALIDA, 'w') as ar_salida:
         grabar_tabla([ENCABEZADO_1], ar_salida)
-        t_apareo, total_funciones = apareo_csv.aparear_csv(AR_FUENTE_UNICO, AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
+        t_apareo, total_funciones = apareo_csv.aparear_csv(AR_FUENTE_UNICO, \
+                AR_COMENTARIOS, CLAVE_F_UNICO, CLAVE_COMENTARIOS)
         while autores:
             autor = autores.pop()
             grabar_tabla(("\tAutor: ".rjust(4, " "), autor, '\n'), ar_salida)
             grabar_tabla(("\tFuncion", "Lineas"), ar_salida)
             grabar_tabla((["\t" + "-".ljust(LONG_CAMPOS * 2, '-')]), ar_salida)
-            cant_funciones_autor, cant_instrucciones_autor = grabar_participacion_csv(t_apareo, ar_salida, autor, total_funciones)
+            cant_funciones_autor, \
+                    cant_instrucciones_autor =\
+                    grabar_participacion_csv(t_apareo, \
+                    ar_salida, autor, total_funciones)
             totales_lineas += cant_instrucciones_autor
-        grabar_tabla(("Total: " + str(total_funciones) + " Funciones - Lineas"  , str(totales_lineas)), ar_salida)
+        grabar_tabla(("Total: " + str(total_funciones) \
+                + " Funciones - Lineas"  , str(totales_lineas)), ar_salida)

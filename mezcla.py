@@ -38,7 +38,8 @@ def devolver_clave_minima(lista, pos_clave):
     """
 
     return min([(pos, linea[pos_clave]) for pos, linea in enumerate(lista) \
-            if  linea[pos_clave] != ''], default = [-1, ''], key = lambda x:x[1])
+            if  linea[pos_clave] != ''], default = [-1, '']\
+            , key = lambda x:x[1])
            
         
 def mezclar_archivos(l_ar_entrada, t_ar_salida, clave_pos):
@@ -60,7 +61,8 @@ def mezclar_archivos(l_ar_entrada, t_ar_salida, clave_pos):
         
     while pos_min != -1:
         ar_salida.write(",".join(l_lineas[pos_min]) + "\n")
-        l_lineas[pos_min] = l_manejadores[pos_min].readline().rstrip('\n').split(",")
+        l_lineas[pos_min] = l_manejadores[pos_min].readline().rstrip('\n')\
+                .split(",")
         pos_min, l_min = devolver_clave_minima(l_lineas, 0)
 
     cerrar_archivos(l_manejadores + [ar_salida])
