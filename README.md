@@ -1,7 +1,7 @@
 # TpAlgo1 
 ## Equipo : Rojo
 
-#Consideraciones generales:
+### Consideraciones generales:
                     
                     1- Los import vienen siempre sin alias y
                     solamente de la forma import modulo.
@@ -24,7 +24,7 @@
                     Autor y Ayuda es indistinto.
 
 
-#Funcionalidades de analizador de reutilizacion de codigo:
+### Funcionalidades de analizador de reutilizacion de codigo:
 
                     1- Genera un diccionario al cual le suma cantidad
                     de veces que una funcion es invocada por otra funcion
@@ -35,7 +35,7 @@
                     dimensiones que no entren en la consola
                     
 
-#Puntos menu:
+### Puntos menu:
 
                     1-Panel general de funciones --->Nicolas
 
