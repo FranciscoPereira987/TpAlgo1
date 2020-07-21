@@ -8,16 +8,24 @@ def listar_funciones():
     Post -->Armo cuadro de funciones encolumnado y devuelvo
     una lista de funciones]
     """
-    archivo_codigo = open('salida_codigo.csv','r')
+    archivo_codigo = open('fuente_unico.csv','r')
     funciones = reuti_codigo.armar_lista(archivo_codigo)
     numero=0
     
     while len(funciones)>numero:
         texto=''
-        for i in range(0,2):
-            columnas=reuti_codigo.generar_texto_encolumnado(40,funciones[numero])
-            texto=texto+columnas[0]
+        if numero < (len(funciones)-1):
+            
+            for i in range(0,2):
+                columnas=reuti_codigo.generar_texto_encolumnado(50,funciones[numero])
+                texto=texto+columnas[0]
+                numero+=1
+        
+        else:
+            columnas = reuti_codigo.generar_texto_encolumnado(50,funciones[numero])
+            texto = columnas[0] + " " * 50 + "|"
             numero+=1
+            
         print (texto)
         
         
@@ -25,6 +33,13 @@ def listar_funciones():
     return(funciones)
 
 def validar_opcion(opcion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la opcion que ingresa el usuario
+    Post -->Retorna si la opciones valida, el nombre de la funcion y la opcion que luego
+    voy a usar]
+    """
     valido = False
     miopcion = ""
     nombre_funcion = ''
@@ -48,6 +63,13 @@ def validar_opcion(opcion):
     return valido,nombre_funcion,miopcion
 
 def validar_nombre_funcion(nombre_funcion,l_funciones):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe el nombre de la funcion y la lista de funciones
+    Post -->Retorna si encontro la funcion y el nombre encontrado
+    ]
+    """
     posicion = 0
     encontrado = False
     nombre_encontrado=''
@@ -71,53 +93,91 @@ def leer(archivo):
         devolver = "","","0","0"
     return devolver
 
-#l_funcion[contador_funciones][1]
+
 def retornar_param(l_funcion,linea,posicion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones la linea y la posicion
+    Post -->Retorna los parametros
+    ]
+    """
+    
     #retorno parametro o modulo de funcion
     #parametros = ''
     parametros = l_funcion[linea][posicion]
     return parametros
 
 def retornar_mod(l_funcion,linea,posicion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones la linea y la posicion
+    Post -->Retorna el modulo de la funcion
+    ]
+    """
     modulo = l_funcion[linea][posicion]
     return modulo
 
 def retornar_autor(l_funcion,linea,posicion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones la linea y la posicion
+    Post -->Retorna el autor de la funcion
+    ]
+    """
     autor = l_funcion[linea][posicion]
     return autor
 
 def retornar_ayuda(l_funcion,linea,posicion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones la linea y la posicion
+    Post -->Retorna la ayuda de la funcion
+    ]
+    """
     ayuda = l_funcion[linea][posicion]
     return ayuda
 
 def retornar_codigo(l_funcion,linea):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones y la linea
+    Post -->Retorna el codigo de la funcion
+    ]
+    """
     l_codigor = []
     for i in range(3,len(l_funcion[linea])):
             l_codigor.append(l_funcion[linea][i])
     return l_codigor
 
 def retornar_comentario(l_comentarios,linea):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones y la linea
+    Post -->Retorna el comentario de la funcion
+    ]
+    """
     l_comentariosr = []
     for i in range(3,len(l_comentarios[linea])):
             l_comentariosr.append(l_comentarios[linea][i])
     return l_comentariosr
 
 def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
-    #abro archivos y los paso a listas
-    '''
-    archivo_codigo = open('salida_codigo.csv','r')
-    archivo_comentarios = open('salida_comentarios.csv','r')
-    l_funcion = []
-    l_comentarios = []
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones de comentarios nombre encontrado y miopcion
+    Post -->Retorna parametro modulo autor ayuda lista de codigo y lista de comentarios
+    ]
+    """
     
-    for linea in archivo_codigo:
-        funcion = linea.rstrip("\n").split(",")
-        l_funcion.append(funcion)
-    for linea in archivo_comentarios:
-        comentarios = linea.rstrip("\n").split(",")
-        l_comentarios.append(comentarios)
-    '''
-    #if miopcion == '?':
+    #abro archivos y los paso a listas
+    
     parametros = ''
     modulo = ''
     contador_funciones = 0
@@ -146,20 +206,19 @@ def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
     
     if miopcion == '#' or miopcion == '#todo':
         l_comentario_linea = retornar_comentario(l_comentarios,contador_comentarios)
-#         
-#         for i in range(3,len(l_comentarios[contador_comentarios])):
-#             l_comentario_linea.append(l_comentarios[contador_comentarios][i])
-            
-    #print(l_funcion)
-    #print(l_comentarios)
-    #print(l_comentario_linea)
+         
+
     return parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea
-    #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
-    
-    #archivo_codigo.close()
-    #return l_funcion, l_comentarios    
+   
     
 def imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe parametros modulo autor ayuda
+    Post -->imprime los datos de la opcion funcion pregunta
+    ]
+    """
     #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
     if ayuda:
         print(ayuda)
@@ -173,6 +232,13 @@ def imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda):
     print('Modulo:',modulo)
     
 def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones de comentarios y miopcion
+    Post --> imprime la ayuda de todas las fuciones o todo de las funciones
+    ]
+    """
     #aca imprimo la descripcion de todas las funciones
     #print('aca imprimo la descripcion de todas las funciones')
     
@@ -202,6 +268,13 @@ def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
                 print('\n')   
     
 def generar_txt(l_funcion,l_comentarios):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones y de comentarios
+    Post -->Genera el archivo txt de ayuda para las funciones
+    ]
+    """
     archivo = open(" ayuda_funciones.txt", 'w')
 
     archivo.seek(0, 1)
@@ -233,6 +306,13 @@ def generar_txt(l_funcion,l_comentarios):
     archivo.close
 
 def ingresar_opcion(funciones):
+    """
+    [Autor: Claudio Gimenez]
+    [Ayuda:
+    Pre --> Recibe la lista de funciones con que genero la tabla pide se ingrese la consulta
+    Post -->Llama a otras funciones muestra la informacion necesaria
+    ]
+    """
     opcion = input("Función: ")
     #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
     #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
@@ -243,8 +323,8 @@ def ingresar_opcion(funciones):
         if opcion_elegida: #si la opcion elegida es valida
             
             #abro archivos y los paso a listas
-            archivo_codigo = open('salida_codigo.csv','r')
-            archivo_comentarios = open('salida_comentarios.csv','r')
+            archivo_codigo = open('fuente_unico.csv','r')
+            archivo_comentarios = open('comentarios.csv','r')
             l_funcion = []
             l_comentarios = []
     
