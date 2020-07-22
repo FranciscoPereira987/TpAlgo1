@@ -50,7 +50,7 @@ def devolver_parametros(linea):
 
 def nombre_modulo(linea):
     """
-    [Autor: Francisco]
+    [Autor: Francisco Pereira]
     [Ayuda:
     Pre --> Ingresa una linea donde se encuentra la ruta a un archivo de python
     Post --> Devuelve el nombre del archivo de python]
@@ -78,9 +78,11 @@ def procesar_comas(texto):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Saca todas las comas que puedan aparecen en comentarios
-    y en el codigo y las cambia por /]
+    y en el codigo y las cambia por /
+    las ; las reemplaza por #]
     """
     texto = texto.replace(',', '/')
+    texto = texto.replace(';', '#')
 
     return texto
 
@@ -105,6 +107,7 @@ def procesar_comentarios(l_comentarios):
     """
     l_comentarios[0] = procesar_multilinea(l_comentarios[0])
     for i in range(1, len(l_comentarios)):
+        l_comentarios[i] = l_comentarios[i].replace("\n", " ")
         l_comentarios[i] = procesar_comas(l_comentarios[i])
 
 
