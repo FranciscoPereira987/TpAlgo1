@@ -1,8 +1,6 @@
 import reuti_codigo
-
+#Falta cambiar a fuente unico y comentarios, tambien quiero editarlo una funcion para que quede mejor
 import csv
-#Falta contar invocaciones de funciones, guardarlo en el csv e imprimirlo
-#Falta cambiar nombre final de fuente_unico.csv y comentarios.csv en las funciones para buscar los parametros para la versión final
 def armar_lista_parametros(archivo_codigo):
     """
     [Autor: Nicolas Valenzuela]
@@ -44,7 +42,23 @@ def cantidad_de_lineas():
                 ocurrencias.append(0)
     archivo_codigo.close()            
     return ocurrencias
+def lineas_cod(archivo):
+    """
+    [Autor: Nicolas Valenzuela]
+    [Ayuda: Recibe el archivo fuente unico y guarda los nombres de las funciones en una lista devolviendo la misma]
+    """
+    lista_lineas = []
+    linea = reuti_codigo.leer_linea_archivo(archivo) 
+                                                      
+    while linea != ['']:
+        funcion = f'{linea[0]}'
+                                       
+        lista_lineas += [funcion]
+        linea = reuti_codigo.leer_linea_archivo(archivo)
 
+    archivo.seek(0)
+
+    return lista_lineas
 
 def lista_ayuda():
     """
@@ -74,8 +88,14 @@ def funcion_autor():
     linea = reuti_codigo.leer_linea_archivo(archivo_codigo) 
                                                       
     while linea != ['']:
-        funcion = f'{linea[1]}'                                    
-        lista_autores += [funcion]
+        funcion = f'{linea[1]}'
+        if 'utor' or 'UTOR' in funcion :
+            if ':' in funcion:
+                lista_autores += [funcion[6:]]
+            else:
+                lista_autores += [funcion[5:]]
+        else:
+            lista_autores += [funcion]
         linea = reuti_codigo.leer_linea_archivo(archivo_codigo)
 
     archivo_codigo.seek(0)
@@ -98,7 +118,22 @@ def comentarios_extra():
         else:
             lista_extra.append(0)
     return(lista_extra)
-
+def invocaciones_():
+    """
+    [Autor: Nicolas Valenzuela]
+    [Ayuda: Busca la cantidad de veces que se uso cada funcion y devuelve todo en una lista]
+    """
+    archivo=open('salida_codigo.csv','r')
+    funciones=(lineas_cod(archivo))  
+    final=[]
+    for r in range(len(funciones)):
+        total=[]
+        total = cantidad_de([funciones[r]+'('])
+        x= 0
+        for i in total:
+            x = x + i
+        final.append(x)
+    return final
 
 def cantidad_de(palabras):
     """
@@ -133,7 +168,7 @@ def crear_csv():
     cant_while=cantidad_de([' while '])
     cant_break=cantidad_de([' break '])
     cant_exit=cantidad_de([' exit '])   
-
+    c_invoca=invocaciones_()
     ayuda=lista_ayuda()
     autores=funcion_autor()
     coment_extra=comentarios_extra()
@@ -144,7 +179,7 @@ def crear_csv():
         escribir.writeheader()
         for i in range(len(funciones) ):
             
-            escribir.writerow({'FUNCION': funciones[i], 'Parámetros' : parametr[i], 'Líneas' : cant_lineas[i], 'Returns': cant_return[i], 'if/elif' : cant_if[i],
+            escribir.writerow({'FUNCION': funciones[i], 'Parámetros' : parametr[i], 'Líneas' : cant_lineas[i], 'Invocaciones' : c_invoca[i], 'Returns': cant_return[i], 'if/elif' : cant_if[i],
                                'for' : cant_for[i], 'while' : cant_while[i], 'break' : cant_break[i], 'Exit' : cant_exit[i],
                                'Coment' : coment_extra[i], 'Ayuda' : ayuda[i], 'Autor' : autores[i]})
             
@@ -190,7 +225,7 @@ def listar_todos():
         columnas10=reuti_codigo.generar_texto_encolumnado(4,str(listar_(9)[numero]))
         columnas11=reuti_codigo.generar_texto_encolumnado(6,str(listar_(10)[numero]))
         columnas12=reuti_codigo.generar_texto_encolumnado(5,str(listar_(11)[numero]))
-        columnas13=reuti_codigo.generar_texto_encolumnado(25,str(listar_(12)[numero]))
+        columnas13=reuti_codigo.generar_texto_encolumnado(30,str(listar_(12)[numero]))
         
         numero2= 0
         numero += 1
