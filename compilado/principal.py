@@ -102,7 +102,7 @@ def menu(display):
         opcion = input(">>> ")
     
 
-def analizador_estructurada():
+def funcion_principal_estructuracion_codigo():
     """
     [Autor: Francisco Pereira]
     [Ayuda: Funcion principal del programa]
@@ -117,5 +117,5 @@ def analizador_estructurada():
     menu(display)
 
 if __name__ == '__main__':
-    analizador_estructurada()
+    funcion_principal_estructuracion_codigo()
 
