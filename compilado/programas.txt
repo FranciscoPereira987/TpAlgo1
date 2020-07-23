@@ -1,0 +1,5 @@
+/media/francisco/A03447DB3447B358/algo1/Tp/principal.py
+/media/francisco/A03447DB3447B358/algo1/Tp/punto4.py
+/media/francisco/A03447DB3447B358/algo1/Tp/str_hnd.py
+/media/francisco/A03447DB3447B358/algo1/Tp/sep_cod_com.py
+/media/francisco/A03447DB3447B358/algo1/Tp/ordenamiento.py
