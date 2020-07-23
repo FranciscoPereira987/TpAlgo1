@@ -1,6 +1,7 @@
 import reuti_codigo
-#Falta cambiar a fuente unico y comentarios, tambien quiero editarlo una funcion para que quede mejor
 import csv
+
+
 def armar_lista_parametros(archivo_codigo):
     """
     [Autor: Nicolas Valenzuela]
@@ -31,7 +32,7 @@ def cantidad_de_lineas():
     [Autor: Nicolas Valenzuela]
     [Ayuda: Arma una lista con la cantidad de lineas y devuelve la lista armada con la cantidad de lineas por funcion]
     """
-    archivo_codigo = open('salida_codigo.csv','r')
+    archivo_codigo = open('fuente_unico.csv','r')  
     palabra = ','   
     ocurrencias = []
     for lineas in archivo_codigo:
@@ -60,30 +61,29 @@ def lineas_cod(archivo):
 
     return lista_lineas
 
+
 def lista_ayuda():
     """
     [Autor: Nicolas Valenzuela]
     [Ayuda: Busca si las funciones tiene ayuda y devuelve la lista armada con si o no dependiendo la respuesta]
     """
-    archivo_codigo = open('salida_comentarios.csv','r')
-    lista_ayuda = []
-    for i in archivo_codigo:
-        a=i.count('yuda')
-        b=i.count('AYUDA')
-        if a != 0 or b != 0:
-            lista_ayuda.append('Si')
+    archivo_codigo=open('comentarios.csv','r')   
+    l_respuesta = []
+    linea = reuti_codigo.leer_linea_archivo(archivo_codigo) 
+    while linea != ['']:
+        if linea[2] != '' :
+            l_respuesta.append('Si')
         else:
-            lista_ayuda.append('No')
+            l_respuesta.append('No')                                              
+        linea = reuti_codigo.leer_linea_archivo(archivo_codigo)
     archivo_codigo.seek(0)
-    archivo_codigo.close
-    return lista_ayuda
-
+    return l_respuesta
 def funcion_autor():
     """
     [Autor: Nicolas Valenzuela]
     [Ayuda: Busca autores de funcion y devuelve una lista con sus respectivos nombres]
     """
-    archivo_codigo = open('salida_comentarios.csv','r')
+    archivo_codigo = open('comentarios.csv','r') 
     lista_autores = []
     linea = reuti_codigo.leer_linea_archivo(archivo_codigo) 
                                                       
@@ -98,7 +98,6 @@ def funcion_autor():
             lista_autores += [funcion]
         linea = reuti_codigo.leer_linea_archivo(archivo_codigo)
 
-    archivo_codigo.seek(0)
     
     return lista_autores
 
@@ -107,7 +106,7 @@ def comentarios_extra():
     [Autor: Nicolas Valenzuela]
     [Ayuda: Busca si hay comentarios extra aparte de ayuda autor y devuelve una lista con la cantidad de lineas extra]
     """
-    archivo_codigo=open('salida_comentarios.csv','r')
+    archivo_codigo=open('comentarios.csv','r') 
     lista_extra=[]
     for row in archivo_codigo:
         x= row.count(',')
@@ -123,7 +122,7 @@ def invocaciones_():
     [Autor: Nicolas Valenzuela]
     [Ayuda: Busca la cantidad de veces que se uso cada funcion y devuelve todo en una lista]
     """
-    archivo=open('salida_codigo.csv','r')
+    archivo=open('fuente_unico.csv','r') 
     funciones=(lineas_cod(archivo))  
     final=[]
     for r in range(len(funciones)):
@@ -140,7 +139,7 @@ def cantidad_de(palabras):
     [Autor: Nicolas Valenzuela]
     [Ayuda: Recibe una lista de palabras ( o palabra ) y busca cuantas veces se repite por cada funcion enviando una lista con el resultado]
     """
-    archivo_codigo=open('salida_codigo.csv','r')
+    archivo_codigo=open('fuente_unico.csv','r') 
     ocurrencias = []
     for row in archivo_codigo:
         x=0
@@ -158,7 +157,7 @@ def crear_csv():
     [Autor: Nicolas Valenzuela]
     [Ayuda: Crea archivo panel_general.csv y guarda sus respectivos datos en los campos]
     """
-    archivo_codigo = open('salida_codigo.csv','r')
+    archivo_codigo = open('fuente_unico.csv','r') 
     funciones = reuti_codigo.armar_lista(archivo_codigo)
     parametr= armar_lista_parametros(archivo_codigo)    
     cant_lineas= cantidad_de_lineas()
@@ -208,7 +207,7 @@ def listar_(i):
 def listar_todos():
     """
     [Autor: Nicolas Valenzuela]
-    [Ayuda: Imprime por pantalla el archivo panel_general.csv en orden]
+    [Ayuda: Imprime por pantalla el archivo panel_general en orden y encolumnado]
     """
     numero=0
     while len(listar_(0))>numero :
@@ -234,9 +233,7 @@ def listar_todos():
         
     return ()
 
-
-crear_csv()
-
-listar_todos()
-
+if __name__ == '__main__':
+    crear_csv()
+    listar_todos()
 

@@ -1,5 +1,6 @@
 import ordenamiento, mezcla, os, reuti_codigo
 import consulta_funciones, punto4, info_participacion
+import panel_general_de_funciones
 
 def limpiar_archivos(lista_codigos, lista_comentarios):
     """
@@ -60,7 +61,8 @@ def ejecutar(opcion):
     ]
     """
     if opcion == '1':
-        pass
+        panel_general_de_funciones.crear_csv()
+        panel_general_de_funciones.listar_todos()
 
     elif opcion == '2':
         funciones = consulta_funciones.listar_funciones()
