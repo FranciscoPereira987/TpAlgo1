@@ -48,7 +48,13 @@ def inicio_programa(linea):
     o ' ']
     """
     inicio = False
-    if linea.find("def ") != 0 and linea.find(' ') != 0:
+    definicion = 'de' + 'ef '
+    funcion = linea.find(definicion) != 0 and ( linea.find(' ') != 0 or \
+        linea.find('\t') != 0)
+    comentarios = linea.find('#') == 0 and (linea.find('\"\"\"') == 0 or\
+        linea.find('\'\'\'') == 0)
+        
+    if funcion and comentarios:
         inicio = True
     
     return inicio
