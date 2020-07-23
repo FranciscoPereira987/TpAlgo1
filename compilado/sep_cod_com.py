@@ -48,7 +48,7 @@ def inicio_programa(linea):
     o ' ']
     """
     inicio = False
-    if linea.find("def ") != 0 or linea.find(' ') != 0:
+    if linea.find("def ") != 0 and linea.find(' ') != 0:
         inicio = True
     
     return inicio
