@@ -40,13 +40,26 @@ def identificar_comentarios(linea, comentado_multi):
         
     return linea, comentado_multi, comentarios, forma_de_comentar
 
+def inicio_programa(linea):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Identifica si una linea de codigo
+    contra el margen izquierdo, empieza o no, con def
+    o ' ']
+    """
+    inicio = False
+    if linea.find("def ") != 0 or linea.find(' ') != 0:
+        inicio = True
+    
+    return inicio
+
 def fin_funcion(linea):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Devuelve verdadero si se llego al final de una funcion
     o al final de la declaracion de funciones]
     """
-    comienzo_programa = 'if __name__ == ' in linea 
+    comienzo_programa = inicio_programa(linea) 
     return (("def " in linea) or (" return " in linea)) or comienzo_programa
 
 def leer_funcion(archivo):
