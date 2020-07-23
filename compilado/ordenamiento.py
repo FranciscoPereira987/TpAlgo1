@@ -59,7 +59,7 @@ def ordenar_funciones(archivo_entrada, archivo_salida_cod, archivo_salida_com, n
 
 def procesar_entrada(archivo_entrada, rutas_codigo, rutas_com, nombre_modulo):
     """
-    [Autor: Francisco]
+    [Autor: Francisco Pereira]
     [Ayuda: Pre --> Ingresan los archivos de python, donde va el codigo y donde van los comentarios
            Durante --> Ordena el archivo de codigo y lo reparte en los otros dos
            Post --> Cierra los archivos de codigo y comentarios]
@@ -98,7 +98,7 @@ def lector_rutas(archivo_rutas, ruta_py = False):
 
 def manejar_archivos(archivo_rutas):
     """
-    [AUTOR: Francisco Pereira]
+    [Autor: Francisco Pereira]
     [AYUDA:
     Pre --> Ingresa el archivo con las rutas
     durante --> lee la cantidad de lineas en las rutas
