@@ -38,7 +38,7 @@ def cantidad_de_lineas():
     for lineas in archivo_codigo:
             if palabra in lineas :
                 x = lineas.count(palabra)                
-                ocurrencias.append(x+1)
+                ocurrencias.append(x-2)
             else:
                 ocurrencias.append(0)
     archivo_codigo.close()            
