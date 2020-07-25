@@ -1,5 +1,11 @@
-/media/francisco/A03447DB3447B358/algo1/Tp/principal.py
-/media/francisco/A03447DB3447B358/algo1/Tp/punto4.py
-/media/francisco/A03447DB3447B358/algo1/Tp/str_hnd.py
-/media/francisco/A03447DB3447B358/algo1/Tp/sep_cod_com.py
-/media/francisco/A03447DB3447B358/algo1/Tp/ordenamiento.py
+./principal.py
+./arbol_invo.py
+./str_hnd.py
+./sep_cod_com.py
+./ordenamiento.py
+./mezcla.py
+./info_participacion.py
+./apareo_csv.py
+./reuti_codigo.py
+./consulta_funciones.py
+./panel_general_de_funciones.py
