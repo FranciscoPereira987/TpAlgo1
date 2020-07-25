@@ -1,2 +1,0 @@
-D:\algo1\Tp\archivos_programa.py
-D:\algo1\Tp\mezcla.py
