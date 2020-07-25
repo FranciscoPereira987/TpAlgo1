@@ -1,0 +1,2 @@
+*.pyc #Excluir compilados python
+*.csv #Excluir archivos de prueba csv 
