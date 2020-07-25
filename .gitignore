@@ -1,3 +1,6 @@
-*.pyc #Excluir compilados python
-*.csv #Excluir archivos de prueba csv 
-*.txt #Archivos de texto
+*.pyc 
+*.csv 
+__pycache__/
+ayuda_funciones.txt
+analizador.txt
+participacion.txt
