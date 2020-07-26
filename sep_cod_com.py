@@ -1,5 +1,5 @@
 #Es un programa para separar lineas de codigo de comentarios
-
+import str_hnd
 
 def leer_linea(archivo, comentado_multi):
     """[Autor: Claudio Gimenez]
@@ -65,8 +65,10 @@ def fin_funcion(linea):
     [Ayuda: Devuelve verdadero si se llego al final de una funcion
     o al final de la declaracion de funciones]
     """
-    comienzo_programa = inicio_programa(linea) 
-    return (("def " in linea) or (" return " in linea)) or comienzo_programa
+    comienzo_programa = inicio_programa(linea)
+    
+    final = str_hnd.identificar_funciones(linea) or str_hnd.identificar_ret(linea)
+    return final or comienzo_programa
 
 def leer_funcion(archivo):
     """[Autor: Claudio Gimenez]
