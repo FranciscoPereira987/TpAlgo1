@@ -40,7 +40,7 @@ def identificar_comentarios(linea, comentado_multi):
         
     return linea, comentado_multi, comentarios, forma_de_comentar
 
-def inicio_programa(linea):
+def sin_indentacion(linea):
     """
     [Autor: Francisco Pereira]
     [Ayuda: Identifica si una linea de codigo
@@ -48,15 +48,9 @@ def inicio_programa(linea):
     o ' ']
     """
     inicio = False
-    definicion = 'de' + 'ef '
-    funcion = linea.find(definicion) != 0 and ( linea.find(' ') != 0 or \
-        linea.find('\t') != 0)
-    comentarios = linea.find('#') == 0 and (linea.find('\"\"\"') == 0 or\
-        linea.find('\'\'\'') == 0)
-        
-    if funcion and comentarios:
-        inicio = True
-    
+    if linea:
+        inicio = linea[0].isalpha()
+        #Por que, los espacios, newlines y tabs, dan falso
     return inicio
 
 def fin_funcion(linea):
@@ -65,10 +59,10 @@ def fin_funcion(linea):
     [Ayuda: Devuelve verdadero si se llego al final de una funcion
     o al final de la declaracion de funciones]
     """
-    comienzo_programa = inicio_programa(linea)
-    
-    final = str_hnd.identificar_funciones(linea) or str_hnd.identificar_ret(linea)
-    return final or comienzo_programa
+    no_indent = sin_indentacion(linea)
+    ret = str_hnd.identificar_ret(linea)
+
+    return ret or no_indent
 
 def leer_funcion(archivo):
     """[Autor: Claudio Gimenez]
