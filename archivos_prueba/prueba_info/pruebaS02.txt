@@ -1,2 +1,0 @@
-inocular                      3
-tomar                         4

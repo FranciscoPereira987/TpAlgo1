@@ -393,6 +393,4 @@ def ingresar_opcion(funciones):
     return opcion
     #print(opcion)
 
-#print(listar_funciones())
-funciones = listar_funciones()
-ingresar_opcion(funciones)
+

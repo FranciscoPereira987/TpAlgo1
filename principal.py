@@ -1,5 +1,5 @@
 import ordenamiento, mezcla, os, reuti_codigo
-import consulta_funciones, punto4, info_participacion
+import consulta_funciones, arbol_invo, info_participacion
 import panel_general_de_funciones
 
 def limpiar_archivos(lista_codigos, lista_comentarios):
@@ -51,6 +51,8 @@ def esperar():
     [Ayuda: espera a que el usuario ingrese
     algo para que se continue con la ejecutcion del programa]
     """
+    print("\n\n")
+    print("Ingrese cualquier comando para regresar al menu")
     input(">>>")
 
 def ejecutar(opcion):
@@ -63,6 +65,7 @@ def ejecutar(opcion):
     if opcion == '1':
         panel_general_de_funciones.crear_csv()
         panel_general_de_funciones.listar_todos()
+        esperar()
 
     elif opcion == '2':
         funciones = consulta_funciones.listar_funciones()
@@ -73,7 +76,7 @@ def ejecutar(opcion):
         esperar()
         
     elif opcion == '4':
-        punto4.arbol_invocacion()
+        arbol_invo.arbol_invocacion()
         esperar()
         
 
@@ -99,7 +102,7 @@ def menu(display):
         opcion = input(">>> ")
     
 
-def analizador_estructurada():
+def funcion_principal_estructuracion_codigo():
     """
     [Autor: Francisco Pereira]
     [Ayuda: Funcion principal del programa]
@@ -114,5 +117,5 @@ def analizador_estructurada():
     menu(display)
 
 if __name__ == '__main__':
-    analizador_estructurada()
+    funcion_principal_estructuracion_codigo()
 
