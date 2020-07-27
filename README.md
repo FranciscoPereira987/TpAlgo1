@@ -26,19 +26,17 @@
 
 #Funcionalidades de analizador de reutilizacion de codigo:
 
-                    1- Al generar la tabla, en vez de imprimirla en la consola
-                    abre el archivo analizador.txt ya que la tabla puede tomar
-                    dimensiones que no entren en la consola.
+                    1- La tabla, si hay muchas funciones puede
+                    perder su formato, debido al ancho de la consola
+                    por eso, se decidio implementar la posibilidad de
+                    que el usuario pueda acceder al archivo impreso desde
+                    el programa.
 
-                    2- La fila de "total invocaciones" es la segunda y no la ultima
-                    de esta manera se cree que se ofrece mas claridad a la tabla.
-
-                    3-Si no puede abrir el archivo analizador.txt por bloc de notas
-                    (windows) trata de usar geany como editor de texto(linux).
-                    Caso contrario imprimira el mismo, posiblemente con un mal
-                    formato dependiendo del tamano de la tabla, en la terminal
+                    2-Para acceder al archivo, solamente Windows y Linux.
+                    Es recomendable no usar bloc de notas como editor de 
+                    texto predeterminado. Para Linux, es necesario tener
+                    geany instalado.
                     
-
 #Puntos menu:
 
                     1-Panel general de funciones --->Nicolas
