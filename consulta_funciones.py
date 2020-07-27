@@ -1,4 +1,4 @@
-import reuti_codigo
+import reuti_codigo, str_hnd
 
 def listar_funciones():
     """
@@ -106,7 +106,7 @@ def retornar_param(l_funcion,linea,posicion):
     #retorno parametro o modulo de funcion
     #parametros = ''
     parametros = l_funcion[linea][posicion]
-    return parametros
+    return str_hnd.desprocesar_comas(parametros)
 
 def retornar_mod(l_funcion,linea,posicion):
     """
@@ -293,6 +293,7 @@ def generar_txt(l_funcion,l_comentarios):
             texto = texto + ' ' + 'No hay autor para esta funcion'
         texto = texto + ' ' + 'modulo: ' + modulo
         texto = texto + ' ' + 'parametros: '+ parametros
+        
         contador = 0
         for i in range(0,len(texto)):
             archivo.write(texto[i])
@@ -330,9 +331,11 @@ def ingresar_opcion(funciones):
     
             for linea in archivo_codigo:
                 funcion = linea.rstrip("\n").split(",")
+                str_hnd.desprocesar_comas(funcion)
                 l_funcion.append(funcion)
             for linea in archivo_comentarios:
                 comentarios = linea.rstrip("\n").split(",")
+                str_hnd.desprocesar_comas(comentarios)
                 l_comentarios.append(comentarios)
             
             if miopcion == '?todo' or miopcion == '#todo' or miopcion == 'imprimir ?todo':
