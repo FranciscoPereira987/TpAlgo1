@@ -103,5 +103,3 @@ def arbol_invocacion():
             procesar_linea(linea, dict, dict_llamadas)
     funcion_principal = buscar_funcion_principal(dict_llamadas)
     imprimir(dict, funcion_principal,0)
-
-arbol_invocacion()
