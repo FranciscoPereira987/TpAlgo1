@@ -100,6 +100,16 @@ def procesar_comas(texto):
 
     return texto
 
+def desprocesar_comas(texto):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Hace lo contrario a procesar_comas]
+    """
+    texto = texto.replace('/', ',')
+    texto = texto.replace('#', ';')
+
+    return texto
+
 def procesar_codigo(l_codigo):
     """
     [Autor: Francisco Pereira]
