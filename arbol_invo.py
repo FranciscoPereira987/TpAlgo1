@@ -20,9 +20,12 @@ def buscar_funcion_principal(diccionario):
     Busca dentro del diccionario de llamadas a funcion
     aquella que no sea llamada nunca por otra funcion]
     """
-    for elemento in diccionario.keys():
-        if diccionario[elemento] == 0:
-            return elemento
+    lista = list(diccionario.keys())
+    indice = 0
+    while diccionario[lista[indice]] != 0:
+        indice += 1
+
+    return lista[indice]
 
 def _imprimir_arbol_invocacion(dict, cola):
     """
