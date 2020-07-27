@@ -48,7 +48,7 @@ def validar_opcion(opcion):
         miopcion = opcion[-1]
         nombre_funcion = opcion[:-1]
         
-    elif opcion[0:8] ==  'imprimir':
+    elif opcion == 'imprimir ?todo':
         valido = True
         miopcion = 'imprimir ?todo'
         #miopcion = opcion[-14:]
@@ -284,15 +284,15 @@ def generar_txt(l_funcion,l_comentarios):
         ayuda,autor = l_comentarios[i][1],l_comentarios[i][2]
         texto = 'Ayuda de la funcion: ' + l_funcion[i][0] + '.' + l_funcion[i][2]
         if ayuda:
-            texto = texto+' '+ayuda
+            texto = texto + ' ' + ayuda
         else:
             texto = texto + ' ' + 'No hay ayuda para esta funcion'
         if autor:
-            texto = texto+' '+autor
+            texto = texto + ' ' + autor
         else:
             texto = texto + ' ' + 'No hay autor para esta funcion'
-        texto = texto + ' ' + 'modulo: '+ modulo
-        texto = texto + ' ' + 'parametros: '+ parametros #+ '\n'
+        texto = texto + ' ' + 'modulo: ' + modulo
+        texto = texto + ' ' + 'parametros: '+ parametros
         contador = 0
         for i in range(0,len(texto)):
             archivo.write(texto[i])
