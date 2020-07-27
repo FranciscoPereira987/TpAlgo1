@@ -106,7 +106,7 @@ def retornar_param(l_funcion,linea,posicion):
     #retorno parametro o modulo de funcion
     #parametros = ''
     parametros = l_funcion[linea][posicion]
-    return str_hnd.desprocesar_comas(parametros)
+    return parametros
 
 def retornar_mod(l_funcion,linea,posicion):
     """
@@ -139,7 +139,7 @@ def retornar_ayuda(l_funcion,linea,posicion):
     ]
     """
     ayuda = l_funcion[linea][posicion]
-    return str_hnd.desprocesar_comas(ayuda)
+    return ayuda
 
 def retornar_codigo(l_funcion,linea):
     """
@@ -151,7 +151,7 @@ def retornar_codigo(l_funcion,linea):
     """
     l_codigor = []
     for i in range(3,len(l_funcion[linea])):
-            l_codigor.append(str_hnd.desprocesar_comas(l_funcion[linea][i]))
+            l_codigor.append(l_funcion[linea][i])
     return l_codigor
 
 def retornar_comentario(l_comentarios,linea):
@@ -164,7 +164,7 @@ def retornar_comentario(l_comentarios,linea):
     """
     l_comentariosr = []
     for i in range(3,len(l_comentarios[linea])):
-            l_comentariosr.append(str_hnd.desprocesar_comas(l_comentarios[linea][i]))
+            l_comentariosr.append(l_comentarios[linea][i])
     return l_comentariosr
 
 def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
