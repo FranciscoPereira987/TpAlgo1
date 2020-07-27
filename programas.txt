@@ -4,8 +4,6 @@
 ./sep_cod_com.py
 ./ordenamiento.py
 ./mezcla.py
-./info_participacion.py
-./apareo_csv.py
 ./reuti_codigo.py
 ./consulta_funciones.py
-./panel_general_de_funciones.py
+./estructura.py
