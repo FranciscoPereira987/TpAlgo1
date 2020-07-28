@@ -80,20 +80,6 @@ def validar_nombre_funcion(nombre_funcion,l_funciones):
         posicion+=1
     return encontrado,nombre_encontrado
 
-def leer(archivo):
-    '''
-    Funcion que lee una linea del archivo y devuelve los valores leidos
-    cod_sucursal, cod_articulo, cant_vendida, imp_total.    En caso de llegar
-    a fin de archivo devolverá 4 valores vacios    separados por comas.
-    '''
-    linea = archivo.readline()
-    if linea:
-        devolver = linea.rstrip("\n").split(",")
-    else:
-        devolver = "","","0","0"
-    return devolver
-
-
 def retornar_param(l_funcion,linea,posicion):
     """
     [Autor: Claudio Gimenez]
