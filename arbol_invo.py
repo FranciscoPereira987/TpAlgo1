@@ -3,8 +3,7 @@
 def rellenar_dict(archivo, diccionario):
     """
     [Autor: Augusto D'Avola ]
-    [Ayuda:
-    Rellena el diccionario de llamadas a funcion con 0
+    [Ayuda: Rellena el diccionario de llamadas a funcion con 0
     en todas las funciones]
     """
     with open(archivo, 'r') as archivo_codigo:
@@ -16,8 +15,7 @@ def rellenar_dict(archivo, diccionario):
 def buscar_funcion_principal(diccionario):
     """
     [Autor: Augusto D'Avola ]
-    [Ayuda:
-    Busca dentro del diccionario de llamadas a funcion
+    [Ayuda: Busca dentro del diccionario de llamadas a funcion
     aquella que no sea llamada nunca por otra funcion]
     """
     lista = list(diccionario.keys())
@@ -27,40 +25,15 @@ def buscar_funcion_principal(diccionario):
 
     return lista[indice]
 
-def _imprimir_arbol_invocacion(dict, cola):
-    """
-    [Autor: Augusto D'Avola ]
-    [Ayuda: Imprime recursivamente los elementos de una cola
-    de invocacion]
-    """
-    while cola:
-        funcion = cola.pop(0)
-        print(' --> {} ({})'.format(funcion, dict[funcion][0]),end='')
-        _imprimir_arbol_invocacion(dict, dict[funcion][1])
-    print('')
-    print('                   ',end='')
 
-def imprimir_arbol_invocacion(dict, funcion,nivel):
+def imprimir(dict, funcion,nivel):
     """
     [Autor: Augusto D'Avola ]
     [Ayuda: Funcion encargada de imprimir un arbol de invocacion
-    Pre: Dict es un diccionario con nombres de funcion como claves
+    con su nivel y llamado a la funcion correspondiente,
+    Dict es un diccionario con nombres de funcion como claves
     y tuplas de cantidad de lineas y cola de llamados como valor]
     """
-    for i in range(nivel):
-        print('                         ',end='')
-    print('{} ({})'.format(funcion, dict[funcion][0]), end='')
-    cola = dict[funcion][1]
-    nivel = 0
-    while cola:
-        funcion = cola.pop(0)
-        print(' --> ', end='')
-        imprimir_arbol_invocacion(dict, funcion,nivel)
-        nivel += 1
-    print('')
-    print('                 ',end='')
-
-def imprimir(dict, funcion,nivel):
     print('\t' * nivel + "--> "+funcion + '  (' + str(dict[funcion][0]) + ')')
     nivel += 1
     cola = dict[funcion][1]
