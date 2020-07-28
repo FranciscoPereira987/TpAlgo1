@@ -7,3 +7,6 @@
 ./reuti_codigo.py
 ./consulta_funciones.py
 ./estructura.py
+./info_participacion.py
+./apareo_csv.py
+./panel_general_de_funciones.py
