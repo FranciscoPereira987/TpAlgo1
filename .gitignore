@@ -1,5 +1,6 @@
 *.pyc 
 *.csv 
+*.log
 __pycache__/
 ayuda_funciones.txt
 analizador.txt
