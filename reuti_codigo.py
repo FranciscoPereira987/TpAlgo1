@@ -386,7 +386,9 @@ def imprimir_resultados(nombre_archivo):
         linea = archivo.readline()
         print(linea, end = "")
     archivo.close()
-    decision = input("Si prefiere ver los resultados en un archivo, ingrese y\n>>>")
+    print("Si prefiere ver los resultados en un archivo, ingrese y")
+    print("Cualquier otra cosa para volver al menu.")
+    decision = input(">>>")
     if decision.lower() == 'y':
         if os.name == 'nt':
             os.startfile(nombre_archivo)
