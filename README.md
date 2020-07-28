@@ -36,7 +36,7 @@
                     Es recomendable no usar bloc de notas como editor de 
                     texto predeterminado. Para Linux, es necesario tener
                     geany instalado.
-                    
+
 #Puntos menu:
 
                     1-Panel general de funciones --->Nicolas
