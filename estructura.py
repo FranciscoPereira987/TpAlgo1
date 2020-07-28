@@ -73,13 +73,11 @@ def ejecutar(opcion):
 
     elif opcion == '3':
         reuti_codigo.generar_analizador()
-        esperar()
-        
+         
     elif opcion == '4':
         arbol_invo.arbol_invocacion()
         esperar()
         
-
     elif opcion == '5':
         info_participacion.informar_participacion()
         esperar()
@@ -98,6 +96,7 @@ def menu(display):
     opcion = 'todavia no se ingreso nada como opcion'
     while opcion != '6':
         ejecutar(opcion)
+        print("\n\n")
         print(display)
         opcion = input(">>> ")
     
