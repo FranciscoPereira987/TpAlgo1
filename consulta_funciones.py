@@ -275,7 +275,7 @@ def generar_txt(l_funcion,l_comentarios):
     Post -->Genera el archivo txt de ayuda para las funciones
     ]
     """
-    archivo = open(" ayuda_funciones.txt", 'w')
+    archivo = open("ayuda_funciones.txt", 'w')
 
     archivo.seek(0, 1)
     texto=''
