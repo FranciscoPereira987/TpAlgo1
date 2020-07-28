@@ -37,6 +37,7 @@
                     texto predeterminado. Para Linux, es necesario tener
                     geany instalado.
 
+
 #Puntos menu:
 
                     1-Panel general de funciones --->Nicolas
