@@ -37,6 +37,9 @@
                     texto predeterminado. Para Linux, es necesario tener
                     geany instalado.
 
+                    3- Los nombres de las funciones son seguidos de punto
+                    y el nombre del modulo al que pertenecen.
+
 
 #Puntos menu:
 
