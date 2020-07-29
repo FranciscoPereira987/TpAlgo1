@@ -60,9 +60,8 @@ def fin_funcion(linea):
     o al final de la declaracion de funciones]
     """
     no_indent = sin_indentacion(linea)
-    ret = str_hnd.identificar_ret(linea)
 
-    return ret or no_indent
+    return no_indent
 
 def leer_funcion(archivo):
     """[Autor: Claudio Gimenez]

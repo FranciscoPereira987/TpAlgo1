@@ -18,13 +18,43 @@ def buscar_funcion_principal(diccionario):
     [Ayuda: Busca dentro del diccionario de llamadas a funcion
     aquella que no sea llamada nunca por otra funcion]
     """
-    lista = list(diccionario.keys())
-    indice = 0
-    while diccionario[lista[indice]] != 0:
-        indice += 1
+    llaves = diccionario.keys()
+    lista = []
+    for clave in llaves:
+        if diccionario[clave] == 0:
+            lista.append(clave)
 
-    return lista[indice]
+    main = determinar_main(lista)
 
+    return main
+
+def determinar_main(lista):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Si hay mas de una funcion
+    le da la chance al usuario de que defina
+    el main]
+    """
+    if len(lista) == 1:
+        eleccion = lista.pop()
+    else:
+        print("Elija la funcion principal")
+        imprimir_elementos(lista)
+        eleccion = ""
+        while eleccion not in lista:
+            eleccion = input(">>>")
+    
+    return eleccion
+
+
+def imprimir_elementos(lista):
+    """
+    [Autor: Francisco Pereira]
+    [Ayuda: Imprime todas las funciones que no son llamadas]
+    """
+    for elemento in lista:
+        print(elemento, end = "  ")
+    print("")
 
 def imprimir(dict, funcion,nivel):
     """
