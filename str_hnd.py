@@ -13,19 +13,6 @@ def identificar_funciones(linea):
     definicion = 'de' + 'f '
     return definicion in linea
 
-def identificar_ret(linea):
-    """
-    [Autor: Francisco Pereira]
-    [Ayuda:Identifica si hay un return en la linea de codigo]
-    """
-    ret = 'ret' + 'urn '
-    indice = linea.find(ret)
-    antes_return = "    " == linea[(indice-4):indice] or '\t' in linea[(indice-4):indice]
-
-    return ret in linea and antes_return
-        
-
-
 def nombre_funcion(linea):
     """
     [Autor: Francisco Pereira]
