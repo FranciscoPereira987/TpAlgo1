@@ -1,7 +1,10 @@
 import mezcla
 import os
+import ordenamiento
 #----------------------Punto 3, analizador de reutilizacion de codigo-----------------------#
-
+NOMBRE_FUNCION = 0
+NOMBRE_MODULO = 2
+RESTO_CODIGO = 3
 
 def leer_linea_archivo(archivo):
     """
@@ -35,8 +38,8 @@ def generar_puntajes(archivo_codigo, diccionario):
     linea = leer_linea_archivo(archivo_codigo)
 
     while linea != ['']:
-        funcion = f'{linea[0]}.{linea[2]}'
-        analizar_codigo(linea[3:], diccionario, funcion)
+        funcion = f'{linea[NOMBRE_FUNCION]}.{linea[NOMBRE_MODULO]}'
+        analizar_codigo(linea[RESTO_CODIGO:], diccionario, funcion)
         linea = leer_linea_archivo(archivo_codigo)
 
 
@@ -51,8 +54,7 @@ def revisar_llamadas(diccionario_funciones, linea, nombre_funcion_actual):
     de codigo que se pasa como parametro]
     """
     claves = list(diccionario_funciones.keys())
-    indice = 0
-    funcion = "zzzzzzzzzzzzzzz"
+    funcion = ordenamiento.MAX_NOMBRE
 
     for clave in claves:
         indice_punto = clave.find('.') 
@@ -85,7 +87,7 @@ def encontrar_funcion(nombre_funcion):
     
     while funcion_modulo != nombre_funcion:
         linea = leer_linea_archivo(archivo)
-        funcion_modulo = f"{linea[0]}.{linea[2]}"
+        funcion_modulo = f"{linea[NOMBRE_FUNCION]}.{linea[NOMBRE_MODULO]}"
     
     archivo.close()
     return linea
@@ -100,11 +102,11 @@ def contar_recursiva(nombre_funcion):
     
     cantidad = 0
     linea = encontrar_funcion(nombre_funcion)
-    funcion_modulo = f"{linea[0]}.{linea[2]}"
+    funcion_modulo = f"{linea[NOMBRE_FUNCION]}.{linea[NOMBRE_MODULO]}"
     
     if funcion_modulo == nombre_funcion:
-        funcion = linea[0]
-        codigo = linea[3:]
+        funcion = linea[NOMBRE_FUNCION]
+        codigo = linea[RESTO_CODIGO:]
         cantidad = (','.join(codigo)).count(funcion)
 
     
@@ -147,7 +149,7 @@ def armar_lista(archivo_codigo):
     linea = leer_linea_archivo(archivo_codigo) 
                                                       
     while linea != ['']:
-        funcion = f'{linea[0]}.{linea[2]}'
+        funcion = f'{linea[NOMBRE_FUNCION]}.{linea[NOMBRE_MODULO]}'
         if funcion not in lista_funciones:                                
             lista_funciones += [funcion]
         linea = leer_linea_archivo(archivo_codigo)
