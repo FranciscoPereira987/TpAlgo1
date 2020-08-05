@@ -57,12 +57,16 @@ def nombre_modulo(linea):
     Post --> Devuelve el nombre del archivo de python]
     """
     ultimo_indice = linea.find(".py")
-    if os.name == "nt":
-        primer_indice = len(linea) - linea[::-1].find("\\")
-    else:
-        primer_indice = len(linea) - linea[::-1].find("/")
+    caracter = '\\' if os.name == 'nt' else '/'
+    primer_indice = encontrar_primer_indice(linea, caracter)
         
     return linea[primer_indice:ultimo_indice]
+
+
+def encontrar_primer_indice(linea, caracter):
+    primer_indice = len(linea) - linea[::-1].find(caracter)
+
+    return primer_indice
 
 def lista_a_string(l_codigo, l_comentarios):
     """
