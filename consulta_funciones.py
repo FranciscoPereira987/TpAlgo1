@@ -1,5 +1,16 @@
 import reuti_codigo,str_hnd
 
+#definicion de constantes
+
+COMENTARIOS_FUNCION = 0
+COMENTARIOS_CAMPO_AUTOR = 1
+COMENTARIOS_CAMPO_AYUDA = 2
+COMENTARIOS_GENERALES = 3
+FUENTE_FUNCION = 0
+FUENTE_PARAMETROS = 1
+FUENTE_MODULO = 2
+FUENTE_CODIGO = 3
+
 def listar_funciones():
     """
     [Autor: Claudio Gimenez]
@@ -18,12 +29,12 @@ def listar_funciones():
             
             for i in range(0,2):
                 columnas=reuti_codigo.generar_texto_encolumnado(50,funciones[numero])
-                texto=texto+columnas[0]
+                texto=texto+columnas[FUENTE_FUNCION]
                 numero+=1
         
         else:
             columnas = reuti_codigo.generar_texto_encolumnado(50,funciones[numero])
-            texto = columnas[0] + " " * 50 + "|"
+            texto = columnas[FUENTE_FUNCION] + " " * 50 + "|"
             numero+=1
             
         print (texto)
@@ -51,15 +62,11 @@ def validar_opcion(opcion):
     elif opcion == 'imprimir ?todo':
         valido = True
         miopcion = 'imprimir ?todo'
-        #miopcion = opcion[-14:]
-        #nombre_funcion = opcion[:-14]
-    
+            
     elif opcion[-5:] == '?todo' or opcion[-5:] == '#todo':
         valido = True
         miopcion = opcion[-5:]
-        #nombre_funcion = opcion[:-5]
-        
-        
+                
     return valido,nombre_funcion,miopcion
 
 def validar_nombre_funcion(nombre_funcion,l_funciones):
@@ -80,7 +87,7 @@ def validar_nombre_funcion(nombre_funcion,l_funciones):
         posicion+=1
     return encontrado,nombre_encontrado
 
-def retornar_param(l_funcion,linea,posicion):
+def retornar_param(l_funcion,linea):
     """
     [Autor: Claudio Gimenez]
     [Ayuda:
@@ -90,11 +97,10 @@ def retornar_param(l_funcion,linea,posicion):
     """
     
     #retorno parametro o modulo de funcion
-    #parametros = ''
-    parametros = l_funcion[linea][posicion]
+    parametros = l_funcion[linea][FUENTE_PARAMETROS]
     return parametros
 
-def retornar_mod(l_funcion,linea,posicion):
+def retornar_mod(l_funcion,linea):
     """
     [Autor: Claudio Gimenez]
     [Ayuda:
@@ -102,10 +108,10 @@ def retornar_mod(l_funcion,linea,posicion):
     Post -->Retorna el modulo de la funcion
     ]
     """
-    modulo = l_funcion[linea][posicion]
+    modulo = l_funcion[linea][FUENTE_MODULO]
     return modulo
 
-def retornar_autor(l_funcion,linea,posicion):
+def retornar_autor(l_funcion,linea):
     """
     [Autor: Claudio Gimenez]
     [Ayuda:
@@ -113,10 +119,10 @@ def retornar_autor(l_funcion,linea,posicion):
     Post -->Retorna el autor de la funcion
     ]
     """
-    autor = l_funcion[linea][posicion]
+    autor = l_funcion[linea][COMENTARIOS_CAMPO_AUTOR]
     return autor
 
-def retornar_ayuda(l_funcion,linea,posicion):
+def retornar_ayuda(l_funcion,linea):
     """
     [Autor: Claudio Gimenez]
     [Ayuda:
@@ -124,7 +130,7 @@ def retornar_ayuda(l_funcion,linea,posicion):
     Post -->Retorna la ayuda de la funcion
     ]
     """
-    ayuda = l_funcion[linea][posicion]
+    ayuda = l_funcion[linea][COMENTARIOS_CAMPO_AYUDA]
     return ayuda
 
 def retornar_codigo(l_funcion,linea):
@@ -136,7 +142,7 @@ def retornar_codigo(l_funcion,linea):
     ]
     """
     l_codigor = []
-    for i in range(3,len(l_funcion[linea])):
+    for i in range(FUENTE_CODIGO,len(l_funcion[linea])):
             l_codigor.append(l_funcion[linea][i])
     return l_codigor
 
@@ -149,7 +155,7 @@ def retornar_comentario(l_comentarios,linea):
     ]
     """
     l_comentariosr = []
-    for i in range(3,len(l_comentarios[linea])):
+    for i in range(COMENTARIOS_GENERALES,len(l_comentarios[linea])):
             l_comentariosr.append(l_comentarios[linea][i])
     return l_comentariosr
 
@@ -168,26 +174,23 @@ def mostrar_informacion(l_funcion,l_comentarios,nombre_encontrado,miopcion):
     modulo = ''
     contador_funciones = 0
     while contador_funciones < len(l_funcion) and nombre_encontrado \
-    != l_funcion[contador_funciones][0] + "." + l_funcion[contador_funciones][2]:
+    != l_funcion[contador_funciones][FUENTE_FUNCION] + "." + l_funcion[contador_funciones][FUENTE_MODULO]:
         contador_funciones+=1
-    parametros = retornar_param(l_funcion,contador_funciones,1) #l_funcion[contador_funciones][1]
-    modulo = retornar_mod(l_funcion,contador_funciones,2) #l_funcion[contador_funciones][2]
+    parametros = retornar_param(l_funcion,contador_funciones) 
+    modulo = retornar_mod(l_funcion,contador_funciones) 
     l_codigo = []
     
     if miopcion == '#' or miopcion == '#todo':
         l_codigo = retornar_codigo(l_funcion,contador_funciones)
-#         
-#         for i in range(3,len(l_funcion[contador_funciones])):
-#             l_codigo.append(l_funcion[contador_funciones][i])
-    
+
     autor = ''
     ayuda = ''
     contador_comentarios = 0
     while contador_comentarios < len(l_comentarios) and nombre_encontrado[:nombre_encontrado.find(".")] \
-    != l_comentarios[contador_comentarios][0]:
+    != l_comentarios[contador_comentarios][COMENTARIOS_FUNCION]:
         contador_comentarios+=1
-    autor = retornar_autor(l_comentarios,contador_comentarios,1) #l_comentarios[contador_comentarios][1]
-    ayuda = retornar_ayuda(l_comentarios,contador_comentarios,2) #l_comentarios[contador_comentarios][2]
+    autor = retornar_autor(l_comentarios,contador_comentarios)
+    ayuda = retornar_ayuda(l_comentarios,contador_comentarios)
     l_comentario_linea = []
     
     if miopcion == '#' or miopcion == '#todo':
@@ -205,15 +208,11 @@ def imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda):
     Post -->imprime los datos de la opcion funcion pregunta
     ]
     """
-    #print(ayuda,'parametros: ',parametros,'modulo: ',modulo,autor)
-    if ayuda:
-        print(ayuda)
-    else:
-        print('No hay ayuda para esta funcion')
-    if autor:
-        print(autor)
-    else:
-        print('No hay autor para esta funcion')
+    
+    print(ayuda) if ayuda else print('No hay ayudas para esta funcion')
+            
+    print(autor) if autor else print('No hay autores para esta funcion')
+    
     print('Parametros:',parametros)
     print('Modulo:',modulo)
     
@@ -226,18 +225,16 @@ def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
     ]
     """
     #aca imprimo la descripcion de todas las funciones
-    #print('aca imprimo la descripcion de todas las funciones')
-    
+        
     for i in range(0,len(l_funcion)):
-        parametros,modulo = l_funcion[i][1],l_funcion[i][2]
-        ayuda,autor = l_comentarios[i][1],l_comentarios[i][2]
-        #print(parametros,modulo,ayuda,autor)
-        print('Datos de la funcion:',l_funcion[i][0],'\n')
+        parametros,modulo = l_funcion[i][FUENTE_PARAMETROS],l_funcion[i][FUENTE_MODULO]
+        autor,ayuda = l_comentarios[i][COMENTARIOS_CAMPO_AUTOR],l_comentarios[i][COMENTARIOS_CAMPO_AYUDA]
+        
+        print('Datos de la funcion:',l_funcion[i][FUENTE_FUNCION],'\n')
         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
         print('\n')
         if miopcion == '#todo':
-            #l_codigo = ''
-            #l_comentario_linea = ''
+            
             print("Este es el codigo de la funcion:",'\n')
             l_codigo = retornar_codigo(l_funcion,i)
             l_comentario_linea = retornar_comentario(l_comentarios,i)
@@ -266,9 +263,9 @@ def generar_txt(l_funcion,l_comentarios):
     archivo.seek(0, 1)
     texto=''
     for i in range(0,len(l_funcion)):
-        parametros,modulo = l_funcion[i][1],l_funcion[i][2]
-        ayuda,autor = l_comentarios[i][1],l_comentarios[i][2]
-        texto = 'Ayuda de la funcion: ' + l_funcion[i][0] + '.' + l_funcion[i][2]
+        parametros,modulo = l_funcion[i][FUENTE_PARAMETROS],l_funcion[i][FUENTE_MODULO]
+        ayuda,autor = l_comentarios[i][COMENTARIOS_CAMPO_AYUDA],l_comentarios[i][COMENTARIOS_CAMPO_AUTOR]
+        texto = 'Ayuda de la funcion: ' + l_funcion[i][FUENTE_FUNCION] + '.' + l_funcion[i][FUENTE_MODULO]
         if ayuda:
             texto = texto + ' ' + ayuda
         else:
@@ -301,12 +298,8 @@ def ingresar_opcion(funciones):
     ]
     """
     opcion = input("Función: ")
-    #encontrado,nombre_funcion = validar_nombre_funcion(nombre,funciones)
-    #opcion = nombre[nombre.find(nombre_funcion)+len(nombre_funcion):]
     while opcion!='':
         opcion_elegida,nombre_funcion,miopcion=validar_opcion(opcion)
-        #encontrado,nombre_encontrado = validar_nombre_funcion(nombre_funcion,funciones)
-        
         if opcion_elegida: #si la opcion elegida es valida
             
             #abro archivos y los paso a listas
@@ -327,32 +320,13 @@ def ingresar_opcion(funciones):
             if miopcion == '?todo' or miopcion == '#todo' or miopcion == 'imprimir ?todo':
                 #aca muestro todo de todas las funciones segun la opcion # o ? o imprimirtodo
                 #print('aca muestro o todo o genero ayuda_funciones.txt')
-                #mostrar_todo(miopcion)
-                
+                                
                 if miopcion == '?todo' or miopcion == '#todo':
                     imp_desc_todas_func(l_funcion,l_comentarios,miopcion)
                 
                 if miopcion == 'imprimir ?todo':
                     print ('Se genero el archivo ayuda_funciones.txt')
                     generar_txt(l_funcion,l_comentarios)
-#                 for funcion in l_funcion:
-#                     parametros,modulo,autor,ayuda,l_codigo,l_comentario_linea = mostrar_informacion(l_funcion,l_comentarios,funcion[0] + '.' + funcion[2],miopcion)
-#                     if miopcion == '?todo':
-#                         print('Datos de la funcion:',funcion[0],'\n')
-#                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
-#                         print('\n')
-#                     if miopcion == '#todo':
-#                         print('Datos de la funcion:',funcion[0],'\n')
-#                         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
-#                         print('\n')
-#                         print("Este es el codigo de la funcion:",'\n')
-#                         for i in l_codigo:
-#                             print(i)
-#                         print('\n')    
-#                         print("Estos son los comentarios generales de la funcion:",'\n')
-#                         for i in l_comentario_linea:
-#                             print(i)
-#                         print('\n')        
             else:    
                 encontrado, nombre_encontrado = validar_nombre_funcion(nombre_funcion, funciones)
                 if encontrado:
@@ -380,6 +354,4 @@ def ingresar_opcion(funciones):
         
         opcion = input("Funcion: ")
     return opcion
-    #print(opcion)
-
-
+    
