@@ -88,51 +88,6 @@ def validar_nombre_funcion(nombre_funcion,l_funciones):
         posicion+=1
     return encontrado,nombre_encontrado
 
-def retornar_param(l_funcion,linea):
-    """
-    [Autor: Claudio Gimenez]
-    [Ayuda:
-    Pre --> Recibe la lista de funciones la linea y la posicion
-    Post -->Retorna los parametros
-    ]
-    """
-    
-    #retorno parametro o modulo de funcion
-    parametros = l_funcion[linea][FUENTE_PARAMETROS]
-    return parametros
-
-def retornar_mod(l_funcion,linea):
-    """
-    [Autor: Claudio Gimenez]
-    [Ayuda:
-    Pre --> Recibe la lista de funciones la linea y la posicion
-    Post -->Retorna el modulo de la funcion
-    ]
-    """
-    modulo = l_funcion[linea][FUENTE_MODULO]
-    return modulo
-
-def retornar_autor(l_funcion,linea):
-    """
-    [Autor: Claudio Gimenez]
-    [Ayuda:
-    Pre --> Recibe la lista de funciones la linea y la posicion
-    Post -->Retorna el autor de la funcion
-    ]
-    """
-    autor = l_funcion[linea][COMENTARIOS_CAMPO_AUTOR]
-    return autor
-
-def retornar_ayuda(l_funcion,linea):
-    """
-    [Autor: Claudio Gimenez]
-    [Ayuda:
-    Pre --> Recibe la lista de funciones la linea y la posicion
-    Post -->Retorna la ayuda de la funcion
-    ]
-    """
-    ayuda = l_funcion[linea][COMENTARIOS_CAMPO_AYUDA]
-    return ayuda
 
 def retornar_codigo(l_funcion,linea):
     """
@@ -226,7 +181,7 @@ def imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda):
     ]
     """
             
-    print(f"Parmetros: {parametros}\nModulo: {modulo}\n{autor}\n{ayuda}\n")
+    print(f"Parmetros: {parametros}\nModulo: {modulo}\n{autor}\n{ayuda}")
     
 def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
     """
@@ -242,7 +197,7 @@ def imp_desc_todas_func(l_funcion,l_comentarios,miopcion):
                 
         parametros,modulo,autor,ayuda = devolver_param_mod_autor_ayuda(l_funcion,l_comentarios,i)
         
-        print('Datos de la funcion:',l_funcion[i][FUENTE_FUNCION],'\n')
+        print('Datos de la funcion:',l_funcion[i][FUENTE_FUNCION] + '.' + l_funcion[i][FUENTE_MODULO] ,'\n')
         imprimir_funcion_opcion_pregunta(parametros,modulo,autor,ayuda)
         print('\n')
         if miopcion == NUMERAL + 'todo':
