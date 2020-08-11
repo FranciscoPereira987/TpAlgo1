@@ -13,7 +13,7 @@
                     siempre ocupan mas de una linea.
 
                     4- Toda coma que sea encontrada en codigo
-                    y en comentarios, se reemplaza por /.
+                    y en comentarios, se reemplaza por @.
 
                     5- Si existen campos de autor y ayuda,
                     siempre estan entre corchetes. Como se
