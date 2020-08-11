@@ -141,11 +141,12 @@ def cantidad_de(palabras):
     """
     archivo_codigo= open('fuente_unico.csv','r') 
     ocurrencias =  []
+    
     for row in archivo_codigo:
         x= 0
         for palabra in palabras:
             if palabra in row:
-                x =  x + row.count(palabra)
+                x =  x + row.count('   '+palabra)
                 
         ocurrencias.append(x)
             
@@ -204,34 +205,41 @@ def listar_(i):
     
     return lista_
 
+def encolumnar(texto):
+    """
+    [Autor: Nicolas Valenzuela]
+    [Ayuda: Recibe lista y devuelve la lista con espacios y el | ya listo para imprimir]
+    """
+    ancho= 0
+    espacios = " "
+    for i in range(len(texto)):
+        if ancho < len (texto[i]):
+            ancho = len(texto[i]) + 2
+    for g in range(len(texto)):       
+        if len(texto[g]) < ancho:           
+            espacios =" " *( ancho - len(texto[g]))            
+            texto[g]= (texto[g] + espacios + '|')
+    return texto
+
 def listar_todos():
     """
     [Autor: Nicolas Valenzuela]
-    [Ayuda: Imprime por pantalla el archivo panel_general en orden y encolumnado]
+    [Ayuda: Cicla para hacer una lista juntando todos los valores a encolumnar]
     """
-    numero= 0
-    while len(listar_(0))>numero :
-        
-        columnas= reuti_codigo.generar_texto_encolumnado(45,str(listar_(0)[numero]))
-        columnas2= reuti_codigo.generar_texto_encolumnado(10,str(listar_(1)[numero]))
-        columnas3= reuti_codigo.generar_texto_encolumnado(5,str(listar_(2)[numero]))
-        columnas4= reuti_codigo.generar_texto_encolumnado(13,str(listar_(3)[numero]))
-        columnas5= reuti_codigo.generar_texto_encolumnado(6,str(listar_(4)[numero]))
-        columnas6= reuti_codigo.generar_texto_encolumnado(7,str(listar_(5)[numero]))
-        columnas7= reuti_codigo.generar_texto_encolumnado(3,str(listar_(6)[numero]))
-        columnas8= reuti_codigo.generar_texto_encolumnado(5,str(listar_(7)[numero]))
-        columnas9= reuti_codigo.generar_texto_encolumnado(5,str(listar_(8)[numero]))
-        columnas10= reuti_codigo.generar_texto_encolumnado(4,str(listar_(9)[numero]))
-        columnas11= reuti_codigo.generar_texto_encolumnado(6,str(listar_(10)[numero]))
-        columnas12= reuti_codigo.generar_texto_encolumnado(5,str(listar_(11)[numero]))
-        columnas13= reuti_codigo.generar_texto_encolumnado(30,str(listar_(12)[numero]))
-        
-        numero2=  0
-        numero +=  1
-        
-        print(columnas[0],columnas2[0],columnas3[0],columnas4[0],columnas5[0],columnas6[0],columnas7[0],columnas8[0],columnas9[0],columnas10[0],columnas11[0],columnas12[0],columnas13[0])
-        
-    return ()
+    lista=[]
+    for j in range(13):
+        columna=listar_(j)
+        columnas=encolumnar(columna)
+        lista.append(columnas)
+    lista2=[]
+    while len(lista[0])>len(lista2):
+        lista2.append("")
+    for valores in range(len(columnas)):
+        for columna1 in range(13):
+            lista2[valores] += (lista[columna1][valores])
+    for i in range(len(lista2)):
+        print(lista2[i])
+    return lista2
 
 if __name__ ==  '__main__':
     crear_csv()
