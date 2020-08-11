@@ -82,6 +82,9 @@ def ejecutar(opcion):
         info_participacion.informar_participacion()
         esperar()
     
+    elif not opcion:
+        print("Bienvenido al programa!!!!!")
+
     else:
         print("No se eligio una opcion correcta")
 
@@ -91,10 +94,9 @@ def menu(display):
     [Ayuda: menu del programa]
     """
     opcion = None
-    print("Bienvenido al programa!!!!!")
     while opcion != '6':
         ejecutar(opcion)
-        print("\n\n")
+        print("\n")
         print(display)
         opcion = input(">>> ")
     
