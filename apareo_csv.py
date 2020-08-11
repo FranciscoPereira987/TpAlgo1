@@ -1,7 +1,7 @@
 SALIDA = "temporal_apareo.txt"
 
 
-def grabar_csva(l_lineas, archivo): # CAMBIAR NOMBRE A ESTA  C O S A..
+def grabar_csva(l_lineas, archivo):
     """
         [Autor: Ivan Coronel]
         [Ayuda: Recibe una lista con lineas correspondientes a
