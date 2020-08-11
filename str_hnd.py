@@ -86,7 +86,7 @@ def procesar_comas(texto):
     y en el codigo y las cambia por /
     las ; las reemplaza por #]
     """
-    texto = texto.replace(',', '/')
+    texto = texto.replace(',', '@')
     texto = texto.replace(';', '#')
 
     return texto
@@ -97,7 +97,7 @@ def desprocesar_comas(l_texto):
     [Ayuda: Hace lo contrario a procesar_comas pero para una lista]
     """
     for i in range(0, len(l_texto)):
-        l_texto[i] = l_texto[i].replace('/', ',')
+        l_texto[i] = l_texto[i].replace('@', ',')
         l_texto[i] = l_texto[i].replace('#', ';')
 
 def procesar_codigo(l_codigo):
