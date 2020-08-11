@@ -160,18 +160,18 @@ def crear_csv():
     """
     archivo_codigo =  open('fuente_unico.csv','r') 
     funciones =  reuti_codigo.armar_lista(archivo_codigo)
-    parametr=  armar_lista_parametros(archivo_codigo)    
-    cant_lineas=  cantidad_de_lineas()
-    cant_return= cantidad_de([' return '])        
-    cant_if= cantidad_de([' if ',' elif '])
-    cant_for= cantidad_de([' for '])
-    cant_while= cantidad_de([' while '])
-    cant_break= cantidad_de([' break '])
-    cant_exit= cantidad_de([' exit '])   
-    c_invoca= invocaciones_()
-    ayuda= lista_ayuda()
-    autores= funcion_autor()
-    coment_extra= comentarios_extra()
+    parametr =  armar_lista_parametros(archivo_codigo)    
+    cant_lineas =  cantidad_de_lineas()
+    cant_return = cantidad_de([' return '])        
+    cant_if = cantidad_de([' if ',' elif '])
+    cant_for = cantidad_de([' for '])
+    cant_while = cantidad_de([' while '])
+    cant_break = cantidad_de([' break '])
+    cant_exit = cantidad_de([' exit '])   
+    c_invoca = invocaciones_()
+    ayuda = lista_ayuda()
+    autores = funcion_autor()
+    coment_extra = comentarios_extra()
     
     with open('panel_general.csv', 'w', newline= '') as miarchivo:
         parametros =  ['FUNCION','Parámetros','Líneas','Invocaciones','Returns','if/elif','for','while','break','Exit','Coment','Ayuda','Autor']
@@ -210,15 +210,15 @@ def encolumnar(texto):
     [Autor: Nicolas Valenzuela]
     [Ayuda: Recibe lista y devuelve la lista con espacios y el | ya listo para imprimir]
     """
-    ancho= 0
+    ancho = 0
     espacios = " "
     for i in range(len(texto)):
         if ancho < len (texto[i]):
             ancho = len(texto[i]) + 2
     for g in range(len(texto)):       
         if len(texto[g]) < ancho:           
-            espacios =" " *( ancho - len(texto[g]))            
-            texto[g]= (texto[g] + espacios + '|')
+            espacios = " " *( ancho - len(texto[g]))            
+            texto[g] = (texto[g] + espacios + '|')
     return texto
 
 def listar_todos():
@@ -226,12 +226,12 @@ def listar_todos():
     [Autor: Nicolas Valenzuela]
     [Ayuda: Cicla para hacer una lista juntando todos los valores a encolumnar]
     """
-    lista=[]
+    lista = []
     for j in range(13):
-        columna=listar_(j)
-        columnas=encolumnar(columna)
+        columna = listar_(j)
+        columnas = encolumnar(columna)
         lista.append(columnas)
-    lista2=[]
+    lista2 = []
     while len(lista[0])>len(lista2):
         lista2.append("")
     for valores in range(len(columnas)):
